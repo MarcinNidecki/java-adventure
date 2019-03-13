@@ -4,6 +4,7 @@ import org.junit.*;
 import com.kodilla.testing.collection.OddNumbersExterminator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CollectionTestSuite {
 
@@ -26,9 +27,9 @@ public class CollectionTestSuite {
     @Test
     public void testOddNumbersExterminatorEmptyList() {
         // Given
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        ArrayList<Integer> oddArrayList = new ArrayList<>();
-        ArrayList<Integer> result;
+        List<Integer> arrayList = new ArrayList<>();
+        List<Integer> oddArrayList = new ArrayList<>();
+        List<Integer> result;
         OddNumbersExterminator listOfNumber = new OddNumbersExterminator();
         //When
         result = listOfNumber.exterminate(arrayList);
@@ -39,10 +40,10 @@ public class CollectionTestSuite {
     @Test
     public void testOddNumbersExterminatorNormalList() {
         // Given
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        ArrayList<Integer> oddArrayList = new ArrayList<>();
-        ArrayList<Integer> result;
-        OddNumbersExterminator listOfnumber = new OddNumbersExterminator();
+        List<Integer> arrayList = new ArrayList<>();
+        List<Integer> oddArrayList = new ArrayList<>();
+        List<Integer> result;
+        OddNumbersExterminator listOfNumber = new OddNumbersExterminator();
         arrayList.add(2);
         arrayList.add(4);
         arrayList.add(3);
@@ -54,7 +55,7 @@ public class CollectionTestSuite {
         oddArrayList.add(3);
         oddArrayList.add(7);
         //When
-        result = listOfnumber.exterminate(arrayList);
+        result = listOfNumber.exterminate(arrayList);
         System.out.println("Testing "+ result);
         // Then
         Assert.assertEquals(oddArrayList, result);
