@@ -29,9 +29,9 @@ public class CollectionTestSuite {
         ArrayList<Integer> arrayList = new ArrayList<>();
         ArrayList<Integer> oddArrayList = new ArrayList<>();
         ArrayList<Integer> result;
-        OddNumbersExterminator listOfnumber = new OddNumbersExterminator();
+        OddNumbersExterminator listOfNumber = new OddNumbersExterminator();
         //When
-        result = listOfnumber.exterminate(arrayList);
+        result = listOfNumber.exterminate(arrayList);
         System.out.println("Testing "+ result);
         // Then
         Assert.assertEquals(oddArrayList, result);
