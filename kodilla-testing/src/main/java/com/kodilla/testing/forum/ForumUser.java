@@ -66,8 +66,7 @@ public class ForumUser {
     public boolean removeComment(ForumComment theComment){
         boolean results = false;
         if (comments.contains(theComment)) {
-            comments.remove(theComment);
-            return results = true;
+            comments.remove();
         }
 
         return comments.remove(theComment);
