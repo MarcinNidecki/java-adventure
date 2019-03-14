@@ -12,12 +12,7 @@ public class ShapeCollector {
     }
 
     public boolean  removeFigure(Shape shape) {
-        boolean result = false;
-        if (shapesList.contains(shape)) {
-            shapesList.remove(shape);
-            return result = true;
-        } else
-        return result;
+        return shapesList.remove(shape);
     }
 
     public Shape getFigure(int n) {
