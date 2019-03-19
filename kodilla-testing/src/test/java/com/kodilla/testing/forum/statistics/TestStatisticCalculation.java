@@ -9,6 +9,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
+
 public class TestStatisticCalculation {
     private static int testCounter = 0;
 
@@ -46,10 +47,10 @@ public class TestStatisticCalculation {
         when(statisticsMock.commentsCount()).thenReturn(numberOfComments);
 
         //When
-        statisticsCalculation.CalculateAdvStatistics(statisticsMock);
-        double averageUserPost = statisticsCalculation.averageUserPost;
-        double averageUserComments = statisticsCalculation.averageUserComments;
-        double averagePostComments = statisticsCalculation.averagePostComments;
+        statisticsCalculation.calculateAdvStatistics(statisticsMock);
+        double averageUserPost = statisticsCalculation.getAverageUserPost();
+        double averageUserComments = statisticsCalculation.getAverageUserComments();
+        double averagePostComments = statisticsCalculation.getAveragePostComments();
 
         //Then
         Assert.assertEquals(0, averageUserPost,0);
@@ -71,10 +72,10 @@ public class TestStatisticCalculation {
         when(statisticsMock.commentsCount()).thenReturn(numberOfComments);
 
         //When
-        statisticsCalculation.CalculateAdvStatistics(statisticsMock);
-        double averageUserPost = statisticsCalculation.averageUserPost;
-        double averageUserComments = statisticsCalculation.averageUserComments;
-        double averagePostComments = statisticsCalculation.averagePostComments;
+        statisticsCalculation.calculateAdvStatistics(statisticsMock);
+        double averageUserPost = statisticsCalculation.getAverageUserPost();
+        double averageUserComments = statisticsCalculation.getAverageUserComments();
+        double averagePostComments = statisticsCalculation.getAveragePostComments();
         //Then
         Assert.assertEquals(500, averageUserPost,0);
         Assert.assertEquals(0, averageUserComments,0);
@@ -95,10 +96,10 @@ public class TestStatisticCalculation {
         when(statisticsMock.commentsCount()).thenReturn(numberOfComments);
 
         //When
-        statisticsCalculation.CalculateAdvStatistics(statisticsMock);
-        double averageUserPost = statisticsCalculation.averageUserPost;
-        double averageUserComments = statisticsCalculation.averageUserComments;
-        double averagePostComments = statisticsCalculation.averagePostComments;
+        statisticsCalculation.calculateAdvStatistics(statisticsMock);
+        double averageUserPost = statisticsCalculation.getAverageUserPost();
+        double averageUserComments = statisticsCalculation.getAverageUserComments();
+        double averagePostComments = statisticsCalculation.getAveragePostComments();
 
         //Then
         Assert.assertEquals(250, averageUserPost,0);
@@ -120,10 +121,10 @@ public class TestStatisticCalculation {
         when(statisticsMock.commentsCount()).thenReturn(numberOfComments);
 
         //When
-        statisticsCalculation.CalculateAdvStatistics(statisticsMock);
-        double averageUserPost = statisticsCalculation.averageUserPost;
-        double averageUserComments = statisticsCalculation.averageUserComments;
-        double averagePostComments = statisticsCalculation.averagePostComments;
+        statisticsCalculation.calculateAdvStatistics(statisticsMock);
+        double averageUserPost = statisticsCalculation.getAverageUserPost();
+        double averageUserComments = statisticsCalculation.getAverageUserComments();
+        double averagePostComments = statisticsCalculation.getAveragePostComments();
 
         //Then
         Assert.assertEquals(5, averageUserPost,0);
@@ -145,10 +146,10 @@ public class TestStatisticCalculation {
         when(statisticsMock.commentsCount()).thenReturn(numberOfComments);
 
         //When
-        statisticsCalculation.CalculateAdvStatistics(statisticsMock);
-        double averageUserPost = statisticsCalculation.averageUserPost;
-        double averageUserComments = statisticsCalculation.averageUserComments;
-        double averagePostComments = statisticsCalculation.averagePostComments;
+        statisticsCalculation.calculateAdvStatistics(statisticsMock);
+        double averageUserPost = statisticsCalculation.getAverageUserPost();
+        double averageUserComments = statisticsCalculation.getAverageUserComments();
+        double averagePostComments = statisticsCalculation.getAveragePostComments();
 
         //Then
         Assert.assertEquals(5, averageUserPost,0);
@@ -168,10 +169,10 @@ public class TestStatisticCalculation {
         when(statisticsMock.commentsCount()).thenReturn(numberOfComments);
 
         //When
-        statisticsCalculation.CalculateAdvStatistics(statisticsMock);
-        double averageUserPost = statisticsCalculation.averageUserPost;
-        double averageUserComments = statisticsCalculation.averageUserComments;
-        double averagePostComments = statisticsCalculation.averagePostComments;
+        statisticsCalculation.calculateAdvStatistics(statisticsMock);
+        double averageUserPost = statisticsCalculation.getAverageUserPost();
+        double averageUserComments = statisticsCalculation.getAverageUserComments();
+        double averagePostComments = statisticsCalculation.getAveragePostComments();
 
         //Then
         Assert.assertEquals(0, averageUserPost,0);
@@ -196,10 +197,10 @@ public class TestStatisticCalculation {
 
         //When
 
-        statisticsCalculation.CalculateAdvStatistics(statisticsMock);
-        double averageUserPost = statisticsCalculation.averageUserPost;
-        double averageUserComments = statisticsCalculation.averageUserComments;
-        double averagePostComments = statisticsCalculation.averagePostComments;
+        statisticsCalculation.calculateAdvStatistics(statisticsMock);
+        double averageUserPost = statisticsCalculation.getAverageUserPost();
+        double averageUserComments = statisticsCalculation.getAverageUserComments();
+        double averagePostComments = statisticsCalculation.getAveragePostComments();
 
         //Then
         Assert.assertEquals(0.1, averageUserPost,0);

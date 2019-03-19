@@ -3,15 +3,17 @@ package com.kodilla.testing.forum.statistics;
 public class StatisticsCalculation {
 
     Statistics statistics;
-    int numberOfUsers;
-    int numberOfPost;
-    int numberOfComments;
-    double averageUserPost;
-    double averageUserComments;
-    double averagePostComments;
 
 
-    public void CalculateAdvStatistics(Statistics statistics) {
+    private int numberOfUsers;
+    private int numberOfPost;
+    private int numberOfComments;
+    private double averageUserPost;
+    private double averageUserComments;
+    private double averagePostComments;
+
+
+    public void calculateAdvStatistics(Statistics statistics) {
         if (statistics.usersNames().size() >0) {
 
             numberOfUsers = statistics.usersNames().size();
@@ -29,7 +31,6 @@ public class StatisticsCalculation {
             averageUserPost = 0;
             averageUserComments =0;
         }
-
     }
 
     public void showStatistic(){
@@ -40,6 +41,52 @@ public class StatisticsCalculation {
         System.out.println("The average number of user comments: " + averageUserComments);
         System.out.println("Average number of comments per post: " + averagePostComments);
     }
+    public int getNumberOfUsers() {
+        return numberOfUsers;
+    }
 
+    public void setNumberOfUsers(int numberOfUsers) {
+        this.numberOfUsers = numberOfUsers;
+    }
+
+    public int getNumberOfPost() {
+        return numberOfPost;
+    }
+
+    public void setNumberOfPost(int numberOfPost) {
+        this.numberOfPost = numberOfPost;
+    }
+
+    public int getNumberOfComments() {
+        return numberOfComments;
+    }
+
+    public void setNumberOfComments(int numberOfComments) {
+        this.numberOfComments = numberOfComments;
+    }
+
+    public double getAverageUserPost() {
+        return averageUserPost;
+    }
+
+    public void setAverageUserPost(double averageUserPost) {
+        this.averageUserPost = averageUserPost;
+    }
+
+    public double getAverageUserComments() {
+        return averageUserComments;
+    }
+
+    public void setAverageUserComments(double averageUserComments) {
+        this.averageUserComments = averageUserComments;
+    }
+
+    public double getAveragePostComments() {
+        return averagePostComments;
+    }
+
+    public void setAveragePostComments(double averagePostComments) {
+        this.averagePostComments = averagePostComments;
+    }
 
 }
