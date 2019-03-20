@@ -67,9 +67,10 @@ public class ForumUser {
         boolean results = false;
         if (comments.contains(theComment)) {
             comments.remove();
+            return results = true;
         }
 
-        return comments.remove(theComment);
+        return results;
     }
 
     public String getName() {
