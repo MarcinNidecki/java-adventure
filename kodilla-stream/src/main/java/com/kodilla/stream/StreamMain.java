@@ -21,15 +21,15 @@ public class StreamMain {
         expressionExecutor.executeExpression(3, 4, FunctionalCalculator::subBFromA);
         expressionExecutor.executeExpression(3, 4, FunctionalCalculator::divideAByB);
 
-       PoemBeautifier poemBeautifier = new PoemBeautifier();
+        PoemBeautifier poemBeautifier = new PoemBeautifier();
 
-       poemBeautifier.decorate("VERY IMPORTANT MESSAGE", textToDecorate -> textToDecorate.toLowerCase());
-       poemBeautifier.decorate("VERY IMPORTANT MESSAGE", textToDecorate -> "START  " + textToDecorate.toLowerCase()+ " STOP");
-       poemBeautifier.decorate("VERY IMPORTANT MESSAGE", textToDecorate -> "************************************************* \n"+
-               textToDecorate+
-               "\n*************************************************");
+        poemBeautifier.decorate("VERY IMPORTANT MESSAGE", textToDecorate -> textToDecorate.toLowerCase());
+        poemBeautifier.decorate("VERY IMPORTANT MESSAGE", textToDecorate -> "START  " + textToDecorate.toLowerCase()+ " STOP");
+        poemBeautifier.decorate("VERY IMPORTANT MESSAGE", textToDecorate -> "************************************************* \n"+
+                textToDecorate+
+                "\n*************************************************");
 
-       PoemDecorator poemDecorator = (unSafeString) -> {
+        PoemDecorator poemDecorator = (unSafeString) -> {
             int stringLength = unSafeString.length();
             String[] actualValue = unSafeString.split("", stringLength);
             for (int i = 0; i < stringLength; i += 2)
@@ -37,13 +37,8 @@ public class StreamMain {
             String results = String.join("", actualValue);
             return results;
 
-       };
+        };
         poemBeautifier.decorate("How to protected your string ",poemDecorator);
-
-
-
-
-
 
     }
 }
