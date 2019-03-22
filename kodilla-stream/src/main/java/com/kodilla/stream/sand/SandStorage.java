@@ -1,4 +1,7 @@
 package com.kodilla.stream.sand;
 
-public class SandStorage {
+import java.math.BigDecimal;
+
+public interface SandStorage {
+    BigDecimal getSandBeansQuantity();
 }
