@@ -2,23 +2,11 @@ package com.kodilla.exception.test;
 
 public class FirstChallenge {
 
-    private double sum;
-
     public double divide(double a, double b) throws ArithmeticException {
-
-        try {
-            if(b == 0){
-                throw new ArithmeticException();
-            }
-        }catch (ArithmeticException e) {
-
-            System.out.println("Divide by zero error " + e);
-
-        } finally {
-
-            System.out.print("" +a + " / " + b + " = " );
-
-        }   return a/b;
+        if(b == 0){
+            throw new ArithmeticException();
+        }
+        return a / b;
     }
 
 
@@ -26,13 +14,20 @@ public class FirstChallenge {
      * This main can throw an ArithmeticException!!!
      * @param args
      */
-    public static void main(String[] args) throws ArithmeticException{
+    public static void main(String[] args) {
 
         FirstChallenge firstChallenge = new FirstChallenge();
 
-        double result = firstChallenge.divide(3, 0);
+        double result = 0;
+        try {
+            result = firstChallenge.divide(3, 0);
+            System.out.println("Results: =" + result);
+        } catch (ArithmeticException e) {
+            System.out.println("Divide by zero error " + e);
+        } finally {
+            System.out.println("Done!");
+        }
 
-        System.out.println(result);
 
     }
 }
