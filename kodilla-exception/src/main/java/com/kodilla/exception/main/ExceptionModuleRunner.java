@@ -4,7 +4,7 @@ import com.kodilla.exception.test.SecondChallenge;
 
 public class ExceptionModuleRunner {
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
         SecondChallenge secondChallenge = new SecondChallenge();
 
