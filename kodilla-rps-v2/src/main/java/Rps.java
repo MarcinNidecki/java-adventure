@@ -47,17 +47,15 @@ class Rps {
         System.out.print("\n\n[1] - Rock  [2] - Scissors   [3] - Paper                                      [r] - RANKING    [x] - GAME OVER    [n] - NEW GAME  \n\n");
     }
 
-    private Weapon helpForTheComputer(int x, Weapon userWeapon) {
+    private Weapon takeTheStrongestWeapon(int randomChoice, Weapon userWeapon) {
 
-        switch (x) {
+        switch (randomChoice) {
 
             case 1:
                 return new Rock();
 
-
             case 2:
                 return new Scissors();
-
 
             case 3:
                 return new Paper();
@@ -65,32 +63,30 @@ class Rps {
             case 4:
                 return userWeapon;
 
-
             default:
                 System.out.print("Something went wrong");
 
         }
 
-
         return null;
     }
 
-    Weapon computerChoice(User user) {
+    Weapon computerChoiceCheckUserChoiceAndTakeStrongerWeapon(User user) {
 
         Random rand = new Random();
-        int x = rand.nextInt(4) + 1;
+        int randomChoice = rand.nextInt(4) + 1;
 
 
         switch (user.getSelectedWeapon().getShapeName()) {
 
             case "Rock":
-                return helpForTheComputer(x, new Scissors());
+                return takeTheStrongestWeapon(randomChoice, new Scissors());
 
             case "Paper":
-                return helpForTheComputer(x, new Scissors());
+                return takeTheStrongestWeapon(randomChoice, new Scissors());
 
             case "Scissors":
-                return helpForTheComputer(x, new Rock());
+                return takeTheStrongestWeapon(randomChoice, new Rock());
 
             default:
                 System.out.print("Something go wrong!");

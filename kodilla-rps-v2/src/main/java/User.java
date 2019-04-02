@@ -135,7 +135,7 @@ public class User implements Serializable {
 
     void computerChoiceThenComparingWithPlayer(Weapon userWeapon, Rps rps, User user) throws InterruptedException {
         if (userWeapon != null) {
-            Weapon computerWeapon = rps.computerChoice(user);
+            Weapon computerWeapon = rps.computerChoiceCheckUserChoiceAndTakeStrongerWeapon(user);
             PrintOnScreen.textInRed("Computer selected: " + computerWeapon.getShapeName());
             rps.compareWeapon(userWeapon, computerWeapon, user);
             user.setActualRoundNumber(user.getActualRoundNumber() + 1);
