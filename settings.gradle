@@ -8,4 +8,6 @@ include 'kodilla-testing'
 include 'kodilla-stream'
 include 'kodilla-exception'
 include 'kodilla-rps-v2'
- 
+include 'kodilla-pacman'
+include 'kodilla-pacmanv2'
+
