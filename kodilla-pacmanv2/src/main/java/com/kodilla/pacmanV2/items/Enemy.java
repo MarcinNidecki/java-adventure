@@ -2,67 +2,53 @@ package com.kodilla.pacmanV2.items;
 
 import com.kodilla.pacmanV2.Animation;
 import com.kodilla.pacmanV2.PacmanAppRunner;
-import com.kodilla.pacmanV2.pacmanBoard.LevelFactory;
+import com.kodilla.pacmanV2.pacmanBoard.levelFactory.LevelFactory;
 
 import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.kodilla.pacmanV2.pacmanBoard.LevelFactory.board;
+import static com.kodilla.pacmanV2.pacmanBoard.levelFactory.LevelFactory.maze;
 
 public class Enemy extends Rectangle {
 
 
     private final EnemyControl enemyControl = new EnemyControl(this);
-    public boolean up, brave, changeOfDirection;
-    private int tick = 0, xx, yy, animationPicture;
-    public int speed = 2;
-
+    boolean brave, changeOfDirection;
+    int speed = 4;
     Directions directions = Directions.DOWN;
-    private int TimeAnimationEnd =0;
-
-    public int getSpeed() {
-        return speed;
-    }
+    private int tick = 0, animationPicture;
 
 
     public enum Directions {
         DOWN,
         UP,
         LEFT,
-        RIGHT
+        RIGHT,
+        STOP
     }
-
 
     public Enemy(int x, int y, boolean brave) {
         this.brave = brave;
         setBounds(x, y, PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE);
     }
 
-
-
-
     public void EnemyTick() {
 
-    // TURN ON animation enemy when bonus ON
+        // TURN ON animation enemy when bonus ON
         if (PacmanAppRunner.bonus) {
-            animationPicture=2;
+            animationPicture = 2;
         } else {
-            animationPicture =0;
+            animationPicture = 0;
         }
 
-
-
-
-
-        enemyControl.checkIfIntersectWithPlayer(x,y);
+        enemyControl.checkIfIntersectWithPlayer(x, y);
         enemyControl.checkIfNeedToUseATeleport();
 
         if (enemyControl.checkIfIsInHome()) {
             LevelFactory.openDoor();
-            enemyControl.goOutside();
-        }
-        if (!enemyControl.checkIfIsInHome()) {
+            enemyControl.goOutsideHome();
+        } else {
             LevelFactory.closeDoor();
         }
 
@@ -72,8 +58,8 @@ public class Enemy extends Rectangle {
             case DOWN:
 
                 if (enemyControl.ThereIsNoCollisionOnDown()) {
-                    if(enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirection()) {
-                        enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirection();
+                    if (enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
+                        enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
                         break;
                     }
                     enemyControl.goDown();
@@ -88,8 +74,8 @@ public class Enemy extends Rectangle {
             case UP:
 
                 if (enemyControl.ThereIsNoCollisionOnUp()) {
-                    if(enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirection()) {
-                        enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirection();
+                    if (enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
+                        enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
                         break;
                     }
                     enemyControl.goUp();
@@ -103,8 +89,8 @@ public class Enemy extends Rectangle {
             case LEFT:
 
                 if (enemyControl.ThereIsNoCollisionOnLeft()) {
-                    if(enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirection()) {
-                        enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirection();
+                    if (enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
+                        enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
                         break;
                     }
                     enemyControl.goLeft();
@@ -118,8 +104,8 @@ public class Enemy extends Rectangle {
                 }
             case RIGHT:
                 if (enemyControl.ThereIsNoCollisionOnRight()) {
-                    if(enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirection()) {
-                        enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirection();
+                    if (enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
+                        enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
                         break;
                     }
                     enemyControl.goRight();
@@ -138,21 +124,16 @@ public class Enemy extends Rectangle {
 
     }
 
-
-    public boolean isColission(int x, int y) {
+    public boolean isCollision(int x, int y) {
         Rectangle rectangle = new Rectangle(x, y, PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE);
         LevelFactory level = PacmanAppRunner.level;
-        List<Items> listOfCollisingTile = board.getBoardOfRows().stream()
-                .flatMap(row -> row.getItemList().stream())
+        List<Items> listOfCollidingTile = maze.getMaze().parallelStream()
+                .flatMap(row -> row.getLineOfItems().stream())
                 .filter(t -> (t instanceof Wall && (rectangle.intersects((Wall) t))))
                 .collect(Collectors.toList());
 
-        int numberOfCollision = listOfCollisingTile.size();
-        if (numberOfCollision > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        int numberOfCollision = listOfCollidingTile.size();
+        return numberOfCollision <= 0;
     }
 
     public void paintComponent(Graphics g) {
@@ -166,4 +147,5 @@ public class Enemy extends Rectangle {
 
 
     }
+
 }

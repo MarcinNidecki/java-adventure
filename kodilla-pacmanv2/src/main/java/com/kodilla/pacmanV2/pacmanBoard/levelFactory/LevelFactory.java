@@ -1,4 +1,4 @@
-package com.kodilla.pacmanV2.pacmanBoard;
+package com.kodilla.pacmanV2.pacmanBoard.levelFactory;
 
 import com.kodilla.pacmanV2.items.BigDot;
 import com.kodilla.pacmanV2.items.Dot;
@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 
 public class LevelFactory {
 
+    public static Maze maze = new Maze();
+    public BufferedImage background;
     ArrayList<String> levelData = new ArrayList<>();
     private char c;
-    public static Board board = new Board();
-    public BufferedImage background;
 
     public LevelFactory() {
 
@@ -28,7 +28,10 @@ public class LevelFactory {
         Scanner scanner = null;
         try {
 
-            scanner = new Scanner(new File("kodilla-pacmanv2\\src\\main\\resources\\assets\\text\\pacman_level.txt"));
+            ClassLoader classLoader = getClass().getClassLoader();
+            File fileTxTLevel = new File(classLoader.getResource("assets/text/pacman_level.txt").getFile());
+            scanner = new Scanner(fileTxTLevel);
+
 
 
         } catch (FileNotFoundException e) {
@@ -44,76 +47,75 @@ public class LevelFactory {
         // load elements from file
         int w = levelData.get(0).length();
         for (int xx = 0; xx < levelData.size(); xx++) {
-            String row = levelData.get(xx);
-            RowOfBoard rowOfBoard = new RowOfBoard();
+            String line = levelData.get(xx);
+            LineOfMaze lineOfMaze = new LineOfMaze();
             for (int yy = 0; yy < w; yy++) {
-                c = row.charAt(yy);
+                c = line.charAt(yy);
 
                 switch (c) {
 
                     case '1':
                         Wall wall = new Wall(yy * 40, xx * 40);
 
-                        rowOfBoard.addElement(wall);
+                        lineOfMaze.addElement(wall);
 
                         break;
                     case '0':
                         Dot dot = new Dot(yy * 40, xx * 40);
-                        rowOfBoard.addElement(dot);
+                        lineOfMaze.addElement(dot);
                         break;
                     case '2':
                         BigDot bigDot = new BigDot(yy * 40, xx * 40);
-                        rowOfBoard.addElement(bigDot);
+                        lineOfMaze.addElement(bigDot);
                         break;
                 }
             }
-            board.addRow(rowOfBoard);
-           //rowOfBoard.getItemList().clear();
+            maze.addRow(lineOfMaze);
+
         }
     }
 
     public static void closeDoor() {
 
 
-        board.getBoardOfRows().get(9).getItemList().set(18, new Wall(720, 360));
-        board.getBoardOfRows().get(9).getItemList().set(19, new Wall(760, 360));
-        board.getBoardOfRows().get(9).getItemList().set(20, new Wall(800, 360));
+        maze.getMaze().get(9).getLineOfItems().set(18, new Wall(720, 360));
+        maze.getMaze().get(9).getLineOfItems().set(19, new Wall(760, 360));
+        maze.getMaze().get(9).getLineOfItems().set(20, new Wall(800, 360));
 
     }
 
     public static void openDoor() {
 
 
-        board.getBoardOfRows().get(9).getItemList().set(18,null);
-        board.getBoardOfRows().get(9).getItemList().set(19, null);
-        board.getBoardOfRows().get(9).getItemList().set(20,null);
+        maze.getMaze().get(9).getLineOfItems().set(18, null);
+        maze.getMaze().get(9).getLineOfItems().set(19, null);
+        maze.getMaze().get(9).getLineOfItems().set(20, null);
 
     }
 
     public void render(Graphics g) {
 
-        List<Items> ListOfDots = board.getBoardOfRows().stream()
-                .flatMap(row -> row.getItemList().stream())
+        List<Items> ListOfDots = maze.getMaze().stream()
+                .flatMap(row -> row.getLineOfItems().stream())
                 .filter(t -> (t instanceof Dot) || (t instanceof BigDot))
                 .collect(Collectors.toList());
 
 
         ListOfDots.size();
-        for (int i=0; i<ListOfDots.size();i++) {
+
+
+        for (int i = 0; i < ListOfDots.size(); i++) {
             if (ListOfDots.get(i) instanceof Dot) {
-                Dot dot =(Dot)ListOfDots.get(i);
+                Dot dot = (Dot) ListOfDots.get(i);
                 dot.render(g);
             }
 
-            if (ListOfDots.get(i)instanceof BigDot) {
-                BigDot bigDot = (BigDot)ListOfDots.get(i);
+            if (ListOfDots.get(i) instanceof BigDot) {
+                BigDot bigDot = (BigDot) ListOfDots.get(i);
                 bigDot.render(g);
             }
 
-
-
         }
     }
-
 }
 

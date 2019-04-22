@@ -19,7 +19,7 @@ public class BonusMode {
 
         timer.checkIfTimerIsEnd();
 
-        if (!timer.isTimerON()) {
+        if (timer.isTimerON()) {
             PacmanAppRunner.bonus = false;
         }
 

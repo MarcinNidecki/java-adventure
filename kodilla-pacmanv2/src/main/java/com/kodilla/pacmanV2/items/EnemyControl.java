@@ -6,57 +6,33 @@ import java.awt.*;
 
 public class EnemyControl {
     private final Enemy enemy;
+    int tick;
 
     public EnemyControl(Enemy enemy) {
         this.enemy = enemy;
     }
 
-    boolean ThereIsNoCollisionOnUp() {
-        if (enemy.isColission(enemy.x, enemy.y - enemy.getSpeed())) {
-            return false;
-        } else return true;
-    }
-
-    void goDown() {
-        enemy.setLocation(enemy.x,(enemy.y + enemy.getSpeed()));
-    }
-
-    void checkIfNeedToUseATeleport() {
-        if(enemy.x==1480 && enemy.y==400) {
-            enemy.x=0;
-            goRight();
-            goRight();
-        }
-
-        if(enemy.x==0 && enemy.y==400) {
-            enemy.x = 1480;
-            goLeft();
-            goLeft();
-        }
-
-    }
 
     boolean ThereIsNoCollisionOnLeft() {
-        if (enemy.isColission(enemy.x - enemy.speed, enemy.y)) {
-            return false;
-        } else return true;
+        return enemy.isCollision(enemy.x - enemy.speed, enemy.y);
     }
 
     boolean ThereIsNoCollisionOnRight() {
-        if (enemy.isColission(enemy.x + enemy.speed, enemy.y)) {
-            return false;
-        } else return true;
+        return enemy.isCollision(enemy.x + enemy.speed, enemy.y);
     }
-
-
 
     boolean ThereIsNoCollisionOnDown() {
-        if (enemy.isColission(enemy.x, enemy.y + enemy.speed)) {
-            return false;
-        } else return true;
+        return enemy.isCollision(enemy.x, enemy.y + enemy.speed);
+    }
+
+    boolean ThereIsNoCollisionOnUp() {
+        return enemy.isCollision(enemy.x, enemy.y - enemy.speed);
     }
 
 
+    void goDown() {
+        enemy.y += enemy.speed;
+    }
 
     void goUp() {
         enemy.y -= enemy.speed;
@@ -70,8 +46,61 @@ public class EnemyControl {
         enemy.x -= enemy.speed;
     }
 
+    void goOutsideHome() {
+
+        if (ThereIsNoCollisionOnUp()) {
+            // when fps is set to 60  then 1 second is 60 ticks
+            enemy.directions = Enemy.Directions.STOP;
+            if (tick > 360) {
+                enemy.directions = Enemy.Directions.UP;
+                goUp();
+
+            }
+            tick++;
+        }
+    }
+
+    boolean checkIfIsInHome() {
+        return enemy.y <= PacmanAppRunner.TILE_SIZE * 10 && enemy.y > PacmanAppRunner.TILE_SIZE * 8 && enemy.x > PacmanAppRunner.TILE_SIZE * 17 && enemy.x < PacmanAppRunner.TILE_SIZE * 21;
+    }
+
+    void checkIfNeedToUseATeleport() {
+        if (enemy.x == 1480 && enemy.y == 400) {
+            enemy.x = 0;
+            goRight();
+
+        }
+
+        if (enemy.x == 0 && enemy.y == 400) {
+            enemy.x = 1480;
+            goLeft();
+
+        }
+    }
+
+    void checkIfIntersectWithPlayer(int xx, int yy) {
+        Rectangle rectangle = new Rectangle(xx, yy, PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE);
+        if (rectangle.intersects(Player.xx, Player.yy, 40, 40)) {
+
+            // if is bonus send enemy to home
+            if (PacmanAppRunner.bonus) {
+                enemy.x = 740;
+                enemy.y = 400;
+                tick = 0;
+            } else{
+
+                Player.hitTheGhost = true;
+                PacmanAppRunner.player.backToStart();
+                PacmanAppRunner.playerLives.removeLive();
+            }
+        }
+    }
+
     void changeDirection() {
 
+
+        //  when enemy have more then 2 way to choose,  check where is player then go closer
+        //  when enemy have only one possibilities then just change direction.
         switch (enemy.directions) {
             case UP:
             case DOWN:
@@ -128,37 +157,11 @@ public class EnemyControl {
         }
     }
 
-    void goOutside() {
-        if (ThereIsNoCollisionOnUp()) {
-            enemy.directions = Enemy.Directions.UP;
-            goUp();
-        }
-    }
-
-    boolean checkIfIsInHome() {
-        if (enemy.y <= PacmanAppRunner.TILE_SIZE * 10 && enemy.y > PacmanAppRunner.TILE_SIZE * 8 && enemy.x > PacmanAppRunner.TILE_SIZE * 17 && enemy.x < PacmanAppRunner.TILE_SIZE * 21) {
-            return true;
-        } return false;
-    }
-
-    void checkIfIntersectWithPlayer(int xx, int yy) {
-        Rectangle rectangle = new Rectangle(xx, yy, PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE);
-        if (rectangle.intersects(Player.xx,Player.yy,40,40)) {
-
-            // if is bonus send enemy to home
-            if(PacmanAppRunner.bonus) {
-                enemy.x = 740;
-                enemy.y = 400;
-            } else {
-                PacmanAppRunner.playerLives.removeLive();
-            }
-        }
-    }
     private void EscapeOnDistanceWhenLeftOrRight(int safeDistance) {
 
         // if enemy is in a center of tile  and can go up and  player is above enemy
-        if (enemy.x%PacmanAppRunner.TILE_SIZE==0 && ThereIsNoCollisionOnUp() && enemy.y <= Player.yy) {
-            if ((Player.yy - enemy.y)<safeDistance) {
+        if (enemy.x % PacmanAppRunner.TILE_SIZE == 0 && ThereIsNoCollisionOnUp() && enemy.y <= Player.yy) {
+            if ((Player.yy - enemy.y) < safeDistance) {
                 enemy.directions = Enemy.Directions.UP;
                 goUp();
                 enemy.changeOfDirection = true;
@@ -172,8 +175,8 @@ public class EnemyControl {
                 }
 
             }
-            if (enemy.x%PacmanAppRunner.TILE_SIZE==0 && ThereIsNoCollisionOnDown() && enemy.y >=Player.yy ) {
-                if((enemy.y - Player.yy)<safeDistance ) {
+            if (enemy.x % PacmanAppRunner.TILE_SIZE == 0 && ThereIsNoCollisionOnDown() && enemy.y >= Player.yy) {
+                if ((enemy.y - Player.yy) < safeDistance) {
                     enemy.directions = Enemy.Directions.DOWN;
                     goDown();
                     enemy.changeOfDirection = true;
@@ -189,13 +192,12 @@ public class EnemyControl {
 
             }
 
-
-
         }
     }
 
     private void EscapeOnDistanceWhenUpOrDown(int safeDistance) {
-        //If enemy moving down and can fit between wall AND is no collision with wall on right side and enemy is on right side player
+        //If enemy is escaping down/up and have option to turn on right
+        // check  if player is on left  side then escape on right
         if (enemy.y % PacmanAppRunner.TILE_SIZE == 0 && ThereIsNoCollisionOnRight() && enemy.x >= Player.xx) {
             // if distance between player and enemy is not safe then still go right
             if ((enemy.x - Player.xx) < safeDistance) {
@@ -203,43 +205,32 @@ public class EnemyControl {
                 goRight();
                 enemy.changeOfDirection = true;
                 return;
-            } else {
-                if (ThereIsNoCollisionOnLeft()) {
-                    enemy.directions = Enemy.Directions.LEFT;
-                    goLeft();
-                    enemy.changeOfDirection = true;
-                    return;
-                }
+                // if distance is safe  then go closer to player
             }
 
+
         }
-        // if enemy moving down  and can fit between wall AND is no collision with wall on left side and enemy is on left side player
+        //If enemy is escaping down/up and have option to turn on left
+        // check  if player is on right side then escape on left
         if (enemy.y % PacmanAppRunner.TILE_SIZE == 0 && ThereIsNoCollisionOnLeft() && enemy.x <= Player.xx) {
+            // if distance between player and enemy is not safe then still go right
             if ((enemy.x - Player.xx) > safeDistance) {
                 enemy.directions = Enemy.Directions.LEFT;
                 goLeft();
                 enemy.changeOfDirection = true;
-
-
-            } else {
-                if (ThereIsNoCollisionOnRight()) {
-                    enemy.directions = Enemy.Directions.RIGHT;
-                    goRight();
-                    enemy.changeOfDirection = true;
-
-                }
             }
 
         }
     }
-    boolean TrackPlayerAndCheckIfIsBetterToChangeDirection() {
+
+    boolean TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection() {
         enemy.changeOfDirection = false;
         switch (enemy.directions) {
             case UP:
             case DOWN:
 
                 // if brave and is no bonus time
-                if (enemy.brave &&!PacmanAppRunner.bonus) {
+                if (enemy.brave && !PacmanAppRunner.bonus) {
 
                     if (enemy.x > Player.xx && enemy.x % PacmanAppRunner.TILE_SIZE == 0 && ThereIsNoCollisionOnLeft()) {
                         enemy.directions = Enemy.Directions.LEFT;
@@ -250,19 +241,19 @@ public class EnemyControl {
                     if (enemy.x < Player.xx && enemy.x % PacmanAppRunner.TILE_SIZE == 0 && ThereIsNoCollisionOnRight()) {
                         enemy.directions = Enemy.Directions.RIGHT;
                         goRight();
-                        enemy.changeOfDirection= true;
+                        enemy.changeOfDirection = true;
                         break;
                     }
                     break;
 
-                    // if is not brave  is no bonus time then go closer and when is close to player run away
-                }else  {
 
+                } else {
+                    // if is not brave and bonus is off then go closer and when is close to player run away
                     if (!PacmanAppRunner.bonus) {
                         EscapeOnDistanceWhenUpOrDown(160);
                         break;
-                    // is is bonus then everyone run away
-                    } else  {
+                        // is is bonus then everyone run away
+                    } else {
                         EscapeOnDistanceWhenUpOrDown(1600);
                     }
                     break;
@@ -271,14 +262,14 @@ public class EnemyControl {
             case LEFT:
 
                 // if brave then get closer to player
-                if (enemy.brave &&!PacmanAppRunner.bonus) {
-                    if (enemy.y >Player.yy && enemy.y%PacmanAppRunner.TILE_SIZE==0 && ThereIsNoCollisionOnUp()) {
+                if (enemy.brave && !PacmanAppRunner.bonus) {
+                    if (enemy.y > Player.yy && enemy.y % PacmanAppRunner.TILE_SIZE == 0 && ThereIsNoCollisionOnUp()) {
                         enemy.directions = Enemy.Directions.UP;
                         goUp();
                         enemy.changeOfDirection = true;
                         break;
                     }
-                    if (enemy.y <Player.yy && enemy.y%PacmanAppRunner.TILE_SIZE==0 && ThereIsNoCollisionOnDown()) {
+                    if (enemy.y < Player.yy && enemy.y % PacmanAppRunner.TILE_SIZE == 0 && ThereIsNoCollisionOnDown()) {
                         enemy.directions = Enemy.Directions.DOWN;
                         goDown();
 
@@ -289,20 +280,21 @@ public class EnemyControl {
 
 
                     // if is not brave  then when is close to player run away
-                } else  {
+                } else {
                     if (!PacmanAppRunner.bonus) {
+                        // is bonus if OFF but enemy is not brave
                         EscapeOnDistanceWhenLeftOrRight(160);
                         break;
-                    } else  {
+                        // when bonus is on
+                    } else {
                         EscapeOnDistanceWhenLeftOrRight(1600);
                     }
 
 
-
-
                     break;
                 }
-        } return enemy.changeOfDirection;
+        }
+        return enemy.changeOfDirection;
     }
 
 }

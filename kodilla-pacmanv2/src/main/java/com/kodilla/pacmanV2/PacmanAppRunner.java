@@ -2,13 +2,13 @@ package com.kodilla.pacmanV2;
 
 import com.kodilla.pacmanV2.items.Enemy;
 import com.kodilla.pacmanV2.items.Player;
-import com.kodilla.pacmanV2.items.statistic.PlayerLives;
-import com.kodilla.pacmanV2.items.statistic.ScoreCounter;
-import com.kodilla.pacmanV2.pacmanBoard.BackgroundLevel1;
-import com.kodilla.pacmanV2.pacmanBoard.Board;
-import com.kodilla.pacmanV2.pacmanBoard.LevelFactory;
+import com.kodilla.pacmanV2.pacmanBoard.Music;
 import com.kodilla.pacmanV2.pacmanBoard.TimerTaskPaccman;
-import com.kodilla.pacmanV2.pacmanBoard.music.Music;
+import com.kodilla.pacmanV2.pacmanBoard.levelFactory.BackgroundLevel1;
+import com.kodilla.pacmanV2.pacmanBoard.levelFactory.LevelFactory;
+import com.kodilla.pacmanV2.pacmanBoard.levelFactory.Maze;
+import com.kodilla.pacmanV2.pacmanBoard.statistic.PlayerLives;
+import com.kodilla.pacmanV2.pacmanBoard.statistic.ScoreCounter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,21 +19,20 @@ import java.awt.image.BufferStrategy;
 public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
 
-    public static boolean isRunning = false;
-    public static final int WIDTH = 1520, HEIGHT = 960, TILE_SIZE = 40, playerStartingX =PacmanAppRunner.TILE_SIZE, playerStartingY = PacmanAppRunner.TILE_SIZE *10;
+    public static final int WIDTH = 1520, HEIGHT = 960, TILE_SIZE = 40, playerStartingX = PacmanAppRunner.TILE_SIZE, playerStartingY = PacmanAppRunner.TILE_SIZE * 10;
     private static final String TITLE = "PACMAN v.0.0.1";
-    private Thread thread;
+    public static boolean isRunning = false;
     public static Player player;
-    private static Enemy enemyGreen, enemyRed, enemyYellow;
     public static ScoreCounter score;
     public static boolean bonus;
+    public static PlayerLives playerLives;
+    public static LevelFactory level = new LevelFactory();
+    private static Enemy enemyGreen, enemyRed, enemyYellow;
+    private static BackgroundLevel1 background = new BackgroundLevel1();
     public Music music;
     TimerTaskPaccman timerMusic, welcomeTimerMusic;
-    Board board;
-    public static PlayerLives playerLives;
-    private static BackgroundLevel1 background = new BackgroundLevel1();
-    public static LevelFactory level = new LevelFactory();
-
+    Maze maze;
+    private Thread thread;
 
 
     public PacmanAppRunner() {
@@ -43,8 +42,8 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         setMaximumSize(dimension);
         setMinimumSize(dimension);
         player = new Player(PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE * 10);
-        enemyGreen = new Enemy(PacmanAppRunner.TILE_SIZE*19, PacmanAppRunner.TILE_SIZE*10,false);
-        enemyRed = new Enemy(PacmanAppRunner.TILE_SIZE*18,PacmanAppRunner.TILE_SIZE*10,true);
+        enemyGreen = new Enemy(PacmanAppRunner.TILE_SIZE * 19, PacmanAppRunner.TILE_SIZE * 10, false);
+        enemyRed = new Enemy(PacmanAppRunner.TILE_SIZE * 18, PacmanAppRunner.TILE_SIZE * 10, true);
         score = new ScoreCounter();
         timerMusic = new TimerTaskPaccman(716);
         welcomeTimerMusic = new TimerTaskPaccman(4216);
@@ -52,12 +51,29 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
         playerLives = new PlayerLives();
         music = new Music();
-        board = new Board();
+        maze = new Maze();
         addKeyListener(this);
 
 
     }
 
+    public static void main(String[] arg) {
+
+
+        JFrame frame = new JFrame();
+        PacmanAppRunner game = new PacmanAppRunner();
+        frame.setBounds(0, 0, 1600, 960);
+        frame.setTitle(PacmanAppRunner.TITLE);
+        frame.setUndecorated(false);
+        frame.add(game);
+        //frame.setBackground(Color.BLACK);
+        frame.setResizable(false);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        game.start();
+
+    }
 
     public synchronized void start() {
         if (isRunning) return;
@@ -80,7 +96,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         player.tick();
         enemyGreen.EnemyTick();
         enemyRed.EnemyTick();
-        board.tick();
+        maze.tick();
     }
 
     private void render() {
@@ -123,13 +139,6 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         while (isRunning) {
 
 
-
-
-
-
-
-
-
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
@@ -137,21 +146,13 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
             while (delta >= 1) {
 
                 welcomeTimerMusic.checkIfTimerIsEnd();
-                if (!welcomeTimerMusic.isTimerON()){
-                    if(!timerMusic.isTimerON()) {
+                if (welcomeTimerMusic.isTimerON()) {
+                    if (timerMusic.isTimerON()) {
                         timerMusic.StartTimer();
                         music.playBackgroundSound();
                     }
                     timerMusic.checkIfTimerIsEnd();
                 }
-
-
-
-
-
-
-
-
 
 
                 render();
@@ -169,41 +170,26 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         stop();
     }
 
-    public static void main(String[] arg) {
-
-
-        JFrame frame = new JFrame();
-        PacmanAppRunner game = new PacmanAppRunner();
-        frame.setBounds(0, 0, 1600, 960);
-        frame.setTitle(PacmanAppRunner.TITLE);
-        frame.setUndecorated(false);
-        frame.add(game);
-        //frame.setBackground(Color.BLACK);
-        frame.setResizable(false);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        game.start();
-
-    }
-
     @Override
     public void keyTyped(KeyEvent e) {
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) player.right = true;
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) player.left = true;
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) player.down = true;
-        if (e.getKeyCode() == KeyEvent.VK_UP) player.up = true;
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            Player.right = true;
+
+        }
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) Player.left = true;
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) Player.down = true;
+        if (e.getKeyCode() == KeyEvent.VK_UP) Player.up = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) player.right = false;
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) player.left = false;
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) player.down = false;
-        if (e.getKeyCode() == KeyEvent.VK_UP) player.up = false;
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) Player.right = false;
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) Player.left = false;
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) Player.down = false;
+        if (e.getKeyCode() == KeyEvent.VK_UP) Player.up = false;
     }
 }

@@ -3,137 +3,128 @@ package com.kodilla.pacmanV2.items;
 import com.kodilla.pacmanV2.Animation;
 import com.kodilla.pacmanV2.PacmanAppRunner;
 import com.kodilla.pacmanV2.pacmanBoard.BonusMode;
-import com.kodilla.pacmanV2.pacmanBoard.LevelFactory;
-import com.kodilla.pacmanV2.pacmanBoard.RowOfBoard;
+import com.kodilla.pacmanV2.pacmanBoard.levelFactory.LineOfMaze;
 
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.kodilla.pacmanV2.pacmanBoard.LevelFactory.board;
-    public class Player extends Rectangle {
+import static com.kodilla.pacmanV2.pacmanBoard.levelFactory.LevelFactory.maze;
 
-    public static boolean right,left,up,down, isAlive;
-    int animationY,animationX,TimeAnimationEnd=0;
-    BonusMode bonusMode = new BonusMode();
+public class Player extends Rectangle {
 
-        public static void setXx(int xx) {
-            Player.xx = xx;
-        }
+    public static boolean right, left, up, down, isAlive, hitTheGhost;
+    static int xx, yy, numberOfGhostSendedToHome=0;
+    private int animationPicture, animationX, TimeAnimation = 0;
+    private BonusMode bonusMode = new BonusMode();
+    private int speed = 4;
 
-        public static void setYy(int yy) {
-            Player.yy = yy;
-        }
-
-        static int xx, yy;
-
-
-    private int speed =4;
-
-
-    public  Player(int x, int y){
-        setBounds(x,y, PacmanAppRunner.TILE_SIZE,PacmanAppRunner.TILE_SIZE);
+    public Player(int x, int y) {
+        setBounds(x, y, PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE);
     }
 
-        public static void setX(int playerStartingX) {
-        }
+
+    void backToStart() {
+        x = 40;
+        y = 40;
+    }
 
 
-        public  void tick() {
-        xx =x;
-        yy =y;
+    public void tick() {
+        xx = x;
+        yy = y;
         bonusMode.checkIfBonusIsOn();
-        if(right&&!isColission(x+speed,y)) {
-            ifIntersectWithDotThenRemoveDotAndAddPoints(x+speed,y);
+        if (right && isColission(x + speed, y)) {
+            ifIntersectWithDotThenRemoveDotAndAddPoints(x + speed, y);
 
             // teleportation
-            if(x==1480 && y==400)
-                x=0;
+            if (x == 1480 && y == 400)
+                x = 0;
 
-            x+=speed;
-            animationX =0;
+            x += speed;
+            animationX = 0;
 
         }
 
-        if(left && !isColission(x-speed,y)) {
-            ifIntersectWithDotThenRemoveDotAndAddPoints(x-speed,y);
+        if (left && isColission(x - speed, y)) {
+            ifIntersectWithDotThenRemoveDotAndAddPoints(x - speed, y);
             // teleportation
-            if(x==0 && y==400)
-                x=1480;
+            if (x == 0 && y == 400)
+                x = 1480;
 
-             x-=speed;
+            x -= speed;
 
-            animationX =1;
+            animationX = 1;
         }
-        if(up  && !isColission(x,y-speed)) {
-            ifIntersectWithDotThenRemoveDotAndAddPoints(x,y-speed);
-            y-=speed;
+        if (up && isColission(x, y - speed)) {
+            ifIntersectWithDotThenRemoveDotAndAddPoints(x, y - speed);
+            y -= speed;
 
-            animationX =2;
+            animationX = 2;
         }
-        if(down  && !isColission(x,y+speed)){
-            ifIntersectWithDotThenRemoveDotAndAddPoints(x,y+speed);
-            y+=speed;
+        if (down && isColission(x, y + speed)) {
+            ifIntersectWithDotThenRemoveDotAndAddPoints(x, y + speed);
+            y += speed;
 
-            animationX =3;
+            animationX = 3;
         }
 
-        if (TimeAnimationEnd == 0) {
-            animationY =0;
-        } else if (TimeAnimationEnd == 10){
-            animationY =1;
-        }else if (TimeAnimationEnd == 20){
-            animationY =2;
-        }else if (TimeAnimationEnd == 30){
-            animationY =3;
+
+        //  animation of player - change picture of player after every 10 tick
+        if (TimeAnimation == 0) {
+            animationPicture = 0;
+        } else if (TimeAnimation == 10) {
+            animationPicture = 1;
+        } else if (TimeAnimation == 20) {
+            animationPicture = 2;
+        } else if (TimeAnimation == 30) {
+            animationPicture = 3;
         }
-        if (TimeAnimationEnd == 40) {
-            TimeAnimationEnd =0;
+        if (TimeAnimation == 40) {
+            TimeAnimation = 0;
         }
-       TimeAnimationEnd ++;
+        TimeAnimation++;
     }
 
-    private boolean isColission (int  x, int y){
-        Rectangle rectangle = new Rectangle(x,y,PacmanAppRunner.TILE_SIZE,PacmanAppRunner.TILE_SIZE);
-        LevelFactory level = PacmanAppRunner.level;
-        List<Items> listOfCollisingTile = board.getBoardOfRows().stream()
-                .flatMap(row -> row.getItemList().stream())
-                .filter(t -> (t instanceof Wall &&(rectangle.intersects((Wall)t))))
+    private boolean isColission(int x, int y) {
+        Rectangle rectangle = new Rectangle(x, y, PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE);
+        List<Items> listOfCollisingTile = maze.getMaze().parallelStream()
+                .flatMap(line -> line.getLineOfItems().stream())
+                .filter(items -> (items instanceof Wall && (rectangle.intersects((Wall) items))))
                 .collect(Collectors.toList());
 
         int numberOfCollision = listOfCollisingTile.size();
-        if (numberOfCollision >0) {
-            return true;
-        } else {
-            return false;
-        }
+        return numberOfCollision <= 0;
     }
-    public void ifIntersectWithDotThenRemoveDotAndAddPoints(int  x, int y) {
+
+    public void ifIntersectWithDotThenRemoveDotAndAddPoints(int x, int y) {
+
+
         Rectangle rectangle = new Rectangle(x, y, PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE);
-        LevelFactory level = PacmanAppRunner.level;
-        LinkedList<RowOfBoard> boardRows = board.getBoardOfRows();
+        LinkedList<LineOfMaze> lineOfMazes = maze.getMaze();
+        int lineNumber = y/PacmanAppRunner.TILE_SIZE;
+
+        int minLineNumber, maxLinenumber;
+        maxLinenumber = lineNumber +1;
+        if (lineNumber<=0) {
+            minLineNumber = 0;
+        } else minLineNumber = lineNumber-1;
 
 
-        for (int i = 0; i < boardRows.size(); i++) {
-            for (int j = 0; j < board.getBoardOfRows().get(i).getItemList().size(); j++) {
-                if (board.getBoardOfRows().get(i).getItemList().get(j) instanceof Dot) {
-                    if (rectangle.intersects((Dot) board.getBoardOfRows().get(i).getItemList().get(j))) {
-                        board.getBoardOfRows().get(i).getItemList().set(j, null);
+        for (lineNumber=minLineNumber; lineNumber < maxLinenumber; lineNumber++) {
+            for (int itemNumber = 0; itemNumber < maze.getMaze().get(lineNumber).getLineOfItems().size(); itemNumber++) {
+                if (maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber) instanceof Dot) {
+                    if (rectangle.intersects((Dot) maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber))) {
+                        maze.getMaze().get(lineNumber).getLineOfItems().set(itemNumber, null);
                         PacmanAppRunner.score.addPointForSmallDot();
-
-
-
-
                     }
                 }
-                if (board.getBoardOfRows().get(i).getItemList().get(j) instanceof BigDot) {
-                    if (rectangle.intersects((BigDot) board.getBoardOfRows().get(i).getItemList().get(j))) {
-                        board.getBoardOfRows().get(i).getItemList().set(j, null);
+                if (maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber) instanceof BigDot) {
+                    if (rectangle.intersects((BigDot) maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber))) {
+                        maze.getMaze().get(lineNumber).getLineOfItems().set(itemNumber, null);
                         PacmanAppRunner.score.addPointForBigDot();
                         bonusMode.startBonus();
-
-
 
                     }
                 }
@@ -142,8 +133,8 @@ import static com.kodilla.pacmanV2.pacmanBoard.LevelFactory.board;
     }
 
 
-    public void paintComponent(Graphics g ) {
-       g.drawImage(Animation.player[animationX][animationY],x,y,32,32,null);
+    public void paintComponent(Graphics g) {
+        g.drawImage(Animation.player[animationX][animationPicture], x, y, 32, 32, null);
 
 
     }
