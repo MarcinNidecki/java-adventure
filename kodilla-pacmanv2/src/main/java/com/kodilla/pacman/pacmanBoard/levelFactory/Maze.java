@@ -1,4 +1,4 @@
-package com.kodilla.pacmanV2.pacmanBoard.levelFactory;
+package com.kodilla.pacman.pacmanBoard.levelFactory;
 
 import java.util.HashMap;
 

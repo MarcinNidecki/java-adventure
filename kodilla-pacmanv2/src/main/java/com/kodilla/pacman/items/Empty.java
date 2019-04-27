@@ -1,6 +1,6 @@
-package com.kodilla.pacmanV2.items;
+package com.kodilla.pacman.items;
 
-import com.kodilla.pacmanV2.GameInit;
+import com.kodilla.pacman.GameInit;
 
 import java.awt.*;
 

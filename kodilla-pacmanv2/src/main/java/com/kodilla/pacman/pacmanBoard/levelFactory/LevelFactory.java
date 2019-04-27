@@ -1,9 +1,9 @@
-package com.kodilla.pacmanV2.pacmanBoard.levelFactory;
+package com.kodilla.pacman.pacmanBoard.levelFactory;
 
-import com.kodilla.pacmanV2.items.BigDot;
-import com.kodilla.pacmanV2.items.Dot;
-import com.kodilla.pacmanV2.items.Empty;
-import com.kodilla.pacmanV2.items.Wall;
+import com.kodilla.pacman.items.BigDot;
+import com.kodilla.pacman.items.Dot;
+import com.kodilla.pacman.items.Empty;
+import com.kodilla.pacman.items.Wall;
 
 import java.awt.*;
 import java.io.File;

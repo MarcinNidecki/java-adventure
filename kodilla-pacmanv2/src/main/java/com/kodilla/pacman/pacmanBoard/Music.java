@@ -1,4 +1,4 @@
-package com.kodilla.pacmanV2.pacmanBoard;
+package com.kodilla.pacman.pacmanBoard;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;

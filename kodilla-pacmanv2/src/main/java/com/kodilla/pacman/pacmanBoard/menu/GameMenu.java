@@ -1,7 +1,7 @@
-package com.kodilla.pacmanV2.pacmanBoard.menu;
+package com.kodilla.pacman.pacmanBoard.menu;
 
-import com.kodilla.pacmanV2.GameInit;
-import com.kodilla.pacmanV2.ImagePanel;
+import com.kodilla.pacman.GameInit;
+import com.kodilla.pacman.ImagePanel;
 
 import javax.swing.*;
 import java.awt.*;

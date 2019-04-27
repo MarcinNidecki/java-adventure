@@ -1,6 +1,6 @@
-package com.kodilla.pacmanV2.pacmanBoard;
+package com.kodilla.pacman.pacmanBoard;
 
-import com.kodilla.pacmanV2.GameInit;
+import com.kodilla.pacman.GameInit;
 
 public class BonusMode {
 

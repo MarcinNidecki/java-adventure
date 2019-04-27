@@ -1,4 +1,4 @@
-package com.kodilla.pacmanV2.pacmanBoard.statistic;
+package com.kodilla.pacman.pacmanBoard.statistic;
 
 import java.awt.*;
 

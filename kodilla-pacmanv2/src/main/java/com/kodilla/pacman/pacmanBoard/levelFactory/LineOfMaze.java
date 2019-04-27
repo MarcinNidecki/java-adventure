@@ -1,6 +1,6 @@
-package com.kodilla.pacmanV2.pacmanBoard.levelFactory;
+package com.kodilla.pacman.pacmanBoard.levelFactory;
 
-import com.kodilla.pacmanV2.items.Items;
+import com.kodilla.pacman.items.Items;
 
 import java.util.HashMap;
 

@@ -1,6 +1,6 @@
-package com.kodilla.pacmanV2;
+package com.kodilla.pacman;
 
-import com.kodilla.pacmanV2.pacmanBoard.menu.GameMenu;
+import com.kodilla.pacman.pacmanBoard.menu.GameMenu;
 
 import javax.swing.*;
 import java.awt.*;

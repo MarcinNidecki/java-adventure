@@ -1,7 +1,7 @@
-package com.kodilla.pacmanV2.pacmanBoard.statistic;
+package com.kodilla.pacman.pacmanBoard.statistic;
 
-import com.kodilla.pacmanV2.GameInit;
-import com.kodilla.pacmanV2.items.ItemPictures;
+import com.kodilla.pacman.GameInit;
+import com.kodilla.pacman.items.ItemPictures;
 
 import java.awt.*;
 

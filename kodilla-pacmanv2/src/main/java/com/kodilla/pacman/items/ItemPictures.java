@@ -1,4 +1,4 @@
-package com.kodilla.pacmanV2.items;
+package com.kodilla.pacman.items;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -1,11 +1,11 @@
-package com.kodilla.pacmanV2.items;
+package com.kodilla.pacman.items;
 
-import com.kodilla.pacmanV2.GameInit;
-import com.kodilla.pacmanV2.pacmanBoard.BonusMode;
+import com.kodilla.pacman.GameInit;
+import com.kodilla.pacman.pacmanBoard.BonusMode;
 
 import java.awt.*;
 
-import static com.kodilla.pacmanV2.pacmanBoard.levelFactory.LevelFactory.maze;
+import static com.kodilla.pacman.pacmanBoard.levelFactory.LevelFactory.maze;
 
 public class Player extends Rectangle {
 

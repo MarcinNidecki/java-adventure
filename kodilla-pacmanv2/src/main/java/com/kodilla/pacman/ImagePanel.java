@@ -1,4 +1,4 @@
-package com.kodilla.pacmanV2;
+package com.kodilla.pacman;
 
 import javax.swing.*;
 import java.awt.*;

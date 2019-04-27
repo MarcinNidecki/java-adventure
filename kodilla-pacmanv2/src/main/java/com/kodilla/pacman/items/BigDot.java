@@ -1,8 +1,8 @@
-package com.kodilla.pacmanV2.items;
+package com.kodilla.pacman.items;
 
 import java.awt.*;
 
-import static com.kodilla.pacmanV2.GameInit.TILE_SIZE;
+import static com.kodilla.pacman.GameInit.TILE_SIZE;
 
 public class BigDot extends Rectangle implements Items {
 

@@ -1,15 +1,15 @@
-package com.kodilla.pacmanV2;
+package com.kodilla.pacman;
 
-import com.kodilla.pacmanV2.items.Enemy;
-import com.kodilla.pacmanV2.items.ItemPictures;
-import com.kodilla.pacmanV2.items.Player;
-import com.kodilla.pacmanV2.pacmanBoard.Music;
-import com.kodilla.pacmanV2.pacmanBoard.TimerTaskPaccman;
-import com.kodilla.pacmanV2.pacmanBoard.levelFactory.BackgroundImageLevel1;
-import com.kodilla.pacmanV2.pacmanBoard.levelFactory.LevelFactory;
-import com.kodilla.pacmanV2.pacmanBoard.levelFactory.Maze;
-import com.kodilla.pacmanV2.pacmanBoard.statistic.PlayerLives;
-import com.kodilla.pacmanV2.pacmanBoard.statistic.ScoreCounter;
+import com.kodilla.pacman.items.Enemy;
+import com.kodilla.pacman.items.ItemPictures;
+import com.kodilla.pacman.items.Player;
+import com.kodilla.pacman.pacmanBoard.Music;
+import com.kodilla.pacman.pacmanBoard.TimerTaskPaccman;
+import com.kodilla.pacman.pacmanBoard.levelFactory.BackgroundImageLevel1;
+import com.kodilla.pacman.pacmanBoard.levelFactory.LevelFactory;
+import com.kodilla.pacman.pacmanBoard.levelFactory.Maze;
+import com.kodilla.pacman.pacmanBoard.statistic.PlayerLives;
+import com.kodilla.pacman.pacmanBoard.statistic.ScoreCounter;
 
 public class GameInit {
 
