@@ -1,6 +1,9 @@
 package com.kodilla.pacmanV2.pacmanBoard.levelFactory;
 
-import com.kodilla.pacmanV2.items.*;
+import com.kodilla.pacmanV2.items.BigDot;
+import com.kodilla.pacmanV2.items.Dot;
+import com.kodilla.pacmanV2.items.Empty;
+import com.kodilla.pacmanV2.items.Wall;
 
 import java.awt.*;
 import java.io.File;
@@ -23,7 +26,6 @@ public class LevelFactory {
             ClassLoader classLoader = getClass().getClassLoader();
             File fileTxTLevel = new File(Objects.requireNonNull(classLoader.getResource("assets/text/pacman_level.txt")).getFile());
             scanner = new Scanner(fileTxTLevel);
-
 
 
         } catch (FileNotFoundException e) {
@@ -51,25 +53,25 @@ public class LevelFactory {
                     case '1':
                         Wall wall = new Wall(yy * 40, xx * 40);
 
-                        lineOfMaze.addElement(yy,wall);
+                        lineOfMaze.addElement(yy, wall);
 
                         break;
                     case '0':
                         Dot dot = new Dot(yy * 40, xx * 40);
-                        lineOfMaze.addElement(yy,dot);
+                        lineOfMaze.addElement(yy, dot);
                         break;
                     case '2':
                         BigDot bigDot = new BigDot(yy * 40, xx * 40);
-                        lineOfMaze.addElement(yy,bigDot);
+                        lineOfMaze.addElement(yy, bigDot);
                         break;
                     case '3':
                         Empty empty = new Empty(yy * 40, xx * 40);
-                        lineOfMaze.addElement(yy,empty);
+                        lineOfMaze.addElement(yy, empty);
                         break;
                 }
                 System.out.println(lineOfMaze.getLineOfItems().size());
             }
-            maze.addLine(xx,lineOfMaze);
+            maze.addLine(xx, lineOfMaze);
 
         }
     }
@@ -84,9 +86,9 @@ public class LevelFactory {
 
     public static void openDoor() {
 
-        maze.getMaze().get(9).getLineOfItems().replace(18, new Empty(720,360));
-        maze.getMaze().get(9).getLineOfItems().replace(19, new Empty(760,360));
-        maze.getMaze().get(9).getLineOfItems().replace(20, new Empty(800,360));
+        maze.getMaze().get(9).getLineOfItems().replace(18, new Empty(720, 360));
+        maze.getMaze().get(9).getLineOfItems().replace(19, new Empty(760, 360));
+        maze.getMaze().get(9).getLineOfItems().replace(20, new Empty(800, 360));
 
     }
 

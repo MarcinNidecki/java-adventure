@@ -7,14 +7,14 @@ public class ArrayOperationsTestSuite {
     @Test
     public void testGetAverage() {
         //Given
-        int[] array = {2,2,2,2,2,2};
+        int[] array = {2, 2, 2, 2, 2, 2};
 
         //When
         double results = ArrayOperations.getAverage(array);
         System.out.print(results);
 
         //Then
-        Assert.assertEquals(2, results,0);
+        Assert.assertEquals(2, results, 0);
     }
 
 }

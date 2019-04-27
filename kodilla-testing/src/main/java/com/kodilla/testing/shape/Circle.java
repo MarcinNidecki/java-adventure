@@ -5,7 +5,7 @@ public class Circle implements Shape {
 
     private final int r;
 
-    public Circle (int r) {
+    public Circle(int r) {
 
         this.r = r;
     }
@@ -17,10 +17,9 @@ public class Circle implements Shape {
 
 
     public int getField() {
-        return (int)(Math.PI*r*r);
+        return (int) (Math.PI * r * r);
 
     }
-
 
 
     @Override

@@ -82,6 +82,7 @@ public class BoardTestSuite {
         //Then
         Assert.assertEquals(3, project.getTaskLists().size());
     }
+
     @Test
     public void testAddTaskListFindUsersTasks() {
 
@@ -99,6 +100,7 @@ public class BoardTestSuite {
         Assert.assertEquals(user, tasks.get(1).getAssignedUser());
 
     }
+
     @Test
     public void testAddTaskListFindOutdatedTasks() {
 
@@ -120,6 +122,7 @@ public class BoardTestSuite {
         Assert.assertEquals("HQLs for analysis", tasks.get(0).getTitle());
 
     }
+
     @Test
     public void testAddTaskListFindLongTasks() {
 
@@ -133,13 +136,14 @@ public class BoardTestSuite {
                 .filter(inProgressTask::contains)
                 .flatMap(t1 -> t1.getTasks().stream())
                 .map(task -> task.getCreated())
-                .filter(localDate -> localDate.compareTo(LocalDate.now().minusDays(10)) <=0 )
+                .filter(localDate -> localDate.compareTo(LocalDate.now().minusDays(10)) <= 0)
                 .count();
 
         //Then
         Assert.assertEquals(2, tasks);
 
     }
+
     @Test
     public void testAddTaskListAverageWorkingOnTask() {
 
@@ -151,15 +155,14 @@ public class BoardTestSuite {
         inProgressTask.add(new TaskList("In progress"));
         double result = board.getTaskLists().stream()
                 .filter(inProgressTask::contains)
-                .flatMap(t2->t2.getTasks().stream())
-                .map(task -> (int) DAYS.between(task.getCreated(),LocalDate.now()))
+                .flatMap(t2 -> t2.getTasks().stream())
+                .map(task -> (int) DAYS.between(task.getCreated(), LocalDate.now()))
                 .mapToInt(r -> r)
                 .average().getAsDouble();
 
 
-
         //Then
-        Assert.assertEquals(10, result,0);
+        Assert.assertEquals(10, result, 0);
 
     }
 }

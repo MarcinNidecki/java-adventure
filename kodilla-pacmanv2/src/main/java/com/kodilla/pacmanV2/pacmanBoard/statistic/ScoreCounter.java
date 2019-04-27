@@ -10,6 +10,7 @@ public class ScoreCounter {
 
         this.score = 0;
     }
+
     public void addPointForSmallDot() {
         int pointForSmallDot = 10;
         this.score = this.score + pointForSmallDot;

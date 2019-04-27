@@ -16,15 +16,15 @@ public class GameInit {
     public static final int WIDTH = 1520, HEIGHT = 960, TILE_SIZE = 40, speed = 4;
 
     private static final String TITLE = "PACMAN v.0.0.1";
-    private static boolean isPause;
     public static boolean bonus;
     public static double targetTick = 45;
+    private static boolean isPause;
     private static Player player;
     private static PlayerLives playerLives;
-    private static   ScoreCounter score;
+    private static ScoreCounter score;
 
-    private  LevelFactory level = new LevelFactory();
-    private  Enemy enemyBlue, enemyRed, enemyGreen, enemyPurple;
+    private LevelFactory level = new LevelFactory();
+    private Enemy enemyBlue, enemyRed, enemyGreen, enemyPurple;
     private ItemPictures itemPicture;
     private BackgroundImageLevel1 background = new BackgroundImageLevel1();
     private Music music;
@@ -53,9 +53,18 @@ public class GameInit {
         return player;
     }
 
-    public void setPause(boolean pause) {
-        isPause = pause;
+    public static ScoreCounter getScore() {
+        return score;
     }
+
+    static String getTITLE() {
+        return TITLE;
+    }
+
+    public static PlayerLives getPlayerLives() {
+        return playerLives;
+    }
+
     public void sendEnemyToHome() {
 
         enemyRed.setLocation(enemyRed.getStartingLocationX(), enemyRed.getStartingLocationY());
@@ -70,6 +79,7 @@ public class GameInit {
 
 
     }
+
     public void resetGame() {
         playerLives.setLives(3);
         player.sendPlayerToStart();
@@ -90,28 +100,20 @@ public class GameInit {
 
     }
 
-
     double getTargetTick() {
         return targetTick;
     }
 
-    public static ScoreCounter getScore() {
-        return score;
-    }
-     static String getTITLE() {
-        return TITLE;
-    }
-
-     boolean isPause() {
+    boolean isPause() {
         return isPause;
     }
 
-    public  boolean isBonus() {
-        return bonus;
+    public void setPause(boolean pause) {
+        isPause = pause;
     }
 
-    public static PlayerLives getPlayerLives() {
-        return playerLives;
+    public boolean isBonus() {
+        return bonus;
     }
 
     LevelFactory getLevel() {
@@ -133,7 +135,6 @@ public class GameInit {
     Enemy getEnemyPurple() {
         return enemyPurple;
     }
-
 
 
     public ItemPictures getItemPicture() {

@@ -1,5 +1,7 @@
 package com.kodilla.testing.shape;
+
 import org.junit.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class ShapeCollectorTestSuite {
         Assert.assertEquals(1, collector.getShapesQuantity());
 
     }
+
     @Test
     public void testRemoveExistingFigure() {
         //Given
@@ -49,6 +52,7 @@ public class ShapeCollectorTestSuite {
         Assert.assertTrue(result);
         Assert.assertEquals(0, shapes.size());
     }
+
     @Test
     public void testRemoveNotExistingFigure() {
         //Given
@@ -62,6 +66,7 @@ public class ShapeCollectorTestSuite {
         //Then
         Assert.assertFalse(result);
     }
+
     @Test
     public void testGetFigure() {
         //Given
@@ -76,6 +81,7 @@ public class ShapeCollectorTestSuite {
         //Then
         Assert.assertEquals(square, retrievedFigure);
     }
+
     @Test
     public void testShowFigures() {
         //Given
@@ -89,8 +95,9 @@ public class ShapeCollectorTestSuite {
 
 
         //Then
-        Assert.assertEquals("Circle r=3, Circle r=1, Square a=3, ",results );
+        Assert.assertEquals("Circle r=3, Circle r=1, Square a=3, ", results);
     }
+
     @Test
     public void TestGetShapesQuantity() {
         //Given
@@ -104,6 +111,7 @@ public class ShapeCollectorTestSuite {
         Assert.assertEquals(1, result);
 
     }
+
     @Test
     public void TestGetFieldCircle() {
         //Given
@@ -115,6 +123,7 @@ public class ShapeCollectorTestSuite {
         //Then
         Assert.assertEquals(50, result);
     }
+
     @Test
     public void TestGetFieldSquare() {
         //Given
@@ -126,6 +135,7 @@ public class ShapeCollectorTestSuite {
         //Then
         Assert.assertEquals(16, result);
     }
+
     @Test
     public void TestGetFieldTriangle() {
         //Given

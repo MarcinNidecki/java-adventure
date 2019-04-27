@@ -9,28 +9,31 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-
 public class TestStatisticCalculation {
     private static int testCounter = 0;
 
-    @Before
-    public void before(){
-        testCounter++;
-        System.out.println("Preparing to execute test #" + testCounter);
-    }
-    @After
-    public void after(){
-        System.out.println("success");
-    }
     @BeforeClass
     public static void beforeClass() {
 
         System.out.println("Test Suite: begin");
     }
+
     @AfterClass
     public static void afterClass() {
         System.out.println("Test Suite: end");
     }
+
+    @Before
+    public void before() {
+        testCounter++;
+        System.out.println("Preparing to execute test #" + testCounter);
+    }
+
+    @After
+    public void after() {
+        System.out.println("success");
+    }
+
     @Test
     public void testCalculateAdvStatisticsWhenIsNoPost() {
         //Given
@@ -53,10 +56,11 @@ public class TestStatisticCalculation {
         double averagePostComments = statisticsCalculation.getAveragePostComments();
 
         //Then
-        Assert.assertEquals(0, averageUserPost,0);
-        Assert.assertEquals(0, averageUserComments,0);
-        Assert.assertEquals(0, averagePostComments,0);
+        Assert.assertEquals(0, averageUserPost, 0);
+        Assert.assertEquals(0, averageUserComments, 0);
+        Assert.assertEquals(0, averagePostComments, 0);
     }
+
     @Test
     public void testCalculateAdvStatisticsWhenIs1000Posts() {
         //Given
@@ -77,10 +81,11 @@ public class TestStatisticCalculation {
         double averageUserComments = statisticsCalculation.getAverageUserComments();
         double averagePostComments = statisticsCalculation.getAveragePostComments();
         //Then
-        Assert.assertEquals(500, averageUserPost,0);
-        Assert.assertEquals(0, averageUserComments,0);
-        Assert.assertEquals(0, averagePostComments,0);
+        Assert.assertEquals(500, averageUserPost, 0);
+        Assert.assertEquals(0, averageUserComments, 0);
+        Assert.assertEquals(0, averagePostComments, 0);
     }
+
     @Test
     public void testCalculateAdvStatisticsWhenIsNoComments() {
         //Given
@@ -102,10 +107,11 @@ public class TestStatisticCalculation {
         double averagePostComments = statisticsCalculation.getAveragePostComments();
 
         //Then
-        Assert.assertEquals(250, averageUserPost,0);
-        Assert.assertEquals(0, averageUserComments,0);
-        Assert.assertEquals(0, averagePostComments,0);
+        Assert.assertEquals(250, averageUserPost, 0);
+        Assert.assertEquals(0, averageUserComments, 0);
+        Assert.assertEquals(0, averagePostComments, 0);
     }
+
     @Test
     public void testCalculateAdvStatisticsWhenIsMorePostsThenComments() {
         //Given
@@ -127,10 +133,11 @@ public class TestStatisticCalculation {
         double averagePostComments = statisticsCalculation.getAveragePostComments();
 
         //Then
-        Assert.assertEquals(5, averageUserPost,0);
-        Assert.assertEquals(3, averageUserComments,0);
-        Assert.assertEquals(0.6, averagePostComments,0);
+        Assert.assertEquals(5, averageUserPost, 0);
+        Assert.assertEquals(3, averageUserComments, 0);
+        Assert.assertEquals(0.6, averagePostComments, 0);
     }
+
     @Test
     public void testCalculateAdvStatisticsWhenIsMorCommentsThenPosts() {
         //Given
@@ -152,10 +159,11 @@ public class TestStatisticCalculation {
         double averagePostComments = statisticsCalculation.getAveragePostComments();
 
         //Then
-        Assert.assertEquals(5, averageUserPost,0);
-        Assert.assertEquals(10, averageUserComments,0);
-        Assert.assertEquals(2, averagePostComments,0);
+        Assert.assertEquals(5, averageUserPost, 0);
+        Assert.assertEquals(10, averageUserComments, 0);
+        Assert.assertEquals(2, averagePostComments, 0);
     }
+
     @Test
     public void testCalculateAdvStatisticsWhenIsNoUser() {
         //Given
@@ -175,10 +183,11 @@ public class TestStatisticCalculation {
         double averagePostComments = statisticsCalculation.getAveragePostComments();
 
         //Then
-        Assert.assertEquals(0, averageUserPost,0);
-        Assert.assertEquals(0, averageUserComments,0);
-        Assert.assertEquals(0, averagePostComments,0);
+        Assert.assertEquals(0, averageUserPost, 0);
+        Assert.assertEquals(0, averageUserComments, 0);
+        Assert.assertEquals(0, averagePostComments, 0);
     }
+
     @Test
     public void testCalculateAdvStatisticsWhenIs100User() {
         //Given
@@ -188,7 +197,7 @@ public class TestStatisticCalculation {
         int numberOfPost = 10;
         int numberOfComments = 20;
         List<String> userList = new ArrayList<>();
-        for (int i=0;i<100;i++ )
+        for (int i = 0; i < 100; i++)
             userList.add("Adam");
 
         when(statisticsMock.usersNames()).thenReturn(userList);
@@ -203,8 +212,8 @@ public class TestStatisticCalculation {
         double averagePostComments = statisticsCalculation.getAveragePostComments();
 
         //Then
-        Assert.assertEquals(0.1, averageUserPost,0);
-        Assert.assertEquals(0.2, averageUserComments,0);
-        Assert.assertEquals(2, averagePostComments,0);
+        Assert.assertEquals(0.1, averageUserPost, 0);
+        Assert.assertEquals(0.2, averageUserComments, 0);
+        Assert.assertEquals(2, averagePostComments, 0);
     }
 }

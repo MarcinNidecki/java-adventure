@@ -10,12 +10,12 @@ public final class ForumUser {
     private final int numberOfPosts;
 
     public ForumUser(final int userID, final String userName, final char sex, final int yearOfBirth,
-                     final int monthOfBirth,final int dayOfBirth,final int numberOfPosts) {
+                     final int monthOfBirth, final int dayOfBirth, final int numberOfPosts) {
         this.userID = userID;
         this.userName = userName;
         this.sex = sex;
         this.numberOfPosts = numberOfPosts;
-        this.dateOfBirth = LocalDate.of(yearOfBirth,monthOfBirth,dayOfBirth);
+        this.dateOfBirth = LocalDate.of(yearOfBirth, monthOfBirth, dayOfBirth);
     }
 
     public int getUserID() {

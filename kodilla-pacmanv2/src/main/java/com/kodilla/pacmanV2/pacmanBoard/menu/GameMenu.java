@@ -6,38 +6,12 @@ import com.kodilla.pacmanV2.ImagePanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class GameMenu extends JComponent  {
+public class GameMenu extends JComponent {
 
     ImageIcon exitIcon, startGameIcon;
     ImagePanel panel;
+    JButton newGame, exit;
 
-    public ImagePanel getPanel() {
-        return panel;
-    }
-
-    public void setPanel(ImagePanel panel) {
-        this.panel = panel;
-    }
-
-
-
-    public JButton getB() {
-        return newGame;
-    }
-
-    public void setB(JButton b) {
-        this.newGame = b;
-    }
-    public void showMenu() {
-        panel.setVisible(true);
-    }
-
-    JButton newGame,exit;
-
-
-    public void newGameButton() {
-
-    }
     public GameMenu(GameInit game) {
 
         java.net.URL imgURL3 = GameInit.class.getResource("/assets/textures/gameMenu.png");
@@ -45,7 +19,6 @@ public class GameMenu extends JComponent  {
         Image image = icon2.getImage();
         panel = new ImagePanel(image);
         panel.setPreferredSize(new Dimension(261, 226));
-
 
 
         java.net.URL imgURL = GameInit.class.getResource("/assets/textures/exit.png");
@@ -68,13 +41,37 @@ public class GameMenu extends JComponent  {
         newGame.setContentAreaFilled(false);
 
         newGame.setVisible(true);
-        panel.setLayout(new GridLayout(3,1));
+        panel.setLayout(new GridLayout(3, 1));
 
         panel.add(Box.createRigidArea(new Dimension(0, 0)));
         panel.add(newGame);
 
         panel.add(exit);
         panel.setVisible(false);
+    }
+
+    public ImagePanel getPanel() {
+        return panel;
+    }
+
+    public void setPanel(ImagePanel panel) {
+        this.panel = panel;
+    }
+
+    public JButton getB() {
+        return newGame;
+    }
+
+    public void setB(JButton b) {
+        this.newGame = b;
+    }
+
+    public void showMenu() {
+        panel.setVisible(true);
+    }
+
+    public void newGameButton() {
+
     }
 
     public void paintComponent(Graphics g) {

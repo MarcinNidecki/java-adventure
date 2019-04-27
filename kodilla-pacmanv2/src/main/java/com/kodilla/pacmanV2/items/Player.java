@@ -10,15 +10,13 @@ import static com.kodilla.pacmanV2.pacmanBoard.levelFactory.LevelFactory.maze;
 public class Player extends Rectangle {
 
     private static boolean isAlive;
+    private final WallCollision wallCollision = new WallCollision();
     private int animationPicture, playerImagePossition, TimeAnimation = 0;
     private int startingLocationX, startingLocationY;
     private BonusMode bonusMode = new BonusMode();
     private int speed = 4;
-    private String mainDirection = "STOP", nextDirection= "STOP";
-    private final WallCollision wallCollision = new WallCollision();
-
+    private String mainDirection = "STOP", nextDirection = "STOP";
     private boolean HitByEnemy = false;
-
 
 
     public Player(int x, int y) {
@@ -28,48 +26,44 @@ public class Player extends Rectangle {
     }
 
 
-
-
     public void tick() {
 
         bonusMode.checkIfBonusIsOn();
 
         switch (mainDirection) {
-            case "RIGHT":
-            {
+            case "RIGHT": {
                 if (isInTheMiddleOfTile(x) && checkIfIsNextDirectionTenChangeDirection()) {
                     checkIfIsNextDirectionTenChangeDirection();
                     break;
                 }
 
-                if (mainDirection.equals("RIGHT") && wallCollision.thereIsNoCollisionOnRight(x,y)) {
+                if (mainDirection.equals("RIGHT") && wallCollision.thereIsNoCollisionOnRight(x, y)) {
                     ifIntersectWithDotThenRemoveDotAndAddPoints(x + speed, y);
                     checkIfPlayerIsInTeleport();
                     goRight();
                     playerImagePossition = 0;
                     break;
 
-                } else  {
+                } else {
                     setMainDirection("STOP");
                     playerImagePossition = 0;
 
                     break;
                 }
             }
-            case "LEFT":
-            {
+            case "LEFT": {
                 if (isInTheMiddleOfTile(x) && checkIfIsNextDirectionTenChangeDirection()) {
                     checkIfIsNextDirectionTenChangeDirection();
                     break;
                 }
 
-                if (mainDirection.equals("LEFT") && wallCollision.thereIsNoCollisionOnLeft(x,y)) {
+                if (mainDirection.equals("LEFT") && wallCollision.thereIsNoCollisionOnLeft(x, y)) {
                     ifIntersectWithDotThenRemoveDotAndAddPoints(x - speed, y);
                     checkIfPlayerIsInTeleport();
                     goLeft();
                     playerImagePossition = 1;
                     break;
-                } else  {
+                } else {
                     setMainDirection("STOP");
                     playerImagePossition = 1;
                     break;
@@ -80,42 +74,40 @@ public class Player extends Rectangle {
                     checkIfIsNextDirectionTenChangeDirection();
                     break;
                 }
-                if (mainDirection.equals("UP") && wallCollision.thereIsNoCollisionOnUp(x,y)) {
+                if (mainDirection.equals("UP") && wallCollision.thereIsNoCollisionOnUp(x, y)) {
                     ifIntersectWithDotThenRemoveDotAndAddPoints(x, y - speed);
                     goUp();
                     playerImagePossition = 2;
                     break;
-                } else  {
+                } else {
                     setMainDirection("STOP");
                     playerImagePossition = 2;
 
                     break;
                 }
             }
-            case "DOWN":
-            {
+            case "DOWN": {
                 if (isInTheMiddleOfTile(y) && checkIfIsNextDirectionTenChangeDirection()) {
                     checkIfIsNextDirectionTenChangeDirection();
                     break;
                 }
 
-                if (mainDirection.equals("DOWN") && wallCollision.thereIsNoCollisionOnDown(x,y)) {
+                if (mainDirection.equals("DOWN") && wallCollision.thereIsNoCollisionOnDown(x, y)) {
                     ifIntersectWithDotThenRemoveDotAndAddPoints(x, y + speed);
                     goDown();
                     playerImagePossition = 3;
                     break;
-                } else  {
+                } else {
                     setMainDirection("STOP");
                     playerImagePossition = 3;
                     break;
                 }
             }
 
-                default:
-                    break;
+            default:
+                break;
 
         }
-
 
 
         playerAnimation();
@@ -154,7 +146,7 @@ public class Player extends Rectangle {
         boolean isNextDirection = false;
         switch (nextDirection) {
             case "UP":
-                if (wallCollision.thereIsNoCollisionOnUp(x,y)) {
+                if (wallCollision.thereIsNoCollisionOnUp(x, y)) {
 
                     mainDirection = "UP";
                     goUp();
@@ -162,9 +154,10 @@ public class Player extends Rectangle {
                     playerImagePossition = 2;
                     isNextDirection = true;
                     break;
-                } break;
+                }
+                break;
             case "DOWN":
-                if (wallCollision.thereIsNoCollisionOnDown(x,y)) {
+                if (wallCollision.thereIsNoCollisionOnDown(x, y)) {
 
                     mainDirection = "DOWN";
                     goDown();
@@ -173,29 +166,33 @@ public class Player extends Rectangle {
                     isNextDirection = true;
                     break;
 
-                } break;
+                }
+                break;
 
             case "LEFT":
-                if (wallCollision.thereIsNoCollisionOnLeft(x,y)) {
+                if (wallCollision.thereIsNoCollisionOnLeft(x, y)) {
                     mainDirection = "LEFT";
                     goLeft();
                     nextDirection = "STOP";
                     playerImagePossition = 1;
                     isNextDirection = true;
                     break;
-                } break;
+                }
+                break;
 
             case "RIGHT":
-                if (wallCollision.thereIsNoCollisionOnRight(x,y)) {
+                if (wallCollision.thereIsNoCollisionOnRight(x, y)) {
                     mainDirection = "RIGHT";
                     goRight();
                     nextDirection = "STOP";
                     isNextDirection = true;
                     playerImagePossition = 0;
                     break;
-                } break;
+                }
+                break;
 
-            default: isNextDirection =false;
+            default:
+                isNextDirection = false;
 
         }
         return isNextDirection;
@@ -207,26 +204,26 @@ public class Player extends Rectangle {
 
 
         Rectangle rectangle = new Rectangle(x, y, GameInit.TILE_SIZE, GameInit.TILE_SIZE);
-        int lineNumber = y/GameInit.TILE_SIZE;
+        int lineNumber = y / GameInit.TILE_SIZE;
 
         int minLineNumber, maxLinenumber;
-        maxLinenumber = lineNumber +1;
-        if (lineNumber<=0) {
+        maxLinenumber = lineNumber + 1;
+        if (lineNumber <= 0) {
             minLineNumber = 0;
-        } else minLineNumber = lineNumber-1;
+        } else minLineNumber = lineNumber - 1;
 
 
-        for (lineNumber=minLineNumber; lineNumber < maxLinenumber; lineNumber++) {
+        for (lineNumber = minLineNumber; lineNumber < maxLinenumber; lineNumber++) {
             for (int itemNumber = 0; itemNumber < maze.getMaze().get(lineNumber).getLineOfItems().size(); itemNumber++) {
                 if (maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber) instanceof Dot) {
                     if (rectangle.intersects((Dot) maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber))) {
-                        maze.getMaze().get(lineNumber).getLineOfItems().replace(itemNumber, new Empty(x,y));
+                        maze.getMaze().get(lineNumber).getLineOfItems().replace(itemNumber, new Empty(x, y));
                         GameInit.getScore().addPointForSmallDot();
                     }
                 }
                 if (maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber) instanceof BigDot) {
                     if (rectangle.intersects((BigDot) maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber))) {
-                        maze.getMaze().get(lineNumber).getLineOfItems().replace(itemNumber, new Empty(x,y));
+                        maze.getMaze().get(lineNumber).getLineOfItems().replace(itemNumber, new Empty(x, y));
                         GameInit.getScore().addPointForBigDot();
                         bonusMode.startBonus();
 

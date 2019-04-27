@@ -6,15 +6,15 @@ import java.util.HashMap;
 
 public class LineOfMaze {
 
-    private HashMap<Integer,Items> lineOfItems = new HashMap<>();
+    private HashMap<Integer, Items> lineOfItems = new HashMap<>();
 
 
-    void addElement(Integer lineNr,Items items) {
+    void addElement(Integer lineNr, Items items) {
 
-        lineOfItems.put(lineNr,items);
+        lineOfItems.put(lineNr, items);
     }
 
-    public HashMap<Integer,Items> getLineOfItems() {
+    public HashMap<Integer, Items> getLineOfItems() {
         return lineOfItems;
     }
 

@@ -22,6 +22,7 @@ public final class ForumUser {
                 .map(friend -> friend.getLocation())
                 .collect(Collectors.toSet());
     }
+
     public Set<String> getLocationsOfFriendsOfFriends() {
         return friends.stream()
                 .flatMap(user -> user.getFriends().stream())

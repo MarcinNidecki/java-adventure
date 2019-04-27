@@ -34,8 +34,6 @@ public class TimerTaskPaccman {
             timerStarted = false;
 
 
-
-
         }
     }
 }

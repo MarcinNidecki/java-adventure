@@ -8,14 +8,14 @@ public class ExceptionHandling {
 
         try {
 
-            secondChallenge.probablyIWillThrowException(2,1.5);
+            secondChallenge.probablyIWillThrowException(2, 1.5);
 
         } catch (Exception e) {
 
             System.out.println("Eroor - " + e);
 
         } finally {
-           System.out.println("Done");
+            System.out.println("Done");
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.kodilla.stream.world;
 
 
-
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,8 +22,9 @@ public final class Continent {
     public Set<Country> getCountries() {
         return countries;
     }
+
     public BigDecimal getPeopleQuantity() {
-        return  countries.stream()
+        return countries.stream()
                 .map(country -> country.getPeopleQuantity())
                 .reduce(BigDecimal.ZERO, (BigDecimal sum, BigDecimal current) -> sum = sum.add(current));
 

@@ -11,17 +11,16 @@ import java.util.stream.Collectors;
 class WallCollision {
 
 
-
-     private boolean isNoCollision(int x, int y) {
+    private boolean isNoCollision(int x, int y) {
         Rectangle rectangle = new Rectangle(x, y, GameInit.TILE_SIZE, GameInit.TILE_SIZE);
 
-        int yLine = y/GameInit.TILE_SIZE;
-        int xLine = x/GameInit.TILE_SIZE;
+        int yLine = y / GameInit.TILE_SIZE;
+        int xLine = x / GameInit.TILE_SIZE;
 
         List<Map.Entry> listOfCollidingTile = LevelFactory.maze.getMaze().entrySet().parallelStream()
-                .filter(lineOfMaze -> lineOfMaze.getKey()<=yLine+1  && lineOfMaze.getKey() >=yLine-1)
+                .filter(lineOfMaze -> lineOfMaze.getKey() <= yLine + 1 && lineOfMaze.getKey() >= yLine - 1)
                 .flatMap(line -> line.getValue().getLineOfItems().entrySet().stream())
-                .filter(lineOfMaze -> lineOfMaze.getKey()<=xLine+1  && lineOfMaze.getKey() >=xLine-1)
+                .filter(lineOfMaze -> lineOfMaze.getKey() <= xLine + 1 && lineOfMaze.getKey() >= xLine - 1)
                 .filter(item -> (item.getValue() instanceof Wall && (rectangle.intersects((Wall) item.getValue()))))
                 .collect(Collectors.toList());
 

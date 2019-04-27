@@ -7,29 +7,19 @@ import java.awt.*;
 
 public class Enemy extends Rectangle {
 
-    private int startingLocationX, startingLocationY,tick = 0, animationPicture;
     private final EnemyControl enemyControl = new EnemyControl(this, GameInit.getPlayer());
+    private final WallCollision wallCollision = new WallCollision();
+    private int startingLocationX, startingLocationY, tick = 0, animationPicture;
     private boolean brave;
     private boolean changeOfDirection;
-
-
     private boolean itsEye = false;
     private String colour;
     private Directions direction = Directions.DOWN;
-    private final WallCollision wallCollision = new WallCollision();
-
-      enum Directions {
-        DOWN,
-        UP,
-        LEFT,
-        RIGHT,
-        STOP
-    }
 
     public Enemy(int x, int y, boolean brave, String colour) {
         this.brave = brave;
         this.colour = colour;
-        startingLocationY =y;
+        startingLocationY = y;
         startingLocationX = x;
         setBounds(x, y, GameInit.TILE_SIZE, GameInit.TILE_SIZE);
     }
@@ -65,7 +55,7 @@ public class Enemy extends Rectangle {
         switch (direction) {
             case DOWN:
 
-                if (wallCollision.thereIsNoCollisionOnDown(x,y)) {
+                if (wallCollision.thereIsNoCollisionOnDown(x, y)) {
                     if (enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
                         enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
                         break;
@@ -81,7 +71,7 @@ public class Enemy extends Rectangle {
                 }
             case UP:
 
-                if (wallCollision.thereIsNoCollisionOnUp(x,y)) {
+                if (wallCollision.thereIsNoCollisionOnUp(x, y)) {
                     if (enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
                         enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
                         break;
@@ -96,7 +86,7 @@ public class Enemy extends Rectangle {
                 }
             case LEFT:
 
-                if (wallCollision.thereIsNoCollisionOnLeft(x,y)) {
+                if (wallCollision.thereIsNoCollisionOnLeft(x, y)) {
                     if (enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
                         enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
                         break;
@@ -111,7 +101,7 @@ public class Enemy extends Rectangle {
                     break;
                 }
             case RIGHT:
-                if (wallCollision.thereIsNoCollisionOnRight(x,y)) {
+                if (wallCollision.thereIsNoCollisionOnRight(x, y)) {
                     if (enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
                         enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
                         break;
@@ -135,29 +125,28 @@ public class Enemy extends Rectangle {
     private void goToHomeWhenIsEye() {
 
         if (itsEye) {
-            if (x>600 && x<880 && y >320 && y <440){
+            if (x > 600 && x < 880 && y > 320 && y < 440) {
                 x = startingLocationX;
                 y = startingLocationY;
             }
             direction = Directions.STOP;
-            animationPicture =2;
-            if (y >startingLocationY) {
+            animationPicture = 2;
+            if (y > startingLocationY) {
                 enemyControl.goUp();
-            } else if (y<startingLocationY) {
+            } else if (y < startingLocationY) {
                 enemyControl.goDown();
             }
             if (x > startingLocationX) {
                 enemyControl.goLeft();
-            } else if (x<startingLocationX){
+            } else if (x < startingLocationX) {
                 enemyControl.goRight();
             }
         }
     }
 
-
     public void waitThenGoOutside(int timeInSeconds) {
-        double time = timeInSeconds*GameInit.targetTick;
-        if (wallCollision.thereIsNoCollisionOnUp(x,y)) {
+        double time = timeInSeconds * GameInit.targetTick;
+        if (wallCollision.thereIsNoCollisionOnUp(x, y)) {
             // when fps is set to 60  then 1 second is 60 ticks
             setDirections(Enemy.Directions.STOP);
             if (tick > time) {
@@ -169,7 +158,7 @@ public class Enemy extends Rectangle {
         }
     }
 
-     boolean isBrave() {
+    boolean isBrave() {
         return brave;
     }
 
@@ -181,21 +170,22 @@ public class Enemy extends Rectangle {
         this.itsEye = itsEye;
     }
 
-     boolean isChangeOfDirection() {
+    boolean isChangeOfDirection() {
         return changeOfDirection;
     }
 
-     void setChangeOfDirection(boolean changeOfDirection) {
+    void setChangeOfDirection(boolean changeOfDirection) {
         this.changeOfDirection = changeOfDirection;
     }
 
-     Directions getDirection() {
+    Directions getDirection() {
         return direction;
     }
 
-     void setDirections(Directions direction) {
+    void setDirections(Directions direction) {
         this.direction = direction;
     }
+
     public int getStartingLocationX() {
         return startingLocationX;
     }
@@ -204,7 +194,6 @@ public class Enemy extends Rectangle {
         return startingLocationY;
     }
 
-
     public void paintEnemyBlue(Graphics g) {
         g.drawImage(ItemPictures.enemyBlue[animationPicture], x, y, 32, 32, null);
     }
@@ -212,10 +201,20 @@ public class Enemy extends Rectangle {
     public void paintEnemyRed(Graphics g) {
         g.drawImage(ItemPictures.enemyRed[animationPicture], x, y, 32, 32, null);
     }
+
     public void paintEnemyPurple(Graphics g) {
         g.drawImage(ItemPictures.enemyPurple[animationPicture], x, y, 32, 32, null);
     }
+
     public void paintEnemyGreen(Graphics g) {
         g.drawImage(ItemPictures.enemyGreen[animationPicture], x, y, 32, 32, null);
+    }
+
+    enum Directions {
+        DOWN,
+        UP,
+        LEFT,
+        RIGHT,
+        STOP
     }
 }

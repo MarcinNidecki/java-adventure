@@ -14,6 +14,7 @@ public class LibraryUser {
         this.lastname = lastname;
         this.peselId = peselId;
     }
+
     boolean rentABook(LibraryUser libraryUser, Book book) {
 
         return true;

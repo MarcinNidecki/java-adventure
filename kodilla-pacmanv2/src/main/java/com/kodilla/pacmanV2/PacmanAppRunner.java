@@ -11,14 +11,12 @@ import java.awt.image.BufferStrategy;
 public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
 
-
     private static boolean isRunning = false;
-
-    private Thread thread;
     private static GameInit gameInit;
     private static GameMenu gameMenu;
+    private Thread thread;
 
-    private PacmanAppRunner () {
+    private PacmanAppRunner() {
         Dimension dimension = new Dimension(GameInit.WIDTH, GameInit.HEIGHT);
         gameMenu = new GameMenu(gameInit);
         setPreferredSize(dimension);
@@ -36,7 +34,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         JFrame frame = new JFrame();
         frame.setBackground(Color.BLACK);
         frame.setBounds(0, 0, 1600, 960);
-        frame.add(gameMenu.getPanel()).setLocation(630,300);
+        frame.add(gameMenu.getPanel()).setLocation(630, 300);
         frame.setTitle(GameInit.getTITLE());
         frame.setUndecorated(true);
         frame.add(game);
@@ -48,7 +46,9 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
     }
 
-
+    public static GameMenu getGameMenu() {
+        return gameMenu;
+    }
 
     private synchronized void start() {
         if (isRunning) return;
@@ -141,7 +141,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
                     gameInit.getTimerMusic().checkIfTimerIsEnd();
                 }
 
-                if (GameInit.getPlayerLives().getLives()==0) {
+                if (GameInit.getPlayerLives().getLives() == 0) {
                     gameMenu.showMenu();
                     gameInit.setPause(true);
                 }
@@ -209,7 +209,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
             }
         }
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            if (GameInit.getPlayerLives().getLives()>0) {
+            if (GameInit.getPlayerLives().getLives() > 0) {
                 gameMenu.getPanel().setVisible(!gameMenu.getPanel().isVisible());
                 gameInit.setPause(!gameInit.isPause());
             }
@@ -221,11 +221,6 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
     public void keyReleased(KeyEvent e) {
 
     }
-
-    public static GameMenu getGameMenu() {
-        return gameMenu;
-    }
-
 
 
 }

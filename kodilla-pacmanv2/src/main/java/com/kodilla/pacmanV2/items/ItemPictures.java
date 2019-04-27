@@ -62,8 +62,7 @@ public class ItemPictures {
         // enemy picture when bonus is on
         enemyBlue[1] = getPartOfImage(64, 128);
         // blue eye
-        enemyBlue[2] = getPartOfImage(94,128);
-
+        enemyBlue[2] = getPartOfImage(94, 128);
 
 
         enemyRed = new BufferedImage[3];
@@ -72,8 +71,7 @@ public class ItemPictures {
         // enemy picture when bonus is on
         enemyRed[1] = getPartOfImage(64, 160);
         // red eye
-        enemyRed[2] = getPartOfImage(94,160);
-
+        enemyRed[2] = getPartOfImage(94, 160);
 
 
         enemyPurple = new BufferedImage[3];
@@ -82,7 +80,7 @@ public class ItemPictures {
         // up position animation
         enemyPurple[1] = getPartOfImage(64, 192);
         // purple eye
-        enemyPurple[2] = getPartOfImage(94,192);
+        enemyPurple[2] = getPartOfImage(94, 192);
 
         enemyGreen = new BufferedImage[3];
         // enemy picture
@@ -90,8 +88,7 @@ public class ItemPictures {
         // enemy picture when bonus is on
         enemyGreen[1] = getPartOfImage(64, 224);
         // green eye
-        enemyGreen[2] = getPartOfImage(94,224);
-
+        enemyGreen[2] = getPartOfImage(94, 224);
 
 
         dot = getPartOfImage(0, 256);

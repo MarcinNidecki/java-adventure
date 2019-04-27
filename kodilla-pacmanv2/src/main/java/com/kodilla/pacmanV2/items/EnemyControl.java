@@ -10,13 +10,10 @@ class EnemyControl {
     private final WallCollision wallCollision = new WallCollision();
 
 
-
     EnemyControl(Enemy enemy, Player player) {
         this.enemy = enemy;
         this.player = player;
     }
-
-
 
 
     void goDown() {
@@ -34,7 +31,6 @@ class EnemyControl {
     void goLeft() {
         enemy.x -= GameInit.speed;
     }
-
 
 
     boolean checkIfIsInHome() {
@@ -64,7 +60,7 @@ class EnemyControl {
                 enemy.setItsEye(true);
 
 
-            } else{
+            } else {
 
                 player.sendPlayerToStart();
                 GameInit.getPlayerLives().removeLive();
@@ -81,7 +77,7 @@ class EnemyControl {
         switch (enemy.getDirection()) {
             case UP:
             case DOWN:
-                if (wallCollision.thereIsNoCollisionOnLeft(enemy.x,enemy.y) && wallCollision.thereIsNoCollisionOnRight(enemy.x,enemy.y)) {
+                if (wallCollision.thereIsNoCollisionOnLeft(enemy.x, enemy.y) && wallCollision.thereIsNoCollisionOnRight(enemy.x, enemy.y)) {
 
                     // if you have 2 open direction  check player position then change direction
                     if (enemy.x > player.getX()) {
@@ -95,12 +91,12 @@ class EnemyControl {
                     }
                 }
 
-                if (wallCollision.thereIsNoCollisionOnRight(enemy.x,enemy.y)) {
+                if (wallCollision.thereIsNoCollisionOnRight(enemy.x, enemy.y)) {
                     enemy.setDirections(Enemy.Directions.RIGHT);
                     goRight();
                     break;
                 }
-                if (wallCollision.thereIsNoCollisionOnLeft(enemy.x,enemy.y)) {
+                if (wallCollision.thereIsNoCollisionOnLeft(enemy.x, enemy.y)) {
                     enemy.setDirections(Enemy.Directions.LEFT);
                     goLeft();
                     break;
@@ -108,7 +104,7 @@ class EnemyControl {
 
             case RIGHT:
             case LEFT:
-                if (wallCollision.thereIsNoCollisionOnDown(enemy.x,enemy.y) && wallCollision.thereIsNoCollisionOnUp(enemy.x,enemy.y)) {
+                if (wallCollision.thereIsNoCollisionOnDown(enemy.x, enemy.y) && wallCollision.thereIsNoCollisionOnUp(enemy.x, enemy.y)) {
                     if (enemy.y < player.getY()) {
                         enemy.setDirections(Enemy.Directions.DOWN);
                         goDown();
@@ -120,13 +116,13 @@ class EnemyControl {
                     }
 
                 }
-                if (wallCollision.thereIsNoCollisionOnDown(enemy.x,enemy.y)) {
+                if (wallCollision.thereIsNoCollisionOnDown(enemy.x, enemy.y)) {
                     enemy.setDirections(Enemy.Directions.DOWN);
                     goDown();
                     break;
 
                 }
-                if (wallCollision.thereIsNoCollisionOnUp(enemy.x,enemy.y)) {
+                if (wallCollision.thereIsNoCollisionOnUp(enemy.x, enemy.y)) {
                     enemy.setDirections(Enemy.Directions.UP);
                     goUp();
                     break;
@@ -137,14 +133,14 @@ class EnemyControl {
     private void EscapeOnDistanceWhenLeftOrRight(int safeDistance) {
 
         // if enemy is in a center of tile  and can go up and  player is above enemy
-        if (enemy.x % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnUp(enemy.x,enemy.y) && enemy.y <= player.getY()) {
+        if (enemy.x % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnUp(enemy.x, enemy.y) && enemy.y <= player.getY()) {
             if ((player.getY() - enemy.y) < safeDistance) {
                 enemy.setDirections(Enemy.Directions.UP);
                 goUp();
                 enemy.setChangeOfDirection(true);
                 return;
             } else {
-                if (wallCollision.thereIsNoCollisionOnDown(enemy.x,enemy.y)) {
+                if (wallCollision.thereIsNoCollisionOnDown(enemy.x, enemy.y)) {
                     enemy.setDirections(Enemy.Directions.DOWN);
                     goDown();
                     enemy.setChangeOfDirection(true);
@@ -152,14 +148,14 @@ class EnemyControl {
                 }
 
             }
-            if (enemy.x % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnDown(enemy.x,enemy.y) && enemy.y >= player.getY()) {
+            if (enemy.x % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnDown(enemy.x, enemy.y) && enemy.y >= player.getY()) {
                 if ((enemy.y - player.getY()) < safeDistance) {
                     enemy.setDirections(Enemy.Directions.DOWN);
                     goDown();
                     enemy.setChangeOfDirection(true);
 
                 } else {
-                    if (wallCollision.thereIsNoCollisionOnUp(enemy.x,enemy.y)) {
+                    if (wallCollision.thereIsNoCollisionOnUp(enemy.x, enemy.y)) {
                         enemy.setDirections(Enemy.Directions.UP);
                         goUp();
                         enemy.setChangeOfDirection(true);
@@ -175,7 +171,7 @@ class EnemyControl {
     private void escapeOnDistanceWhenUpOrDown(int safeDistance) {
         //If enemy is escaping down/up and have option to turn on right
         // check  if player is on left  side then escape on right
-        if (enemy.y % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnRight(enemy.x,enemy.y) && enemy.x >= player.getX()) {
+        if (enemy.y % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnRight(enemy.x, enemy.y) && enemy.x >= player.getX()) {
             // if distance between player and enemy is not safe then still go right
             if ((enemy.x - player.getX()) < safeDistance) {
                 enemy.setDirections(Enemy.Directions.RIGHT);
@@ -189,7 +185,7 @@ class EnemyControl {
         }
         //If enemy is escaping down/up and have option to turn on left
         // check  if player is on right side then escape on left
-        if (enemy.y % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnLeft(enemy.x,enemy.y) && enemy.x <= player.getX()) {
+        if (enemy.y % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnLeft(enemy.x, enemy.y) && enemy.x <= player.getX()) {
             // if distance between player and enemy is not safe then still go right
             if ((enemy.x - player.getX()) > safeDistance) {
                 enemy.setDirections(Enemy.Directions.LEFT);
@@ -209,13 +205,13 @@ class EnemyControl {
                 // if brave and is no bonus time
                 if (enemy.isBrave() && !GameInit.bonus) {
 
-                    if (enemy.x > player.getX() && enemy.x % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnLeft(enemy.x,enemy.y)) {
+                    if (enemy.x > player.getX() && enemy.x % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnLeft(enemy.x, enemy.y)) {
                         enemy.setDirections(Enemy.Directions.LEFT);
                         goLeft();
                         enemy.setChangeOfDirection(true);
                         break;
                     }
-                    if (enemy.x < player.getX() && enemy.x % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnRight(enemy.x,enemy.y)) {
+                    if (enemy.x < player.getX() && enemy.x % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnRight(enemy.x, enemy.y)) {
                         enemy.setDirections(Enemy.Directions.RIGHT);
                         goRight();
                         enemy.setChangeOfDirection(true);
@@ -239,14 +235,14 @@ class EnemyControl {
             case RIGHT:
             case LEFT:
                 // if brave then get closer to player
-                if (enemy.isBrave()&& !GameInit.bonus) {
-                    if (enemy.y > player.getY() && enemy.y % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnUp(enemy.x,enemy.y)) {
+                if (enemy.isBrave() && !GameInit.bonus) {
+                    if (enemy.y > player.getY() && enemy.y % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnUp(enemy.x, enemy.y)) {
                         enemy.setDirections(Enemy.Directions.UP);
                         goUp();
                         enemy.setChangeOfDirection(true);
                         break;
                     }
-                    if (enemy.y < player.getY() && enemy.y % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnDown(enemy.x,enemy.y)) {
+                    if (enemy.y < player.getY() && enemy.y % GameInit.TILE_SIZE == 0 && wallCollision.thereIsNoCollisionOnDown(enemy.x, enemy.y)) {
                         enemy.setDirections(Enemy.Directions.DOWN);
                         goDown();
 

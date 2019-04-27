@@ -13,7 +13,7 @@ public class FileReader {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("files/namess.txt").getFile());
 
-        try (Stream<String> fileLines = Files.lines(Paths.get(file.getPath()))){
+        try (Stream<String> fileLines = Files.lines(Paths.get(file.getPath()))) {
 
             fileLines.forEach(System.out::println);
 

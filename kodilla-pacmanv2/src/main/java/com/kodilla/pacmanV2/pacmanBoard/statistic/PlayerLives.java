@@ -7,6 +7,8 @@ import java.awt.*;
 
 public class PlayerLives {
 
+    private int lives = 3;
+
     public int getLives() {
         return lives;
     }
@@ -14,9 +16,6 @@ public class PlayerLives {
     public void setLives(int lives) {
         this.lives = lives;
     }
-
-    private int lives = 3;
-
 
     public void removeLive() {
         lives -= 1;

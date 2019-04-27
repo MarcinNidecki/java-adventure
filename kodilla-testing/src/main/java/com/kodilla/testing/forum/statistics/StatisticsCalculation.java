@@ -12,7 +12,7 @@ public class StatisticsCalculation {
 
 
     public void calculateAdvStatistics(Statistics statistics) {
-        if (statistics.usersNames().size() >0) {
+        if (statistics.usersNames().size() > 0) {
 
             numberOfUsers = statistics.usersNames().size();
             numberOfPost = statistics.postsCount();        // total quantity of forum posts
@@ -25,13 +25,13 @@ public class StatisticsCalculation {
         } else {
             numberOfUsers = 0;
             numberOfPost = 0;        // total quantity of forum posts
-            numberOfComments =0;
+            numberOfComments = 0;
             averageUserPost = 0;
-            averageUserComments =0;
+            averageUserComments = 0;
         }
     }
 
-    public void showStatistic(){
+    public void showStatistic() {
         System.out.println("Number of forum users: " + numberOfUsers);
         System.out.println("Number of forum post: " + numberOfPost);
         System.out.println("Number of forum Comments: " + numberOfComments);
