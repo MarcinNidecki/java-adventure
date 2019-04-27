@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>Maze.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Maze.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.kodilla.pacmanV2.pacmanBoard.levelFactory</span><span class="s0">;</span>
+
+import <span class="s1">java.util.LinkedList</span><span class="s0">;</span>
+
+public class <span class="s1">Maze {</span>
+
+    <span class="s0">private </span><span class="s1">LinkedList&lt;LineOfMaze&gt; maze = </span><span class="s0">new </span><span class="s1">LinkedList&lt;&gt;()</span><span class="s0">;</span>
+
+
+    void <span class="s1">addRow(LineOfMaze line) {</span>
+        maze.add(line)<span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">LinkedList&lt;LineOfMaze&gt; getMaze() {</span>
+        <span class="s0">return </span><span class="s1">maze</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">tick() {</span>
+
+
+    }
+
+}
+</pre>
+</body>
+</html>

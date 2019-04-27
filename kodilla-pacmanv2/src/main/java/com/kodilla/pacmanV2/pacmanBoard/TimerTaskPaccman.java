@@ -15,10 +15,6 @@ public class TimerTaskPaccman {
         return !timerON;
     }
 
-    public boolean isTimerStarted() {
-        return timerStarted;
-    }
-
     public void StartTimer() {
         // POWER ON
         if (!timerON) {
@@ -36,6 +32,9 @@ public class TimerTaskPaccman {
         if (System.currentTimeMillis() - timer >= time) {
             timerON = false;
             timerStarted = false;
+
+
+
 
         }
     }

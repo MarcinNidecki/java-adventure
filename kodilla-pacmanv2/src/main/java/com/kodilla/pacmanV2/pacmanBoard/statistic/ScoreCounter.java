@@ -4,30 +4,25 @@ import java.awt.*;
 
 public class ScoreCounter {
 
-    public int score = 0, pointForSmallDot = 10, pointForBigDot = 30;
+    private int score = 0;
 
+    public void resetScore() {
 
-    public int getScore() {
-        return score;
+        this.score = 0;
     }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     public void addPointForSmallDot() {
+        int pointForSmallDot = 10;
         this.score = this.score + pointForSmallDot;
     }
 
     public void addPointForBigDot() {
+        int pointForBigDot = 30;
         this.score = this.score + pointForBigDot;
     }
 
 
     public void paint(Graphics g) {
-        if (g instanceof Graphics2D) {
-            Graphics2D g2d = (Graphics2D) g;
-        }
+
         Font stringFont = new Font("Courier", Font.BOLD, 18);
         String scoreString = String.valueOf(score);
         g.setFont(stringFont);

@@ -1,27 +1,21 @@
 package com.kodilla.pacmanV2.pacmanBoard.levelFactory;
 
-import java.util.LinkedList;
+import java.util.HashMap;
 
 public class Maze {
 
-    private LinkedList<LineOfMaze> maze = new LinkedList<>();
 
-    public void addRow(LineOfMaze line) {
-        maze.add(line);
+    private HashMap<Integer,LineOfMaze> maze = new HashMap<>();
+
+
+    void addLine(Integer lineNr, LineOfMaze line) {
+        maze.put(lineNr,line);
 
     }
 
-    public LinkedList<LineOfMaze> getMaze() {
+    public HashMap<Integer,LineOfMaze> getMaze() {
         return maze;
     }
 
-    public void setMaze(LinkedList<LineOfMaze> maze) {
-        this.maze = maze;
-    }
-
-    public void tick() {
-
-
-    }
 
 }

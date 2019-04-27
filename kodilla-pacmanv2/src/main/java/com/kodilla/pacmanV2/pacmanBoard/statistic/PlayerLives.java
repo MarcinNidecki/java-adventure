@@ -1,13 +1,21 @@
 package com.kodilla.pacmanV2.pacmanBoard.statistic;
 
-import com.kodilla.pacmanV2.Animation;
-import com.kodilla.pacmanV2.PacmanAppRunner;
+import com.kodilla.pacmanV2.GameInit;
+import com.kodilla.pacmanV2.items.ItemPictures;
 
 import java.awt.*;
 
 public class PlayerLives {
 
-    public int lives = 3;
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    private int lives = 3;
 
 
     public void removeLive() {
@@ -16,10 +24,11 @@ public class PlayerLives {
 
 
     public void paintComponent(Graphics g) {
-        int position = PacmanAppRunner.TILE_SIZE * 3;
+        int position = GameInit.TILE_SIZE * 3;
         for (int i = 0; i < lives; i++) {
-            g.drawImage(Animation.player[0][2], position, 900, 32, 32, null);
-            position += PacmanAppRunner.TILE_SIZE;
+            g.drawImage(ItemPictures.player[0][2], position, 900, 32, 32, null);
+            position += GameInit.TILE_SIZE;
+
         }
 
 

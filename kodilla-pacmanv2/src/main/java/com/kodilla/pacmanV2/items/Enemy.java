@@ -1,26 +1,24 @@
 package com.kodilla.pacmanV2.items;
 
-import com.kodilla.pacmanV2.Animation;
-import com.kodilla.pacmanV2.PacmanAppRunner;
+import com.kodilla.pacmanV2.GameInit;
 import com.kodilla.pacmanV2.pacmanBoard.levelFactory.LevelFactory;
 
 import java.awt.*;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static com.kodilla.pacmanV2.pacmanBoard.levelFactory.LevelFactory.maze;
 
 public class Enemy extends Rectangle {
 
-
-    private final EnemyControl enemyControl = new EnemyControl(this);
-    boolean brave, changeOfDirection;
-    int speed = 4;
-    Directions directions = Directions.DOWN;
-    private int tick = 0, animationPicture;
+    private int startingLocationX, startingLocationY,tick = 0, animationPicture;
+    private final EnemyControl enemyControl = new EnemyControl(this, GameInit.getPlayer());
+    private boolean brave;
+    private boolean changeOfDirection;
 
 
-    public enum Directions {
+    private boolean itsEye = false;
+    private String colour;
+    private Directions direction = Directions.DOWN;
+    private final WallCollision wallCollision = new WallCollision();
+
+      enum Directions {
         DOWN,
         UP,
         LEFT,
@@ -28,16 +26,19 @@ public class Enemy extends Rectangle {
         STOP
     }
 
-    public Enemy(int x, int y, boolean brave) {
+    public Enemy(int x, int y, boolean brave, String colour) {
         this.brave = brave;
-        setBounds(x, y, PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE);
+        this.colour = colour;
+        startingLocationY =y;
+        startingLocationX = x;
+        setBounds(x, y, GameInit.TILE_SIZE, GameInit.TILE_SIZE);
     }
 
-    public void EnemyTick() {
+    public void enemyTick() {
 
         // TURN ON animation enemy when bonus ON
-        if (PacmanAppRunner.bonus) {
-            animationPicture = 2;
+        if (GameInit.bonus) {
+            animationPicture = 1;
         } else {
             animationPicture = 0;
         }
@@ -47,19 +48,26 @@ public class Enemy extends Rectangle {
 
         if (enemyControl.checkIfIsInHome()) {
             LevelFactory.openDoor();
-            enemyControl.goOutsideHome();
+            if (colour.equals("RED") || colour.equals("BLUE")) {
+                itsEye = false;
+                waitThenGoOutside(6);
+            } else {
+                waitThenGoOutside(12);
+                itsEye = false;
+            }
+
         } else {
             LevelFactory.closeDoor();
         }
 
+        goToHomeWhenIsEye();
 
-
-        switch (directions) {
+        switch (direction) {
             case DOWN:
 
-                if (enemyControl.ThereIsNoCollisionOnDown()) {
-                    if (enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
-                        enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
+                if (wallCollision.thereIsNoCollisionOnDown(x,y)) {
+                    if (enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
+                        enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
                         break;
                     }
                     enemyControl.goDown();
@@ -73,9 +81,9 @@ public class Enemy extends Rectangle {
                 }
             case UP:
 
-                if (enemyControl.ThereIsNoCollisionOnUp()) {
-                    if (enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
-                        enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
+                if (wallCollision.thereIsNoCollisionOnUp(x,y)) {
+                    if (enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
+                        enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
                         break;
                     }
                     enemyControl.goUp();
@@ -88,9 +96,9 @@ public class Enemy extends Rectangle {
                 }
             case LEFT:
 
-                if (enemyControl.ThereIsNoCollisionOnLeft()) {
-                    if (enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
-                        enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
+                if (wallCollision.thereIsNoCollisionOnLeft(x,y)) {
+                    if (enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
+                        enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
                         break;
                     }
                     enemyControl.goLeft();
@@ -103,9 +111,9 @@ public class Enemy extends Rectangle {
                     break;
                 }
             case RIGHT:
-                if (enemyControl.ThereIsNoCollisionOnRight()) {
-                    if (enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
-                        enemyControl.TrackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
+                if (wallCollision.thereIsNoCollisionOnRight(x,y)) {
+                    if (enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection()) {
+                        enemyControl.trackPlayerAndCheckIfIsBetterToChangeDirectionThenChangeDirection();
                         break;
                     }
                     enemyControl.goRight();
@@ -118,34 +126,96 @@ public class Enemy extends Rectangle {
                     break;
                 }
             default:
-                directions = Directions.DOWN;
+                direction = Directions.DOWN;
                 break;
         }
 
     }
 
-    public boolean isCollision(int x, int y) {
-        Rectangle rectangle = new Rectangle(x, y, PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE);
-        LevelFactory level = PacmanAppRunner.level;
-        List<Items> listOfCollidingTile = maze.getMaze().parallelStream()
-                .flatMap(row -> row.getLineOfItems().stream())
-                .filter(t -> (t instanceof Wall && (rectangle.intersects((Wall) t))))
-                .collect(Collectors.toList());
+    private void goToHomeWhenIsEye() {
 
-        int numberOfCollision = listOfCollidingTile.size();
-        return numberOfCollision <= 0;
+        if (itsEye) {
+            if (x>600 && x<880 && y >320 && y <440){
+                x = startingLocationX;
+                y = startingLocationY;
+            }
+            direction = Directions.STOP;
+            animationPicture =2;
+            if (y >startingLocationY) {
+                enemyControl.goUp();
+            } else if (y<startingLocationY) {
+                enemyControl.goDown();
+            }
+            if (x > startingLocationX) {
+                enemyControl.goLeft();
+            } else if (x<startingLocationX){
+                enemyControl.goRight();
+            }
+        }
     }
 
-    public void paintComponent(Graphics g) {
-        g.drawImage(Animation.enemyGreen[animationPicture], x, y, 32, 32, null);
 
+    public void waitThenGoOutside(int timeInSeconds) {
+        double time = timeInSeconds*GameInit.targetTick;
+        if (wallCollision.thereIsNoCollisionOnUp(x,y)) {
+            // when fps is set to 60  then 1 second is 60 ticks
+            setDirections(Enemy.Directions.STOP);
+            if (tick > time) {
+                setDirections(Directions.UP);
+                enemyControl.goUp();
 
+            }
+            tick++;
+        }
     }
 
-    public void paintComponentRed(Graphics g) {
-        g.drawImage(Animation.enemyRed[animationPicture], x, y, 32, 32, null);
-
-
+     boolean isBrave() {
+        return brave;
     }
 
+    public boolean isItsEye() {
+        return itsEye;
+    }
+
+    public void setItsEye(boolean itsEye) {
+        this.itsEye = itsEye;
+    }
+
+     boolean isChangeOfDirection() {
+        return changeOfDirection;
+    }
+
+     void setChangeOfDirection(boolean changeOfDirection) {
+        this.changeOfDirection = changeOfDirection;
+    }
+
+     Directions getDirection() {
+        return direction;
+    }
+
+     void setDirections(Directions direction) {
+        this.direction = direction;
+    }
+    public int getStartingLocationX() {
+        return startingLocationX;
+    }
+
+    public int getStartingLocationY() {
+        return startingLocationY;
+    }
+
+
+    public void paintEnemyBlue(Graphics g) {
+        g.drawImage(ItemPictures.enemyBlue[animationPicture], x, y, 32, 32, null);
+    }
+
+    public void paintEnemyRed(Graphics g) {
+        g.drawImage(ItemPictures.enemyRed[animationPicture], x, y, 32, 32, null);
+    }
+    public void paintEnemyPurple(Graphics g) {
+        g.drawImage(ItemPictures.enemyPurple[animationPicture], x, y, 32, 32, null);
+    }
+    public void paintEnemyGreen(Graphics g) {
+        g.drawImage(ItemPictures.enemyGreen[animationPicture], x, y, 32, 32, null);
+    }
 }

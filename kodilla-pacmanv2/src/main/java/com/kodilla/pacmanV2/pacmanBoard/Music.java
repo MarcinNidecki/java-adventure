@@ -8,11 +8,6 @@ import java.util.Objects;
 
 public class Music {
 
-    boolean wasPlayed = false;
-
-    public boolean isWasPlayed() {
-        return wasPlayed;
-    }
 
     public void playWelocmeSound() {
         try {
@@ -24,7 +19,7 @@ public class Music {
             System.out.println("Error with playing sound.");
             ex.printStackTrace();
         }
-        wasPlayed = true;
+
     }
 
     public void playBackgroundSound() {
@@ -37,6 +32,6 @@ public class Music {
             System.out.println("Error with playing sound.");
             ex.printStackTrace();
         }
-        wasPlayed = true;
+
     }
 }

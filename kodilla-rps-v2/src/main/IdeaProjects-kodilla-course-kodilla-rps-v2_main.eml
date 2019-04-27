@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component LANGUAGE_LEVEL="JDK_1_8" inheritJdk="true">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$/../../../kodilla-rps-v2/src/main"/>
+	<levels>
+		<level name="Gradle: com.github.lalyos:jfiglet:0.0.8" value="project"/>
+	</levels>
+</component>

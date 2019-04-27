@@ -1,19 +1,18 @@
 package com.kodilla.pacmanV2.items;
 
-import com.kodilla.pacmanV2.Animation;
-import com.kodilla.pacmanV2.PacmanAppRunner;
-
 import java.awt.*;
+
+import static com.kodilla.pacmanV2.GameInit.TILE_SIZE;
 
 public class BigDot extends Rectangle implements Items {
 
 
     public BigDot(int x, int y) {
-        setBounds(x, y, PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE);
+        setBounds(x, y, TILE_SIZE, TILE_SIZE);
     }
 
     public void render(Graphics g) {
-        g.drawImage(Animation.bitDot[0], x, y, 32, 32, null);
+        g.drawImage(ItemPictures.bigDot, x, y, 32, 32, null);
 
     }
 

@@ -1,0 +1,130 @@
+<html>
+<head>
+<title>ItemPicture.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+.s4 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ItemPicture.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.kodilla.pacmanV2.items</span><span class="s0">;</span>
+
+import <span class="s1">javax.imageio.ImageIO</span><span class="s0">;</span>
+import <span class="s1">java.awt.image.BufferedImage</span><span class="s0">;</span>
+import <span class="s1">java.io.File</span><span class="s0">;</span>
+import <span class="s1">java.io.IOException</span><span class="s0">;</span>
+import <span class="s1">java.util.Objects</span><span class="s0">;</span>
+
+public class <span class="s1">ItemPicture {</span>
+
+    <span class="s0">public static </span><span class="s1">BufferedImage[][] player</span><span class="s0">;</span>
+    static <span class="s1">BufferedImage[] enemyBlue</span><span class="s0">, </span><span class="s1">enemyRed</span><span class="s0">, </span><span class="s1">enemyGreen</span><span class="s0">, </span><span class="s1">enemyPurple</span><span class="s0">;</span>
+    static <span class="s1">BufferedImage dot</span><span class="s0">, </span><span class="s1">bigDot</span><span class="s0">;</span>
+
+
+    private <span class="s1">BufferedImage TextureGrid</span><span class="s0">;</span>
+
+    public <span class="s1">ItemPicture() {</span>
+        <span class="s0">try </span><span class="s1">{</span>
+
+
+            File filePlayer = <span class="s0">new </span><span class="s1">File(Objects.requireNonNull(getClass().getClassLoader().getResource(</span><span class="s2">&quot;assets/textures/grid.png&quot;</span><span class="s1">)).getFile())</span><span class="s0">;</span>
+
+
+            <span class="s1">TextureGrid = ImageIO.read(filePlayer)</span><span class="s0">;</span>
+
+
+        <span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e) {</span>
+            System.out.print(<span class="s2">&quot;ERORO&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">e.printStackTrace()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        player = <span class="s0">new </span><span class="s1">BufferedImage[</span><span class="s3">4</span><span class="s1">][</span><span class="s3">4</span><span class="s1">]</span><span class="s0">;</span>
+
+
+        <span class="s4">//right position animation</span>
+        <span class="s1">player[</span><span class="s3">0</span><span class="s1">][</span><span class="s3">0</span><span class="s1">] = getPartOfImage(</span><span class="s3">0</span><span class="s0">, </span><span class="s3">0</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">player[</span><span class="s3">0</span><span class="s1">][</span><span class="s3">1</span><span class="s1">] = getPartOfImage(</span><span class="s3">32</span><span class="s0">, </span><span class="s3">0</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">player[</span><span class="s3">0</span><span class="s1">][</span><span class="s3">2</span><span class="s1">] = getPartOfImage(</span><span class="s3">64</span><span class="s0">, </span><span class="s3">0</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">player[</span><span class="s3">0</span><span class="s1">][</span><span class="s3">3</span><span class="s1">] = getPartOfImage(</span><span class="s3">96</span><span class="s0">, </span><span class="s3">0</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s4">// left position animation</span>
+        <span class="s1">player[</span><span class="s3">1</span><span class="s1">][</span><span class="s3">0</span><span class="s1">] = getPartOfImage(</span><span class="s3">0</span><span class="s0">, </span><span class="s3">32</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">player[</span><span class="s3">1</span><span class="s1">][</span><span class="s3">1</span><span class="s1">] = getPartOfImage(</span><span class="s3">32</span><span class="s0">, </span><span class="s3">32</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">player[</span><span class="s3">1</span><span class="s1">][</span><span class="s3">2</span><span class="s1">] = getPartOfImage(</span><span class="s3">64</span><span class="s0">, </span><span class="s3">32</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">player[</span><span class="s3">1</span><span class="s1">][</span><span class="s3">3</span><span class="s1">] = getPartOfImage(</span><span class="s3">96</span><span class="s0">, </span><span class="s3">32</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s4">// up position animation</span>
+        <span class="s1">player[</span><span class="s3">2</span><span class="s1">][</span><span class="s3">0</span><span class="s1">] = getPartOfImage(</span><span class="s3">0</span><span class="s0">, </span><span class="s3">64</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">player[</span><span class="s3">2</span><span class="s1">][</span><span class="s3">1</span><span class="s1">] = getPartOfImage(</span><span class="s3">32</span><span class="s0">, </span><span class="s3">64</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">player[</span><span class="s3">2</span><span class="s1">][</span><span class="s3">2</span><span class="s1">] = getPartOfImage(</span><span class="s3">64</span><span class="s0">, </span><span class="s3">64</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">player[</span><span class="s3">2</span><span class="s1">][</span><span class="s3">3</span><span class="s1">] = getPartOfImage(</span><span class="s3">96</span><span class="s0">, </span><span class="s3">64</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s4">// down position animation</span>
+        <span class="s1">player[</span><span class="s3">3</span><span class="s1">][</span><span class="s3">0</span><span class="s1">] = getPartOfImage(</span><span class="s3">0</span><span class="s0">, </span><span class="s3">96</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">player[</span><span class="s3">3</span><span class="s1">][</span><span class="s3">1</span><span class="s1">] = getPartOfImage(</span><span class="s3">32</span><span class="s0">, </span><span class="s3">96</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">player[</span><span class="s3">3</span><span class="s1">][</span><span class="s3">2</span><span class="s1">] = getPartOfImage(</span><span class="s3">64</span><span class="s0">, </span><span class="s3">96</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">player[</span><span class="s3">3</span><span class="s1">][</span><span class="s3">3</span><span class="s1">] = getPartOfImage(</span><span class="s3">96</span><span class="s0">, </span><span class="s3">96</span><span class="s1">)</span><span class="s0">;</span>
+
+
+        <span class="s1">enemyBlue = </span><span class="s0">new </span><span class="s1">BufferedImage[</span><span class="s3">3</span><span class="s1">]</span><span class="s0">;</span>
+
+        <span class="s4">// enemy picture</span>
+        <span class="s1">enemyBlue[</span><span class="s3">0</span><span class="s1">] = getPartOfImage(</span><span class="s3">0</span><span class="s0">, </span><span class="s3">128</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s4">// enemy picture when bonus is on</span>
+        <span class="s1">enemyBlue[</span><span class="s3">1</span><span class="s1">] = getPartOfImage(</span><span class="s3">64</span><span class="s0">, </span><span class="s3">128</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s4">// blue eye</span>
+        <span class="s1">enemyBlue[</span><span class="s3">2</span><span class="s1">] = getPartOfImage(</span><span class="s3">94</span><span class="s0">,</span><span class="s3">128</span><span class="s1">)</span><span class="s0">;</span>
+
+
+
+        <span class="s1">enemyRed = </span><span class="s0">new </span><span class="s1">BufferedImage[</span><span class="s3">3</span><span class="s1">]</span><span class="s0">;</span>
+        <span class="s4">// enemy picture</span>
+        <span class="s1">enemyRed[</span><span class="s3">0</span><span class="s1">] = getPartOfImage(</span><span class="s3">0</span><span class="s0">, </span><span class="s3">160</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s4">// enemy picture when bonus is on</span>
+        <span class="s1">enemyRed[</span><span class="s3">1</span><span class="s1">] = getPartOfImage(</span><span class="s3">64</span><span class="s0">, </span><span class="s3">160</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s4">// red eye</span>
+        <span class="s1">enemyRed[</span><span class="s3">2</span><span class="s1">] = getPartOfImage(</span><span class="s3">94</span><span class="s0">,</span><span class="s3">160</span><span class="s1">)</span><span class="s0">;</span>
+
+
+
+        <span class="s1">enemyPurple = </span><span class="s0">new </span><span class="s1">BufferedImage[</span><span class="s3">3</span><span class="s1">]</span><span class="s0">;</span>
+
+        <span class="s1">enemyPurple[</span><span class="s3">0</span><span class="s1">] = getPartOfImage(</span><span class="s3">0</span><span class="s0">, </span><span class="s3">192</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s4">// up position animation</span>
+        <span class="s1">enemyPurple[</span><span class="s3">1</span><span class="s1">] = getPartOfImage(</span><span class="s3">64</span><span class="s0">, </span><span class="s3">192</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s4">// purple eye</span>
+        <span class="s1">enemyPurple[</span><span class="s3">2</span><span class="s1">] = getPartOfImage(</span><span class="s3">94</span><span class="s0">,</span><span class="s3">192</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">enemyGreen = </span><span class="s0">new </span><span class="s1">BufferedImage[</span><span class="s3">3</span><span class="s1">]</span><span class="s0">;</span>
+        <span class="s4">// enemy picture</span>
+        <span class="s1">enemyGreen[</span><span class="s3">0</span><span class="s1">] = getPartOfImage(</span><span class="s3">0</span><span class="s0">, </span><span class="s3">224</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s4">// enemy picture when bonus is on</span>
+        <span class="s1">enemyGreen[</span><span class="s3">1</span><span class="s1">] = getPartOfImage(</span><span class="s3">64</span><span class="s0">, </span><span class="s3">224</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s4">// green eye</span>
+        <span class="s1">enemyGreen[</span><span class="s3">2</span><span class="s1">] = getPartOfImage(</span><span class="s3">94</span><span class="s0">,</span><span class="s3">224</span><span class="s1">)</span><span class="s0">;</span>
+
+
+
+        <span class="s1">dot = getPartOfImage(</span><span class="s3">0</span><span class="s0">, </span><span class="s3">256</span><span class="s1">)</span><span class="s0">;</span>
+
+
+        <span class="s1">bigDot = getPartOfImage(</span><span class="s3">32</span><span class="s0">, </span><span class="s3">256</span><span class="s1">)</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">private </span><span class="s1">BufferedImage getPartOfImage(</span><span class="s0">int </span><span class="s1">xx</span><span class="s0">, int </span><span class="s1">yy) {</span>
+        <span class="s0">return </span><span class="s1">TextureGrid.getSubimage(xx</span><span class="s0">, </span><span class="s1">yy</span><span class="s0">, </span><span class="s3">32</span><span class="s0">, </span><span class="s3">32</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+}
+</pre>
+</body>
+</html>

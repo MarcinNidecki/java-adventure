@@ -1,77 +1,140 @@
 package com.kodilla.pacmanV2.items;
 
-import com.kodilla.pacmanV2.Animation;
-import com.kodilla.pacmanV2.PacmanAppRunner;
+import com.kodilla.pacmanV2.GameInit;
 import com.kodilla.pacmanV2.pacmanBoard.BonusMode;
-import com.kodilla.pacmanV2.pacmanBoard.levelFactory.LineOfMaze;
 
 import java.awt.*;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.kodilla.pacmanV2.pacmanBoard.levelFactory.LevelFactory.maze;
 
 public class Player extends Rectangle {
 
-    public static boolean right, left, up, down, isAlive, hitTheGhost;
-    static int xx, yy, numberOfGhostSendedToHome=0;
-    private int animationPicture, animationX, TimeAnimation = 0;
+    private static boolean isAlive;
+    private int animationPicture, playerImagePossition, TimeAnimation = 0;
+    private int startingLocationX, startingLocationY;
     private BonusMode bonusMode = new BonusMode();
     private int speed = 4;
+    private String mainDirection = "STOP", nextDirection= "STOP";
+    private final WallCollision wallCollision = new WallCollision();
+
+    private boolean HitByEnemy = false;
+
+
 
     public Player(int x, int y) {
-        setBounds(x, y, PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE);
+        startingLocationY = y;
+        startingLocationX = x;
+        setBounds(x, y, GameInit.TILE_SIZE, GameInit.TILE_SIZE);
     }
 
 
-    void backToStart() {
-        x = 40;
-        y = 40;
-    }
 
 
     public void tick() {
-        xx = x;
-        yy = y;
+
         bonusMode.checkIfBonusIsOn();
-        if (right && isColission(x + speed, y)) {
-            ifIntersectWithDotThenRemoveDotAndAddPoints(x + speed, y);
 
-            // teleportation
-            if (x == 1480 && y == 400)
-                x = 0;
+        switch (mainDirection) {
+            case "RIGHT":
+            {
+                if (isInTheMiddleOfTile(x) && checkIfIsNextDirectionTenChangeDirection()) {
+                    checkIfIsNextDirectionTenChangeDirection();
+                    break;
+                }
 
-            x += speed;
-            animationX = 0;
+                if (mainDirection.equals("RIGHT") && wallCollision.thereIsNoCollisionOnRight(x,y)) {
+                    ifIntersectWithDotThenRemoveDotAndAddPoints(x + speed, y);
+                    checkIfPlayerIsInTeleport();
+                    goRight();
+                    playerImagePossition = 0;
+                    break;
+
+                } else  {
+                    setMainDirection("STOP");
+                    playerImagePossition = 0;
+
+                    break;
+                }
+            }
+            case "LEFT":
+            {
+                if (isInTheMiddleOfTile(x) && checkIfIsNextDirectionTenChangeDirection()) {
+                    checkIfIsNextDirectionTenChangeDirection();
+                    break;
+                }
+
+                if (mainDirection.equals("LEFT") && wallCollision.thereIsNoCollisionOnLeft(x,y)) {
+                    ifIntersectWithDotThenRemoveDotAndAddPoints(x - speed, y);
+                    checkIfPlayerIsInTeleport();
+                    goLeft();
+                    playerImagePossition = 1;
+                    break;
+                } else  {
+                    setMainDirection("STOP");
+                    playerImagePossition = 1;
+                    break;
+                }
+            }
+            case "UP": {
+                if (isInTheMiddleOfTile(y) && checkIfIsNextDirectionTenChangeDirection()) {
+                    checkIfIsNextDirectionTenChangeDirection();
+                    break;
+                }
+                if (mainDirection.equals("UP") && wallCollision.thereIsNoCollisionOnUp(x,y)) {
+                    ifIntersectWithDotThenRemoveDotAndAddPoints(x, y - speed);
+                    goUp();
+                    playerImagePossition = 2;
+                    break;
+                } else  {
+                    setMainDirection("STOP");
+                    playerImagePossition = 2;
+
+                    break;
+                }
+            }
+            case "DOWN":
+            {
+                if (isInTheMiddleOfTile(y) && checkIfIsNextDirectionTenChangeDirection()) {
+                    checkIfIsNextDirectionTenChangeDirection();
+                    break;
+                }
+
+                if (mainDirection.equals("DOWN") && wallCollision.thereIsNoCollisionOnDown(x,y)) {
+                    ifIntersectWithDotThenRemoveDotAndAddPoints(x, y + speed);
+                    goDown();
+                    playerImagePossition = 3;
+                    break;
+                } else  {
+                    setMainDirection("STOP");
+                    playerImagePossition = 3;
+                    break;
+                }
+            }
+
+                default:
+                    break;
 
         }
 
-        if (left && isColission(x - speed, y)) {
-            ifIntersectWithDotThenRemoveDotAndAddPoints(x - speed, y);
-            // teleportation
-            if (x == 0 && y == 400)
-                x = 1480;
 
-            x -= speed;
 
-            animationX = 1;
+        playerAnimation();
+    }
+
+    private void checkIfPlayerIsInTeleport() {
+        if (x == 1480 && y == 400) {
+            x = 0;
+        } else if (x == 0 && y == 400) {
+            x = 1480;
         }
-        if (up && isColission(x, y - speed)) {
-            ifIntersectWithDotThenRemoveDotAndAddPoints(x, y - speed);
-            y -= speed;
+    }
 
-            animationX = 2;
-        }
-        if (down && isColission(x, y + speed)) {
-            ifIntersectWithDotThenRemoveDotAndAddPoints(x, y + speed);
-            y += speed;
+    private boolean isInTheMiddleOfTile(int y) {
+        return y % GameInit.TILE_SIZE == 0;
+    }
 
-            animationX = 3;
-        }
+    private void playerAnimation() {
 
-
-        //  animation of player - change picture of player after every 10 tick
         if (TimeAnimation == 0) {
             animationPicture = 0;
         } else if (TimeAnimation == 10) {
@@ -87,23 +150,64 @@ public class Player extends Rectangle {
         TimeAnimation++;
     }
 
-    private boolean isColission(int x, int y) {
-        Rectangle rectangle = new Rectangle(x, y, PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE);
-        List<Items> listOfCollisingTile = maze.getMaze().parallelStream()
-                .flatMap(line -> line.getLineOfItems().stream())
-                .filter(items -> (items instanceof Wall && (rectangle.intersects((Wall) items))))
-                .collect(Collectors.toList());
+    private boolean checkIfIsNextDirectionTenChangeDirection() {
+        boolean isNextDirection = false;
+        switch (nextDirection) {
+            case "UP":
+                if (wallCollision.thereIsNoCollisionOnUp(x,y)) {
 
-        int numberOfCollision = listOfCollisingTile.size();
-        return numberOfCollision <= 0;
+                    mainDirection = "UP";
+                    goUp();
+                    nextDirection = "STOP";
+                    playerImagePossition = 2;
+                    isNextDirection = true;
+                    break;
+                } break;
+            case "DOWN":
+                if (wallCollision.thereIsNoCollisionOnDown(x,y)) {
+
+                    mainDirection = "DOWN";
+                    goDown();
+                    nextDirection = "STOP";
+                    playerImagePossition = 3;
+                    isNextDirection = true;
+                    break;
+
+                } break;
+
+            case "LEFT":
+                if (wallCollision.thereIsNoCollisionOnLeft(x,y)) {
+                    mainDirection = "LEFT";
+                    goLeft();
+                    nextDirection = "STOP";
+                    playerImagePossition = 1;
+                    isNextDirection = true;
+                    break;
+                } break;
+
+            case "RIGHT":
+                if (wallCollision.thereIsNoCollisionOnRight(x,y)) {
+                    mainDirection = "RIGHT";
+                    goRight();
+                    nextDirection = "STOP";
+                    isNextDirection = true;
+                    playerImagePossition = 0;
+                    break;
+                } break;
+
+            default: isNextDirection =false;
+
+        }
+        return isNextDirection;
+
     }
 
-    public void ifIntersectWithDotThenRemoveDotAndAddPoints(int x, int y) {
+
+    private void ifIntersectWithDotThenRemoveDotAndAddPoints(int x, int y) {
 
 
-        Rectangle rectangle = new Rectangle(x, y, PacmanAppRunner.TILE_SIZE, PacmanAppRunner.TILE_SIZE);
-        LinkedList<LineOfMaze> lineOfMazes = maze.getMaze();
-        int lineNumber = y/PacmanAppRunner.TILE_SIZE;
+        Rectangle rectangle = new Rectangle(x, y, GameInit.TILE_SIZE, GameInit.TILE_SIZE);
+        int lineNumber = y/GameInit.TILE_SIZE;
 
         int minLineNumber, maxLinenumber;
         maxLinenumber = lineNumber +1;
@@ -116,14 +220,14 @@ public class Player extends Rectangle {
             for (int itemNumber = 0; itemNumber < maze.getMaze().get(lineNumber).getLineOfItems().size(); itemNumber++) {
                 if (maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber) instanceof Dot) {
                     if (rectangle.intersects((Dot) maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber))) {
-                        maze.getMaze().get(lineNumber).getLineOfItems().set(itemNumber, null);
-                        PacmanAppRunner.score.addPointForSmallDot();
+                        maze.getMaze().get(lineNumber).getLineOfItems().replace(itemNumber, new Empty(x,y));
+                        GameInit.getScore().addPointForSmallDot();
                     }
                 }
                 if (maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber) instanceof BigDot) {
                     if (rectangle.intersects((BigDot) maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber))) {
-                        maze.getMaze().get(lineNumber).getLineOfItems().set(itemNumber, null);
-                        PacmanAppRunner.score.addPointForBigDot();
+                        maze.getMaze().get(lineNumber).getLineOfItems().replace(itemNumber, new Empty(x,y));
+                        GameInit.getScore().addPointForBigDot();
                         bonusMode.startBonus();
 
                     }
@@ -132,10 +236,50 @@ public class Player extends Rectangle {
         }
     }
 
+    private void goDown() {
+        y += speed;
+    }
 
-    public void paintComponent(Graphics g) {
-        g.drawImage(Animation.player[animationX][animationPicture], x, y, 32, 32, null);
+    private void goUp() {
+        y -= speed;
+    }
 
+    private void goLeft() {
+        x -= speed;
+    }
+
+    private void goRight() {
+        x += speed;
+    }
+
+    public String getMainDirection() {
+        return mainDirection;
+    }
+
+    public void setMainDirection(String mainDirection) {
+        this.mainDirection = mainDirection;
+    }
+
+    public void setNextDirection(String nextDirection) {
+        this.nextDirection = nextDirection;
+    }
+
+    public boolean isHitByEnemy() {
+        return HitByEnemy;
+    }
+
+    public void setHitByEnemy(boolean hitByEnemy) {
+        HitByEnemy = hitByEnemy;
+    }
+
+    public void repaint(Graphics g) {
+        g.drawImage(ItemPictures.player[playerImagePossition][animationPicture], x, y, 32, 32, null);
 
     }
+
+    public void sendPlayerToStart() {
+        x = startingLocationX;
+        y = startingLocationY;
+    }
+
 }
