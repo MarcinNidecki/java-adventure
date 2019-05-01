@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: com.kodilla.pacman.PacmanAppRunner
+Main-Class: com.kodilla.pacmanv2.PacmanAppRunner
 
