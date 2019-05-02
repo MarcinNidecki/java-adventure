@@ -20,17 +20,12 @@ public class GameInit {
     public static final int WIDTH = 1520, HEIGHT = 960, TILE_SIZE = 40, speed = 4;
 
     private static final String TITLE = "PacMan v.1.0.0";
-    public static boolean bonus, newRoudn = false;
+    public static boolean bonus, isNewRound = false;
     public static double targetTick = 45;
     private static boolean isPause;
     private static Player player;
     private static PlayerLives playerLives;
     private static ScoreCounter score;
-
-    public static NewRound getNewRound() {
-        return newRound;
-    }
-
     private static NewRound newRound;
     private LevelFactory level = new LevelFactory();
     private Enemy enemyBlue, enemyRed, enemyGreen, enemyPurple;
@@ -158,14 +153,24 @@ public class GameInit {
     public static Player getPlayer() {
         return player;
     }
+
     public static ScoreCounter getScore() {
         return score;
     }
+
     static String getTITLE() {
         return TITLE;
     }
+
     public static PlayerLives getPlayerLives() {
         return playerLives;
     }
 
+    static NewRound getNewRound() {
+        return newRound;
+    }
+
+    public static void setNewRound(NewRound newRound) {
+        GameInit.newRound = newRound;
+    }
 }
