@@ -82,7 +82,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
         if (GameInit.getPlayer().isHitByEnemy()) {
             gameInit.sendEnemyToHome();
-            GameInit.newRoudn= true;
+            GameInit.isNewRound = true;
 
         }
         if (!GameInit.isPause()) {
@@ -114,7 +114,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         GameInit.getPlayerLives().paintComponent(g);
 
 
-        if (GameInit.newRoudn) {
+        if (GameInit.isNewRound) {
             GameInit.getNewRound().paint(g);
         }
         g.dispose();
@@ -133,7 +133,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
         gameInit.getMusic().playWelocmeSound();
         gameInit.getWelcomeTimerMusic().StartTimer();
-
+        gameInit.getRanking().readRanking();
 
         while (isRunning) {
 
@@ -144,7 +144,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
             while (delta >= 1) {
 
-                gameInit.getRanking().readMap();
+
 
                 playMusic();
                 ifPlayerIsDeadShowEndMenu();

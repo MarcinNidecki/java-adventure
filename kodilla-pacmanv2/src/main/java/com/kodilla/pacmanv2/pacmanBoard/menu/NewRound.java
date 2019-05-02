@@ -31,7 +31,7 @@ public class NewRound {
             if (tick > 360) {
                 countDown = "";
                 GameInit.setPause(false);
-                GameInit.newRoudn = false;
+                GameInit.isNewRound = false;
                 Player.setIsAlive(true);
                 Player.setTimeAnimation(0);
                 tick=0;

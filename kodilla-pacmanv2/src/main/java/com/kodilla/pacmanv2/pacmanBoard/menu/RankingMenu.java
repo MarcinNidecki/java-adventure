@@ -8,18 +8,17 @@ import java.awt.*;
 
 public class RankingMenu extends JComponent {
 
-    ImageIcon  startGameIcon;
-    static ImagePanel panel;
-    JButton newGame;
-    JTextArea textArea = new JTextArea(60, 60);
+    private ImageIcon  startGameIcon;
+    private static ImagePanel panel;
+    private JButton newGame;
+    private JTextArea textArea = new JTextArea(60, 60);
 
-    static JLabel l;
-    com.kodilla.pacmanv2.pacmanBoard.statistic.Ranking ranking;
+    private com.kodilla.pacmanv2.pacmanBoard.statistic.Ranking ranking;
     public RankingMenu(GameInit game) {
 
 
         ranking = new com.kodilla.pacmanv2.pacmanBoard.statistic.Ranking();
-        ranking.readMap();
+        ranking.readRanking();
         String text = ranking.printRankingTop10();
         textArea.setMargin(new Insets(10,50,10,10));
         textArea.setForeground(Color.YELLOW);
@@ -62,7 +61,7 @@ public class RankingMenu extends JComponent {
     }
 
     public void setPanel(ImagePanel panel) {
-        this.panel = panel;
+        RankingMenu.panel = panel;
     }
 
     public JButton getB() {
