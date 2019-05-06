@@ -21,7 +21,6 @@ public class Enemy extends Rectangle {
     private String colour;
     private Directions direction = Directions.DOWN;
 
-
     public Enemy(int x, int y, boolean brave, String colour) {
         this.brave = brave;
         this.colour = colour;

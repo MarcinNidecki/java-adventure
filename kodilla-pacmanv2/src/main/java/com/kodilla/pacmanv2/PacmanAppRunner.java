@@ -16,6 +16,9 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
 
     private static boolean isRunning = false;
+
+
+
     private static GameInit gameInit;
     private static GameMenu gameMenu;
     private String stop = "STOP";
@@ -76,11 +79,11 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
     private void thick()  {
 
-        GameInit.getPlayer().tick();
+        gameInit.getPlayer().tick();
 
-        if (GameInit.getPlayer().isHitByEnemy()) {
+        if (gameInit.getPlayer().isHitByEnemy()) {
             gameInit.sendEnemyToHome();
-            GameInit.isNewRound = true;
+            gameInit.getConstant().setNewRound(true);
         }
 
         if (!gameInit.isPause()) {
@@ -103,7 +106,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         g2d.fillRect(0, 0, PacmanAppRunner.WIDTH, PacmanAppRunner.HEIGHT);
         gameInit.getBackground().render(g);
         gameInit.getLevel().render(g);
-        GameInit.getPlayer().repaint(g);
+        gameInit.getPlayer().repaint(g);
         gameInit.getEnemyBlue().paintEnemyBlue(g);
         gameInit.getEnemyRed().paintEnemyRed(g);
         gameInit.getEnemyGreen().paintEnemyGreen(g);
@@ -116,7 +119,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
             gameInit.setPause(true);
             gameMenu.showMenu();
         }
-        if (GameInit.isNewRound) {
+        if (gameInit.getConstant().isNewRound()) {
             gameInit.getNewRound().paint(g);
 
         }
@@ -222,8 +225,8 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             GameMenu.getPanel().setVisible(!GameMenu.getPanel().isVisible());
             gameInit.setPause(!gameInit.isPause());
-            GameInit.getPlayer().setMainDirection(stop);
-            GameInit.getPlayer().setNextDirection(stop);
+            gameInit.getPlayer().setMainDirection(stop);
+            gameInit.getPlayer().setNextDirection(stop);
         }
 
     }
@@ -231,12 +234,12 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
     private void pressKey(KeyEvent e, int vkCode, String oppositeToVKCodeDirection, String vkDirection, String RotationDirectionBy90Degree, String oppositeRotatedDirection) {
         if (e.getKeyCode() == vkCode) {
 
-            if (GameInit.getPlayer().getMainDirection().equals(oppositeToVKCodeDirection) || GameInit.getPlayer().getMainDirection().equals(stop)) {
-                GameInit.getPlayer().setMainDirection(vkDirection);
-                GameInit.getPlayer().setNextDirection(stop);
+            if (gameInit.getPlayer().getMainDirection().equals(oppositeToVKCodeDirection) || gameInit.getPlayer().getMainDirection().equals(stop)) {
+                gameInit.getPlayer().setMainDirection(vkDirection);
+                gameInit.getPlayer().setNextDirection(stop);
 
-            } else if (GameInit.getPlayer().getMainDirection().equals(RotationDirectionBy90Degree) || GameInit.getPlayer().getMainDirection().equals(oppositeRotatedDirection)) {
-                GameInit.getPlayer().setNextDirection(vkDirection);
+            } else if (gameInit.getPlayer().getMainDirection().equals(RotationDirectionBy90Degree) || gameInit.getPlayer().getMainDirection().equals(oppositeRotatedDirection)) {
+                gameInit.getPlayer().setNextDirection(vkDirection);
 
             }
 

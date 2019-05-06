@@ -18,7 +18,7 @@ import com.kodilla.pacmanv2.pacmanBoard.statistic.ScoreCounter;
 
 public class GameInit {
 
-    public static boolean bonus, isNewRound = false;
+
 
     private boolean isPause;
     private Player player;
@@ -31,11 +31,7 @@ public class GameInit {
     private BackgroundImageLevel1 background = new BackgroundImageLevel1();
     private Music music;
     private TimerTaskPaccman timerMusic, welcomeTimerMusic;
-
-
-
     private Constant constant = new Constant();
-
     private Ranking ranking = new Ranking();
 
     public GameInit() {
@@ -92,7 +88,7 @@ public class GameInit {
         isPause = false;
         player.setMainDirection("STOP");
         player.setNextDirection("STOP");
-        bonus = false;
+        constant.setBonus(false);
         sendEnemyToStartingLocation();
         LevelFactory.closeDoor();
         level = new LevelFactory();
