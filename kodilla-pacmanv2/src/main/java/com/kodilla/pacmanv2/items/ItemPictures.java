@@ -2,9 +2,8 @@ package com.kodilla.pacmanv2.items;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
+import java.io.InputStream;
 
 public class ItemPictures {
 
@@ -18,11 +17,13 @@ public class ItemPictures {
     public ItemPictures() {
         try {
 
+            ClassLoader classLoader = getClass().getClassLoader();
+            InputStream is = classLoader.getResourceAsStream("assets/textures/grid.png");
 
-            File filePlayer = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/textures/grid.png")).getFile());
+           // File filePlayer = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/textures/grid.png")).getFile());
 
 
-            TextureGrid = ImageIO.read(filePlayer);
+            TextureGrid = ImageIO.read(is);
 
 
         } catch (IOException e) {

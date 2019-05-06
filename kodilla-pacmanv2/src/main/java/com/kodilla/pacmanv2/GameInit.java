@@ -5,36 +5,36 @@ import com.kodilla.pacmanv2.items.ItemPictures;
 import com.kodilla.pacmanv2.items.Player;
 import com.kodilla.pacmanv2.pacmanBoard.Music;
 import com.kodilla.pacmanv2.pacmanBoard.TimerTaskPaccman;
-import com.kodilla.pacmanv2.pacmanBoard.levelFactory.BackgroundImageLevel1;
+import com.kodilla.pacmanv2.items.BackgroundImageLevel1;
 import com.kodilla.pacmanv2.pacmanBoard.levelFactory.LevelFactory;
 import com.kodilla.pacmanv2.pacmanBoard.levelFactory.Maze;
 import com.kodilla.pacmanv2.pacmanBoard.menu.GameMenu;
 import com.kodilla.pacmanv2.pacmanBoard.menu.NewRound;
 import com.kodilla.pacmanv2.pacmanBoard.menu.RankingMenu;
+import com.kodilla.pacmanv2.pacmanBoard.menu.Winner;
 import com.kodilla.pacmanv2.pacmanBoard.statistic.PlayerLives;
 import com.kodilla.pacmanv2.pacmanBoard.statistic.Ranking;
 import com.kodilla.pacmanv2.pacmanBoard.statistic.ScoreCounter;
 
 public class GameInit {
 
-    public static final int WIDTH = 1520, HEIGHT = 960, TILE_SIZE = 40, speed = 4;
-
-    private static final String TITLE = "PacMan v.1.0.0";
     public static boolean bonus, isNewRound = false;
-    public static double targetTick = 45;
-    private static boolean isPause;
-    private static Player player;
+
+    private boolean isPause;
+    private Player player;
+    private Winner winner;
     private static PlayerLives playerLives;
     private static ScoreCounter score;
-    private static NewRound newRound;
+    private NewRound newRound;
     private LevelFactory level = new LevelFactory();
     private Enemy enemyBlue, enemyRed, enemyGreen, enemyPurple;
     private BackgroundImageLevel1 background = new BackgroundImageLevel1();
     private Music music;
     private TimerTaskPaccman timerMusic, welcomeTimerMusic;
-    private Maze maze;
 
 
+
+    private Constant constant = new Constant();
 
     private Ranking ranking = new Ranking();
 
@@ -42,18 +42,19 @@ public class GameInit {
 
 
         ItemPictures itemPicture = new ItemPictures();
-        player = new Player(GameInit.TILE_SIZE, GameInit.TILE_SIZE * 10);
-        enemyBlue = new Enemy(GameInit.TILE_SIZE * 19, GameInit.TILE_SIZE * 10, false, "BLUE");
-        enemyRed = new Enemy(GameInit.TILE_SIZE * 18, GameInit.TILE_SIZE * 10, true, "RED");
-        enemyPurple = new Enemy(GameInit.TILE_SIZE * 18, GameInit.TILE_SIZE * 11, true, "PURPLE");
-        enemyGreen = new Enemy(GameInit.TILE_SIZE * 19, GameInit.TILE_SIZE * 11, false, "GREEN");
+        player = new Player(constant.getTILE_SIZE(), constant.getTILE_SIZE() * 10,this);
+        enemyBlue = new Enemy(constant.getTILE_SIZE() * 19, constant.getTILE_SIZE() * 10, false, "BLUE");
+        enemyRed = new Enemy(constant.getTILE_SIZE() * 18, constant.getTILE_SIZE() * 10, true, "RED");
+        enemyPurple = new Enemy(constant.getTILE_SIZE() * 18, constant.getTILE_SIZE() * 11, true, "PURPLE");
+        enemyGreen = new Enemy(constant.getTILE_SIZE() * 19, constant.getTILE_SIZE() * 11, false, "GREEN");
         score = new ScoreCounter();
-        timerMusic = new TimerTaskPaccman(716);
+        timerMusic = new TimerTaskPaccman(413);
         welcomeTimerMusic = new TimerTaskPaccman(4216);
         playerLives = new PlayerLives();
         music = new Music();
-        maze = new Maze();
-        newRound = new NewRound();
+        Maze maze = new Maze();
+        newRound = new NewRound(this);
+        winner = new Winner();
 
     }
 
@@ -102,15 +103,11 @@ public class GameInit {
         return ranking;
     }
 
-    double getTargetTick() {
-        return targetTick;
-    }
-
-    static  boolean  isPause() {
+    boolean  isPause() {
         return isPause;
     }
 
-    public static void setPause(boolean pause) {
+    public void setPause(boolean pause) {
         isPause = pause;
     }
 
@@ -142,15 +139,8 @@ public class GameInit {
         return music;
     }
 
-    TimerTaskPaccman getTimerMusic() {
-        return timerMusic;
-    }
 
-    TimerTaskPaccman getWelcomeTimerMusic() {
-        return welcomeTimerMusic;
-    }
-
-    public static Player getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
@@ -158,19 +148,20 @@ public class GameInit {
         return score;
     }
 
-    static String getTITLE() {
-        return TITLE;
-    }
 
     public static PlayerLives getPlayerLives() {
         return playerLives;
     }
 
-    static NewRound getNewRound() {
+    NewRound getNewRound() {
         return newRound;
     }
 
-    public static void setNewRound(NewRound newRound) {
-        GameInit.newRound = newRound;
+    public Winner getWinner() {
+        return winner;
+    }
+
+    public Constant getConstant() {
+        return constant;
     }
 }

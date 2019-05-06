@@ -9,12 +9,10 @@ public class Maze {
 
     void addLine(Integer lineNr, LineOfMaze line) {
         maze.put(lineNr, line);
-
     }
 
     public HashMap<Integer, LineOfMaze> getMaze() {
         return maze;
     }
-
 
 }

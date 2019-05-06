@@ -19,7 +19,7 @@ public class RankingMenu extends JComponent {
 
         ranking = new com.kodilla.pacmanv2.pacmanBoard.statistic.Ranking();
         ranking.readRanking();
-        String text = ranking.printRankingTop10();
+        String text = ranking.RankingTop10ToString();
         textArea.setMargin(new Insets(10,50,10,10));
         textArea.setForeground(Color.YELLOW);
         textArea.setWrapStyleWord(true);

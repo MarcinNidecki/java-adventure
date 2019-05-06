@@ -2,25 +2,19 @@ package com.kodilla.pacmanv2.pacmanBoard.statistic;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 public class Ranking implements Serializable {
 
 
-    @Override
-    public String toString() {
-        return "RankingMenu{}";
-    }
-
     private static HashMap<String, Integer> ranking = new HashMap<>();
-    private String rankingString = "";
 
-    public String printRankingTop10() {
+
+    public String RankingTop10ToString() {
 
         TreeMap<String, Integer> sortedMap = sortMapByValue(ranking);
         int count = 0;
-        rankingString = "";
+
         StringBuilder rankingBuilder = new StringBuilder();
 
 
@@ -28,13 +22,7 @@ public class Ranking implements Serializable {
             count++;
 
             if (count <= 10) {
-                System.out.println("-----------------------------------------------------------");
-                System.out.println("|  " + count + "  |     " + e.getKey() + " points:r " +
-                        e.getValue());
-                System.out.println("-----------------------------------------------------------");
-                rankingBuilder.append("" + count + "    " + e.getKey() + " points:  " + e.getValue() + "\n");
-
-
+                   rankingBuilder.append("" + count + "    " + e.getKey() + " points:  " + e.getValue() + "\n");
             }
         }
         return rankingBuilder.toString();
@@ -64,10 +52,11 @@ public class Ranking implements Serializable {
 
     }
 
-    public void saveRanking() {
+    public void saveRanking() throws FileNotFoundException {
         //write to file : "fileone"
-
-        try (ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream((Objects.requireNonNull(getClass().getClassLoader().getResource("assets/text/ranking.txt"))).getFile()))) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        OutputStream is =  new FileOutputStream(String.valueOf(classLoader.getResourceAsStream("assets/text/ranking.txt")));
+        try (ObjectOutputStream o = new ObjectOutputStream(is)) {
 
             o.writeObject(ranking);
 
@@ -82,9 +71,12 @@ public class Ranking implements Serializable {
 
     public void readRanking() {
 
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream is = classLoader.getResourceAsStream("assets/text/ranking.txt");
 
         //read from file
-        try (ObjectInputStream oi = new ObjectInputStream(new FileInputStream(((Objects.requireNonNull(getClass().getClassLoader().getResource("assets/text/ranking.txt"))).getFile())))) {
+        try (
+                ObjectInputStream oi = new ObjectInputStream(is)) {
             Object readObject = oi.readObject();
             if (!(readObject instanceof HashMap)) {
                 throw new IOException("Data is not a hashmap");

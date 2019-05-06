@@ -11,7 +11,7 @@ public class TimerTaskPaccman {
         this.time = time;
     }
 
-    public boolean isTimerON() {
+    public boolean isTimerOFF() {
         return !timerON;
     }
 
@@ -28,12 +28,12 @@ public class TimerTaskPaccman {
         }
     }
 
-    public void checkIfTimerIsEnd() {
+    public boolean checkIfTimerIsEnd() {
         if (System.currentTimeMillis() - timer >= time) {
             timerON = false;
             timerStarted = false;
 
-
-        }
+return true;
+        }  return false;
     }
 }

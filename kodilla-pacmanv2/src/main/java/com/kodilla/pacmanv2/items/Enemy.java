@@ -1,6 +1,9 @@
 package com.kodilla.pacmanv2.items;
 
+import com.kodilla.pacmanv2.Constant;
 import com.kodilla.pacmanv2.GameInit;
+import com.kodilla.pacmanv2.itemsControl.EnemyControl;
+import com.kodilla.pacmanv2.itemsControl.WallCollision;
 import com.kodilla.pacmanv2.pacmanBoard.levelFactory.LevelFactory;
 import com.kodilla.pacmanv2.pacmanBoard.statistic.PlayerLives;
 
@@ -9,6 +12,7 @@ import java.awt.*;
 public class Enemy extends Rectangle {
 
     private final EnemyControl enemyControl = new EnemyControl(this, GameInit.getPlayer());
+    private Constant constant = new Constant();
     private final WallCollision wallCollision = new WallCollision();
     private int startingLocationX, startingLocationY, tick = 0, animationPicture;
     private boolean brave;
@@ -23,7 +27,7 @@ public class Enemy extends Rectangle {
         this.colour = colour;
         startingLocationY = y;
         startingLocationX = x;
-        setBounds(x, y, GameInit.TILE_SIZE, GameInit.TILE_SIZE);
+        setBounds(x, y, constant.getTILE_SIZE(), constant.getTILE_SIZE());
     }
 
     public void enemyTick() {
@@ -150,7 +154,7 @@ public class Enemy extends Rectangle {
     }
 
     public void waitThenGoOutside(int timeInSeconds) {
-        double time = timeInSeconds * GameInit.targetTick;
+        double time = timeInSeconds * constant.getTargetTick();
         if (wallCollision.thereIsNoCollisionOnUp(x, y)) {
             // when fps is set to 60  then 1 second is 60 ticks
             setDirections(Enemy.Directions.STOP);
@@ -163,27 +167,27 @@ public class Enemy extends Rectangle {
         }
     }
 
-    boolean isBrave() {
+    public boolean isBrave() {
         return brave;
     }
 
-    void setItsEye(boolean itsEye) {
+    public void setItsEye(boolean itsEye) {
         this.itsEye = itsEye;
     }
 
-    boolean isChangeOfDirection() {
+    public boolean isChangeOfDirection() {
         return changeOfDirection;
     }
 
-    void setChangeOfDirection(boolean changeOfDirection) {
+    public void setChangeOfDirection(boolean changeOfDirection) {
         this.changeOfDirection = changeOfDirection;
     }
 
-    Directions getDirection() {
+    public Directions getDirection() {
         return direction;
     }
 
-    void setDirections(Directions direction) {
+    public void setDirections(Directions direction) {
         this.direction = direction;
     }
 
@@ -216,7 +220,7 @@ public class Enemy extends Rectangle {
         this.tick = tick;
     }
 
-    enum Directions {
+    public enum Directions {
         DOWN,
         UP,
         LEFT,

@@ -1,7 +1,10 @@
 package com.kodilla.pacmanv2.items;
 
+import com.kodilla.pacmanv2.Constant;
 import com.kodilla.pacmanv2.GameInit;
+import com.kodilla.pacmanv2.itemsControl.WallCollision;
 import com.kodilla.pacmanv2.pacmanBoard.BonusMode;
+import com.kodilla.pacmanv2.pacmanBoard.Music;
 import com.kodilla.pacmanv2.pacmanBoard.statistic.PlayerLives;
 
 import java.awt.*;
@@ -12,9 +15,11 @@ public class Player extends Rectangle {
 
 
     private static boolean isAlive= true;
+    private GameInit gameInit;
     private static boolean addedToRanking=false;
     private final WallCollision wallCollision = new WallCollision();
     private int animationPicture;
+    private Music music = new Music();
     private int playerImagePossition;
     private static int timeAnimation = 0;
     private int startingLocationX, startingLocationY;
@@ -22,12 +27,13 @@ public class Player extends Rectangle {
     private int speed = 4;
     private String mainDirection = "STOP", nextDirection = "STOP";
     private boolean HitByEnemy = false;
+    private Constant constant = new Constant();
 
-
-    public Player(int x, int y) {
+    public Player(int x, int y, GameInit gameInit) {
+        this.gameInit = gameInit;
         startingLocationY = y;
         startingLocationX = x;
-        setBounds(x, y, GameInit.TILE_SIZE, GameInit.TILE_SIZE);
+        setBounds(x, y, constant.getTILE_SIZE(), constant.getTILE_SIZE());
     }
 
 
@@ -127,7 +133,7 @@ public class Player extends Rectangle {
     }
 
     private boolean isInTheMiddleOfTile(int y) {
-        return y % GameInit.TILE_SIZE == 0;
+        return y % constant.getTILE_SIZE() == 0;
     }
 
     private void playerAnimation() {
@@ -249,8 +255,8 @@ public class Player extends Rectangle {
     private void ifIntersectWithDotThenRemoveDotAndAddPoints(int x, int y) {
 
 
-        Rectangle rectangle = new Rectangle(x, y, GameInit.TILE_SIZE, GameInit.TILE_SIZE);
-        int lineNumber = y / GameInit.TILE_SIZE;
+        Rectangle rectangle = new Rectangle(x, y, constant.getTILE_SIZE(), constant.getTILE_SIZE());
+        int lineNumber = y / constant.getTILE_SIZE();
 
         int minLineNumber, maxLinenumber;
         maxLinenumber = lineNumber + 1;
@@ -261,18 +267,18 @@ public class Player extends Rectangle {
 
         for (lineNumber = minLineNumber; lineNumber < maxLinenumber; lineNumber++) {
             for (int itemNumber = 0; itemNumber < maze.getMaze().get(lineNumber).getLineOfItems().size(); itemNumber++) {
-                if (maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber) instanceof Dot) {
-                    if (rectangle.intersects((Dot) maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber))) {
-                        maze.getMaze().get(lineNumber).getLineOfItems().replace(itemNumber, new Empty(x, y));
-                        GameInit.getScore().addPointForSmallDot();
-                    }
-                }
-                if (maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber) instanceof BigDot) {
-                    if (rectangle.intersects((BigDot) maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber))) {
-                        maze.getMaze().get(lineNumber).getLineOfItems().replace(itemNumber, new Empty(x, y));
-                        GameInit.getScore().addPointForBigDot();
-                        bonusMode.startBonus();
+                Items item = maze.getMaze().get(lineNumber).getLineOfItems().get(itemNumber);
+                if (item instanceof Dot) {
+                    if (rectangle.intersects((Dot) item)) {
 
+                        maze.getMaze().get(lineNumber).getLineOfItems().replace(itemNumber, new Empty(x, y));
+                        music.playEatBallMusic();
+                        if (((Dot) item).isBigDot()) {
+                            GameInit.getScore().addPointForBigDot();
+                            bonusMode.startBonus();
+                        } else {
+                            GameInit.getScore().addPointForSmallDot();
+                        }
                     }
                 }
             }

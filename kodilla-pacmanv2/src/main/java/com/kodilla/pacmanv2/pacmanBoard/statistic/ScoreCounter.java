@@ -17,7 +17,7 @@ public class ScoreCounter {
     }
 
     public void addPointForBigDot() {
-        int pointForBigDot = 30;
+        int pointForBigDot = 100;
         this.score = this.score + pointForBigDot;
     }
 

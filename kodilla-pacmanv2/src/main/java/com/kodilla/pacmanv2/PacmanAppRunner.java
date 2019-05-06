@@ -18,11 +18,13 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
     private static boolean isRunning = false;
     private static GameInit gameInit;
     private static GameMenu gameMenu;
+    private String stop = "STOP";
     private Thread thread;
     private TimerTaskPaccman deadAnimation = new TimerTaskPaccman(3000);
 
     private PacmanAppRunner() {
-        Dimension dimension = new Dimension(GameInit.WIDTH, GameInit.HEIGHT);
+
+        Dimension dimension = new Dimension(gameInit.getConstant().getWIDTH(), gameInit.getConstant().getHEIGHT());
         gameMenu = new GameMenu(gameInit);
         RankingMenu ranking = new RankingMenu(gameInit);
         setPreferredSize(dimension);
@@ -42,7 +44,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         frame.setBounds(0, 0, 1600, 960);
         frame.add(GameMenu.getPanel()).setLocation(630, 300);
         frame.add(RankingMenu.getPanel()).setLocation(600,250);
-        frame.setTitle(GameInit.getTITLE());
+        frame.setTitle(gameInit.getConstant().getTITLE());
         frame.setUndecorated(true);
         frame.add(game);
         frame.setResizable(false);
@@ -53,9 +55,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
     }
 
-    public static GameMenu getGameMenu() {
-        return gameMenu;
-    }
+
 
     private synchronized void start() {
         if (isRunning) return;
@@ -76,16 +76,14 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
     private void thick()  {
 
-            GameInit.getPlayer().tick();
-
-
+        GameInit.getPlayer().tick();
 
         if (GameInit.getPlayer().isHitByEnemy()) {
             gameInit.sendEnemyToHome();
             GameInit.isNewRound = true;
-
         }
-        if (!GameInit.isPause()) {
+
+        if (!gameInit.isPause()) {
         gameInit.getEnemyBlue().enemyTick();
         gameInit.getEnemyPurple().enemyTick();
         gameInit.getEnemyGreen().enemyTick();
@@ -113,9 +111,14 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         GameInit.getScore().paint(g);
         GameInit.getPlayerLives().paintComponent(g);
 
-
+        if (gameInit.getLevel().listOfDots().size() <1) {
+            gameInit.getWinner().paint(g);
+            gameInit.setPause(true);
+            gameMenu.showMenu();
+        }
         if (GameInit.isNewRound) {
-            GameInit.getNewRound().paint(g);
+            gameInit.getNewRound().paint(g);
+
         }
         g.dispose();
         bs.show();
@@ -129,10 +132,11 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         long lastTime = System.nanoTime();
 
         double delta = 0;
-        double ns = 1000000000 / gameInit.getTargetTick();
+        double ns = 1000000000 / gameInit.getConstant().getTargetTick();
+
 
         gameInit.getMusic().playWelocmeSound();
-        gameInit.getWelcomeTimerMusic().StartTimer();
+
         gameInit.getRanking().readRanking();
 
         while (isRunning) {
@@ -148,7 +152,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
                 playMusic();
                 ifPlayerIsDeadShowEndMenu();
-
+                ifThereAreNoMoreDotsThenPlayMusicWinner();
                     render();
                     thick();
 
@@ -170,101 +174,76 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
             deadAnimation.StartTimer();
             deadAnimation.checkIfTimerIsEnd();
-            if (deadAnimation.isTimerON()) {
+            if (deadAnimation.isTimerOFF()) {
 
-                if (!Player.isAddedToRanking()) {
-                    gameInit.getRanking().addToRanking(Player.getUserName());
-                    gameInit.getRanking().saveRanking();
-                    Player.setAddedToRanking(true);
-                }
-
-
-                gameInit.getRanking().printRankingTop10();
+                gameInit.getRanking().RankingTop10ToString();
                 gameMenu.showMenu();
-                GameInit.setPause(true);
-
+                gameInit.setPause(true);
             }
-
         }
     }
 
-    private void playMusic() {
-        gameInit.getWelcomeTimerMusic().checkIfTimerIsEnd();
-        if (gameInit.getWelcomeTimerMusic().isTimerON()) {
-            if (gameInit.getTimerMusic().isTimerON()) {
-                gameInit.getTimerMusic().StartTimer();
-                if (!GameInit.isPause()) {
-                    if (PlayerLives.getLives()>0) {
-                        gameInit.getMusic().playBackgroundSound();
-                    }
 
-                }
+    private void ifThereAreNoMoreDotsThenPlayMusicWinner() {
 
-            }
-            gameInit.getTimerMusic().checkIfTimerIsEnd();
+        if (gameInit.getLevel().listOfDots().size() ==0 ) {
+           gameInit.getMusic().playWinnerMusic();
         }
+    }
+
+
+    private void playMusic() {
+
+        gameInit.getMusic().getWelcomeMusicTimer().checkIfTimerIsEnd();
+              if (gameInit.getMusic().getWelcomeMusicTimer().isTimerOFF() && !gameInit.isPause() && PlayerLives.getLives()>0) {
+                gameInit.getMusic().playBackgroundSound();
+              }
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
     }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (Player.isAlive() && !GameInit.isPause()) {
-            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-
-                if (GameInit.getPlayer().getMainDirection().equals("LEFT") || GameInit.getPlayer().getMainDirection().equals("STOP")) {
-                    GameInit.getPlayer().setMainDirection("RIGHT");
-                    GameInit.getPlayer().setNextDirection("STOP");
-
-                } else if (GameInit.getPlayer().getMainDirection().equals("UP") || GameInit.getPlayer().getMainDirection().equals("DOWN")) {
-                    GameInit.getPlayer().setNextDirection("RIGHT");
-
-                }
-
-            }
-            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                if (GameInit.getPlayer().getMainDirection().equals("RIGHT") || GameInit.getPlayer().getMainDirection().equals("STOP")) {
-                    GameInit.getPlayer().setMainDirection("LEFT");
-                    GameInit.getPlayer().setNextDirection("STOP");
-                } else if (GameInit.getPlayer().getMainDirection().equals("UP") || GameInit.getPlayer().getMainDirection().equals("DOWN")) {
-                    GameInit.getPlayer().setNextDirection("LEFT");
-
-                }
-            }
-            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                if (GameInit.getPlayer().getMainDirection().equals("UP") || GameInit.getPlayer().getMainDirection().equals("STOP")) {
-                    GameInit.getPlayer().setMainDirection("DOWN");
-                    GameInit.getPlayer().setNextDirection("STOP");
-
-                } else if (GameInit.getPlayer().getMainDirection().equals("LEFT") || GameInit.getPlayer().getMainDirection().equals("RIGHT")) {
-
-                    GameInit.getPlayer().setNextDirection("DOWN");
-                }
-            }
-            if (e.getKeyCode() == KeyEvent.VK_UP) {
-                if (GameInit.getPlayer().getMainDirection().equals("DOWN") || GameInit.getPlayer().getMainDirection().equals("STOP")) {
-                    GameInit.getPlayer().setMainDirection("UP");
-                    GameInit.getPlayer().setNextDirection("STOP");
-                } else if (GameInit.getPlayer().getMainDirection().equals("LEFT") || GameInit.getPlayer().getMainDirection().equals("RIGHT")) {
-                    GameInit.getPlayer().setNextDirection("UP");
-                }
-            }
-        }
-            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    GameMenu.getPanel().setVisible(!GameMenu.getPanel().isVisible());
-                    GameInit.setPause(!GameInit.isPause());
-                    GameInit.getPlayer().setMainDirection("STOP");
-                    GameInit.getPlayer().setNextDirection("STOP");
-            }
-
-    }
-
     @Override
     public void keyReleased(KeyEvent e) {
 
     }
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (Player.isAlive() && !gameInit.isPause()) {
+            String right = "RIGHT";
+            String left = "LEFT";
+            String up = "UP";
+            String down = "DOWN";
+            pressKey(e, KeyEvent.VK_RIGHT, left, right, up, down);
+            pressKey(e, KeyEvent.VK_LEFT, right, left, up, down);
+            pressKey(e, KeyEvent.VK_DOWN, up, down, left, right);
+            pressKey(e, KeyEvent.VK_UP, down, up, left, right);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            GameMenu.getPanel().setVisible(!GameMenu.getPanel().isVisible());
+            gameInit.setPause(!gameInit.isPause());
+            GameInit.getPlayer().setMainDirection(stop);
+            GameInit.getPlayer().setNextDirection(stop);
+        }
+
+    }
+
+    private void pressKey(KeyEvent e, int vkCode, String oppositeToVKCodeDirection, String vkDirection, String RotationDirectionBy90Degree, String oppositeRotatedDirection) {
+        if (e.getKeyCode() == vkCode) {
+
+            if (GameInit.getPlayer().getMainDirection().equals(oppositeToVKCodeDirection) || GameInit.getPlayer().getMainDirection().equals(stop)) {
+                GameInit.getPlayer().setMainDirection(vkDirection);
+                GameInit.getPlayer().setNextDirection(stop);
+
+            } else if (GameInit.getPlayer().getMainDirection().equals(RotationDirectionBy90Degree) || GameInit.getPlayer().getMainDirection().equals(oppositeRotatedDirection)) {
+                GameInit.getPlayer().setNextDirection(vkDirection);
+
+            }
+
+        }
+    }
+
+
 
 
 }

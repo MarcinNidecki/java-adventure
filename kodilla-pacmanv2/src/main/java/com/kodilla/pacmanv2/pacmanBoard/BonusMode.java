@@ -17,7 +17,7 @@ public class BonusMode {
     public void checkIfBonusIsOn() {
 
         timer.checkIfTimerIsEnd();
-        if (timer.isTimerON()) {
+        if (timer.isTimerOFF()) {
             GameInit.bonus = false;
         }
     }

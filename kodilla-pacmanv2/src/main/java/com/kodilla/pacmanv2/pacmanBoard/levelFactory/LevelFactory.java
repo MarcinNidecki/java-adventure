@@ -1,13 +1,11 @@
 package com.kodilla.pacmanv2.pacmanBoard.levelFactory;
 
-import com.kodilla.pacmanv2.items.BigDot;
 import com.kodilla.pacmanv2.items.Dot;
 import com.kodilla.pacmanv2.items.Empty;
 import com.kodilla.pacmanv2.items.Wall;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,16 +19,13 @@ public class LevelFactory {
 
         // try read the file
         Scanner scanner = null;
-        try {
 
-            ClassLoader classLoader = getClass().getClassLoader();
-            File fileTxTLevel = new File(Objects.requireNonNull(classLoader.getResource("assets/text/pacman_level.txt")).getFile());
-            scanner = new Scanner(fileTxTLevel);
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream is = classLoader.getResourceAsStream("assets/text/pacman_level.txt");
 
+        // File fileTxTLevel = new File(Objects.requireNonNull(classLoader.getResource("assets/text/pacman_level.txt")).getFile());
+        scanner = new Scanner(is);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
         ArrayList<String> levelData = new ArrayList<>();
         assert scanner != null;
@@ -42,6 +37,7 @@ public class LevelFactory {
 
         // load elements from file
         int w = levelData.get(0).length();
+        Dot dot;
         for (int xx = 0; xx < levelData.size(); xx++) {
             String line = levelData.get(xx);
             LineOfMaze lineOfMaze = new LineOfMaze();
@@ -57,12 +53,12 @@ public class LevelFactory {
 
                         break;
                     case '0':
-                        Dot dot = new Dot(yy * 40, xx * 40);
+                        dot = new Dot(yy * 40, xx * 40,false);
                         lineOfMaze.addElement(yy, dot);
                         break;
                     case '2':
-                        BigDot bigDot = new BigDot(yy * 40, xx * 40);
-                        lineOfMaze.addElement(yy, bigDot);
+                        dot = new Dot(yy * 40, xx * 40, true);
+                        lineOfMaze.addElement(yy, dot);
                         break;
                     case '3':
                         Empty empty = new Empty(yy * 40, xx * 40);
@@ -92,30 +88,27 @@ public class LevelFactory {
 
     }
 
-    public int render(Graphics g) {
+    public void render(Graphics g) {
 
-        List<Map.Entry> listOfDots = maze.getMaze().entrySet().stream()
-                .flatMap(row -> row.getValue().getLineOfItems().entrySet().stream())
-                .filter(t -> (t.getValue() instanceof Dot) || (t.getValue() instanceof BigDot))
-                .collect(Collectors.toList());
-
-
-        listOfDots.size();
-
+        List<Map.Entry> listOfDots = listOfDots();
 
         for (Map.Entry listOfDot : listOfDots) {
             if (listOfDot.getValue() instanceof Dot) {
                 Dot dot = (Dot) listOfDot.getValue();
                 dot.render(g);
             }
-
-            if (listOfDot.getValue() instanceof BigDot) {
-                BigDot bigDot = (BigDot) listOfDot.getValue();
-                bigDot.render(g);
-            }
-
         }
-        return listOfDots.size();
+
+    }
+
+    public List<Map.Entry> listOfDots() {
+        List<Map.Entry> listOfDots = maze.getMaze().entrySet().stream()
+                .flatMap(row -> row.getValue().getLineOfItems().entrySet().stream())
+                .filter(t -> (t.getValue() instanceof Dot))
+                .collect(Collectors.toList());
+
+        listOfDots.size();
+        return listOfDots;
     }
 }
 

@@ -8,13 +8,20 @@ import java.awt.*;
 
 public class NewRound {
 
+    private GameInit gameInit;
+
+    public NewRound (GameInit gameInit) {
+        this.gameInit = gameInit;
+
+    }
+
     private int tick = 0;
     private String countDown;
 
 
     public void paint(Graphics g) {
         if (PlayerLives.getLives()>0){
-            GameInit.setPause(true);
+            gameInit.setPause(true);
             if (tick ==0) {
                 countDown = "";
             }
@@ -30,7 +37,7 @@ public class NewRound {
             tick ++;
             if (tick > 360) {
                 countDown = "";
-                GameInit.setPause(false);
+                gameInit.setPause(false);
                 GameInit.isNewRound = false;
                 Player.setIsAlive(true);
                 Player.setTimeAnimation(0);
