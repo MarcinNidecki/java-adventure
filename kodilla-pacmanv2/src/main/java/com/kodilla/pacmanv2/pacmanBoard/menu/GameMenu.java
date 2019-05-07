@@ -8,9 +8,11 @@ import java.awt.*;
 
 public class GameMenu extends JComponent {
 
-    private static ImagePanel panel;
+    private ImagePanel panel;
+    private RankingMenu rankingMenu;
 
-    public GameMenu(GameInit game) {
+    public GameMenu(GameInit game, RankingMenu rankingMenu) {
+        this.rankingMenu = rankingMenu;
 
         java.net.URL imgURL3 = GameInit.class.getResource("/assets/textures/gameMenu.png");
         ImageIcon icon2 = new ImageIcon(imgURL3);
@@ -57,7 +59,7 @@ public class GameMenu extends JComponent {
         panel.setVisible(false);
     }
 
-    public static ImagePanel getPanel() {
+    public ImagePanel getPanel() {
         return panel;
     }
 
@@ -72,8 +74,8 @@ public class GameMenu extends JComponent {
 
     }
     void showRanking() {
-        RankingMenu.getPanel().setVisible(true);
-        GameMenu.getPanel().setVisible(false);
+        rankingMenu.getPanel().setVisible(true);
+        panel.setVisible(false);
     }
 
 }

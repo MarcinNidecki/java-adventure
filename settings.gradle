@@ -9,4 +9,5 @@ include 'kodilla-stream'
 include 'kodilla-exception'
 include 'kodilla-rps-v2'
 include 'kodilla-pacmanv2'
+include 'kodilla-good-patterns'
 

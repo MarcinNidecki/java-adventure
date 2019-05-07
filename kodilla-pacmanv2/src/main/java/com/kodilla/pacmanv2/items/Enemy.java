@@ -11,19 +11,25 @@ import java.awt.*;
 
 public class Enemy extends Rectangle {
 
-    private final EnemyControl enemyControl = new EnemyControl(this, GameInit.getPlayer());
-    private Constant constant = new Constant();
-    private final WallCollision wallCollision = new WallCollision();
+    private final EnemyControl enemyControl;
+    private Constant constant;
+    private GameInit gameInit;
+    private final WallCollision wallCollision;
     private int startingLocationX, startingLocationY, tick = 0, animationPicture;
     private boolean brave;
     private boolean changeOfDirection;
     private boolean itsEye = false;
     private String colour;
     private Directions direction = Directions.DOWN;
+    private LevelFactory levelFactory;
 
-    public Enemy(int x, int y, boolean brave, String colour) {
+    public Enemy(int x, int y, boolean brave, String colour, Player player, Constant constant, WallCollision wallCollisio, LevelFactory levelFactory, GameInit gameInit) {
+        this.enemyControl = new EnemyControl(this, player, constant,wallCollisio,gameInit);
+        this.wallCollision = new WallCollision(constant);
         this.brave = brave;
         this.colour = colour;
+        this.constant = constant;
+        this.levelFactory = levelFactory;
         startingLocationY = y;
         startingLocationX = x;
         setBounds(x, y, constant.getTILE_SIZE(), constant.getTILE_SIZE());
@@ -32,7 +38,7 @@ public class Enemy extends Rectangle {
     public void enemyTick() {
 
         // TURN ON animation enemy when bonus ON
-        if (GameInit.bonus) {
+        if (constant.isBONUS()) {
             animationPicture = 1;
         } else {
             animationPicture = 0;
@@ -42,7 +48,7 @@ public class Enemy extends Rectangle {
         enemyControl.checkIfNeedToUseATeleport();
 
         if (enemyControl.checkIfIsInHome()) {
-            LevelFactory.openDoor();
+            levelFactory.openDoor();
             if (colour.equals("RED") || colour.equals("BLUE")) {
                 itsEye = false;
                 waitThenGoOutside(3);
@@ -52,7 +58,7 @@ public class Enemy extends Rectangle {
             }
 
         } else {
-            LevelFactory.closeDoor();
+            levelFactory.closeDoor();
         }
 
         goToHomeWhenIsEye();
@@ -133,7 +139,7 @@ public class Enemy extends Rectangle {
     private void goToHomeWhenIsEye() {
 
         if (itsEye) {
-            if (x > 600 && x < 880 && y > 320 && y < 440) {
+            if (x > 600 && x < 880 && y > 310 && y < 520) {
                 x = startingLocationX;
                 y = startingLocationY;
             }
@@ -153,7 +159,7 @@ public class Enemy extends Rectangle {
     }
 
     public void waitThenGoOutside(int timeInSeconds) {
-        double time = timeInSeconds * constant.getTargetTick();
+        double time = timeInSeconds * constant.getTARGET_TICK();
         if (wallCollision.thereIsNoCollisionOnUp(x, y)) {
             // when fps is set to 60  then 1 second is 60 ticks
             setDirections(Enemy.Directions.STOP);

@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Dot extends Rectangle implements Items {
 
-    private Constant constant = new Constant();
+    private Constant constant;
 
     public boolean isBigDot() {
         return isBigDot;
@@ -14,7 +14,8 @@ public class Dot extends Rectangle implements Items {
 
     private boolean isBigDot;
 
-    public Dot(int x, int y, boolean isBigDot) {
+    public Dot(int x, int y, boolean isBigDot, Constant constant) {
+        this.constant = constant;
         this.isBigDot = isBigDot;
         setBounds(x, y, constant.getTILE_SIZE(),constant.getTILE_SIZE());
     }

@@ -29,7 +29,7 @@ public class Ranking implements Serializable {
     }
 
     private static TreeMap<String, Integer> sortMapByValue(HashMap<String, Integer> map) {
-        Comparator<String> comparator = new ValueComparator(map);
+        Comparator<String> comparator = new RankingValueComparator(map);
         //TreeMap is a map sorted by its key.
         //The comparator is used to sort the TreeMap by key.
         TreeMap<String, Integer> result = new TreeMap<>(comparator);
@@ -52,10 +52,10 @@ public class Ranking implements Serializable {
 
     }
 
-    public void saveRanking() throws FileNotFoundException {
+  /*  public void saveRanking() throws FileNotFoundException {
         //write to file : "fileone"
         ClassLoader classLoader = getClass().getClassLoader();
-        OutputStream is =  new FileOutputStream(String.valueOf(classLoader.getResourceAsStream("assets/text/ranking.txt")));
+        OutputStream is =  new FileOutputStream(classLoader.getResourceAsStream("assets/text/ranking.txt"));
         try (ObjectOutputStream o = new ObjectOutputStream(is)) {
 
             o.writeObject(ranking);
@@ -68,6 +68,7 @@ public class Ranking implements Serializable {
 
 
     }
+    */
 
     public void readRanking() {
 

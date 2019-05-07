@@ -4,11 +4,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 
-class ValueComparator implements Comparator<String> {
+class RankingValueComparator implements Comparator<String> {
 
     private HashMap<String, Integer> map = new HashMap<>();
 
-    ValueComparator(HashMap<String, Integer> map) {
+    RankingValueComparator(HashMap<String, Integer> map) {
         this.map.putAll(map);
     }
 

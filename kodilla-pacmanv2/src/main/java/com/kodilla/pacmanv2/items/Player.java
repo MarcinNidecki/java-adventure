@@ -17,20 +17,23 @@ public class Player extends Rectangle {
     private static boolean isAlive= true;
     private GameInit gameInit;
     private static boolean addedToRanking=false;
-    private final WallCollision wallCollision = new WallCollision();
+    private final WallCollision wallCollision;
     private int animationPicture;
     private Music music = new Music();
     private int playerImagePossition;
     private static int timeAnimation = 0;
     private int startingLocationX, startingLocationY;
-    private BonusMode bonusMode = new BonusMode();
+    private BonusMode bonusMode;
     private int speed = 4;
     private String mainDirection = "STOP", nextDirection = "STOP";
     private boolean HitByEnemy = false;
-    private Constant constant = new Constant();
+    private Constant constant;
 
-    public Player(int x, int y, GameInit gameInit) {
+    public Player(int x, int y, GameInit gameInit, Constant constant, WallCollision wallCollision, BonusMode bonusMode) {
         this.gameInit = gameInit;
+        this.constant = constant;
+        this.bonusMode = bonusMode;
+        this.wallCollision = wallCollision;
         startingLocationY = y;
         startingLocationX = x;
         setBounds(x, y, constant.getTILE_SIZE(), constant.getTILE_SIZE());
@@ -271,13 +274,13 @@ public class Player extends Rectangle {
                 if (item instanceof Dot) {
                     if (rectangle.intersects((Dot) item)) {
 
-                        maze.getMaze().get(lineNumber).getLineOfItems().replace(itemNumber, new Empty(x, y));
+                        maze.getMaze().get(lineNumber).getLineOfItems().replace(itemNumber, new Empty(x, y,constant));
                         music.playEatBallMusic();
                         if (((Dot) item).isBigDot()) {
-                            GameInit.getScore().addPointForBigDot();
+                            gameInit.getScore().addPointForBigDot();
                             bonusMode.startBonus();
                         } else {
-                            GameInit.getScore().addPointForSmallDot();
+                            gameInit.getScore().addPointForSmallDot();
                         }
                     }
                 }
@@ -329,7 +332,7 @@ public class Player extends Rectangle {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        Player.userName = userName;
     }
 
     private static String userName = "Ad";

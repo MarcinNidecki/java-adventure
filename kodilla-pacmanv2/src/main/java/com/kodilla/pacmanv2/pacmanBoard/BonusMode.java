@@ -1,15 +1,20 @@
 package com.kodilla.pacmanv2.pacmanBoard;
 
-import com.kodilla.pacmanv2.GameInit;
+import com.kodilla.pacmanv2.Constant;
 
 public class BonusMode {
 
     private final int bonusTime = 10000;
+    private final Constant constant;
     private TimerTaskPaccman timer = new TimerTaskPaccman(bonusTime);
+
+    public  BonusMode (Constant constant) {
+        this.constant = constant;
+    }
 
     public void startBonus() {
 
-        GameInit.bonus = true;
+        constant.setBONUS(true);
         timer.StartTimer();
     }
 
@@ -18,7 +23,7 @@ public class BonusMode {
 
         timer.checkIfTimerIsEnd();
         if (timer.isTimerOFF()) {
-            GameInit.bonus = false;
+            constant.setBONUS(false);
         }
     }
 }

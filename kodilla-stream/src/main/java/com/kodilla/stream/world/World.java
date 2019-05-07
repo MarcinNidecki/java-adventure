@@ -1,8 +1,7 @@
 package com.kodilla.stream.world;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public final class World {
     private final String worldName;
@@ -52,4 +51,5 @@ public final class World {
                 "worldName='" + worldName + '\'' +
                 '}';
     }
+
 }

@@ -11,7 +11,11 @@ import java.util.stream.Collectors;
 
 public class WallCollision {
 
-    private Constant constant = new Constant();
+    private Constant constant;
+
+    public  WallCollision (Constant constant) {
+        this.constant = constant;
+    }
     
     public boolean isNoCollision(int x, int y) {
         Rectangle rectangle = new Rectangle(x, y, constant.getTILE_SIZE(), constant.getTILE_SIZE());
@@ -31,19 +35,19 @@ public class WallCollision {
     }
 
     public boolean thereIsNoCollisionOnLeft(int x, int y) {
-        return isNoCollision(x - constant.getSpeed(), y);
+        return isNoCollision(x - constant.getSPEED(), y);
     }
 
     public boolean thereIsNoCollisionOnRight(int x, int y) {
-        return isNoCollision(x + constant.getSpeed(), y);
+        return isNoCollision(x + constant.getSPEED(), y);
     }
 
     public boolean thereIsNoCollisionOnDown(int x, int y) {
-        return isNoCollision(x, y + constant.getSpeed());
+        return isNoCollision(x, y + constant.getSPEED());
     }
 
     public boolean thereIsNoCollisionOnUp(int x, int y) {
-        return isNoCollision(x, y - constant.getSpeed());
+        return isNoCollision(x, y - constant.getSPEED());
     }
 
 }

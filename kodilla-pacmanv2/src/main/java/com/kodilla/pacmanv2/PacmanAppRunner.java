@@ -2,8 +2,6 @@ package com.kodilla.pacmanv2;
 
 import com.kodilla.pacmanv2.items.Player;
 import com.kodilla.pacmanv2.pacmanBoard.TimerTaskPaccman;
-import com.kodilla.pacmanv2.pacmanBoard.menu.GameMenu;
-import com.kodilla.pacmanv2.pacmanBoard.menu.RankingMenu;
 import com.kodilla.pacmanv2.pacmanBoard.statistic.PlayerLives;
 
 import javax.swing.*;
@@ -15,38 +13,28 @@ import java.awt.image.BufferStrategy;
 public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
 
-    private static boolean isRunning = false;
-
-
 
     private static GameInit gameInit;
-    private static GameMenu gameMenu;
-    private String stop = "STOP";
     private Thread thread;
     private TimerTaskPaccman deadAnimation = new TimerTaskPaccman(3000);
 
     private PacmanAppRunner() {
-
         Dimension dimension = new Dimension(gameInit.getConstant().getWIDTH(), gameInit.getConstant().getHEIGHT());
-        gameMenu = new GameMenu(gameInit);
-        RankingMenu ranking = new RankingMenu(gameInit);
         setPreferredSize(dimension);
         setMaximumSize(dimension);
         setMinimumSize(dimension);
         addKeyListener(this);
-
     }
 
     public static void main(String[] arg) {
+
         gameInit = new GameInit();
-
-
         PacmanAppRunner game = new PacmanAppRunner();
         JFrame frame = new JFrame();
         frame.setBackground(Color.BLACK);
         frame.setBounds(0, 0, 1600, 960);
-        frame.add(GameMenu.getPanel()).setLocation(630, 300);
-        frame.add(RankingMenu.getPanel()).setLocation(600,250);
+        frame.add(gameInit.getGameMenu().getPanel()).setLocation(630, 300);
+        frame.add(gameInit.getRankingMenu().getPanel()).setLocation(600,250);
         frame.setTitle(gameInit.getConstant().getTITLE());
         frame.setUndecorated(true);
         frame.add(game);
@@ -55,21 +43,21 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         game.start();
-
     }
 
 
-
     private synchronized void start() {
-        if (isRunning) return;
-        isRunning = true;
+
+        if (gameInit.isRunning()) return;
+        gameInit.setRunning(true);
         thread = new Thread(this);
         thread.start();
     }
 
     private synchronized void stop() {
-        if (!isRunning) return;
-        isRunning = false;
+
+        if (!gameInit.isRunning()) return;
+        gameInit.setRunning(false);
         try {
             thread.join();
         } catch (InterruptedException e) {
@@ -83,10 +71,10 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
         if (gameInit.getPlayer().isHitByEnemy()) {
             gameInit.sendEnemyToHome();
-            gameInit.getConstant().setNewRound(true);
+            gameInit.getConstant().setIS_NEW_ROUND(true);
         }
 
-        if (!gameInit.isPause()) {
+        if (gameInit.isNotPause()) {
         gameInit.getEnemyBlue().enemyTick();
         gameInit.getEnemyPurple().enemyTick();
         gameInit.getEnemyGreen().enemyTick();
@@ -111,15 +99,15 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         gameInit.getEnemyRed().paintEnemyRed(g);
         gameInit.getEnemyGreen().paintEnemyGreen(g);
         gameInit.getEnemyPurple().paintEnemyPurple(g);
-        GameInit.getScore().paint(g);
-        GameInit.getPlayerLives().paintComponent(g);
+        gameInit.getScore().paint(g);
+        gameInit.getPlayerLives().paintComponent(g);
 
         if (gameInit.getLevel().listOfDots().size() <1) {
             gameInit.getWinner().paint(g);
             gameInit.setPause(true);
-            gameMenu.showMenu();
+            gameInit.getGameMenu().showMenu();
         }
-        if (gameInit.getConstant().isNewRound()) {
+        if (gameInit.getConstant().isIS_NEW_ROUND()) {
             gameInit.getNewRound().paint(g);
 
         }
@@ -133,17 +121,13 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
         int fps = 0;
         double timer = System.currentTimeMillis();
         long lastTime = System.nanoTime();
-
         double delta = 0;
-        double ns = 1000000000 / gameInit.getConstant().getTargetTick();
-
+        double ns = 1000000000 / gameInit.getConstant().getTARGET_TICK();
 
         gameInit.getMusic().playWelocmeSound();
-
         gameInit.getRanking().readRanking();
 
-        while (isRunning) {
-
+        while (gameInit.isRunning()) {
 
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
@@ -151,9 +135,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
             while (delta >= 1) {
 
-
-
-                playMusic();
+                playBackgroundMusic();
                 ifPlayerIsDeadShowEndMenu();
                 ifThereAreNoMoreDotsThenPlayMusicWinner();
                     render();
@@ -180,7 +162,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
             if (deadAnimation.isTimerOFF()) {
 
                 gameInit.getRanking().RankingTop10ToString();
-                gameMenu.showMenu();
+                gameInit.getGameMenu().showMenu();
                 gameInit.setPause(true);
             }
         }
@@ -191,14 +173,15 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
         if (gameInit.getLevel().listOfDots().size() ==0 ) {
            gameInit.getMusic().playWinnerMusic();
+
         }
     }
 
 
-    private void playMusic() {
+    private void playBackgroundMusic() {
 
         gameInit.getMusic().getWelcomeMusicTimer().checkIfTimerIsEnd();
-              if (gameInit.getMusic().getWelcomeMusicTimer().isTimerOFF() && !gameInit.isPause() && PlayerLives.getLives()>0) {
+              if (gameInit.getMusic().getWelcomeMusicTimer().isTimerOFF() && gameInit.isNotPause() && PlayerLives.getLives()>0) {
                 gameInit.getMusic().playBackgroundSound();
               }
     }
@@ -212,7 +195,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
     }
     @Override
     public void keyPressed(KeyEvent e) {
-        if (Player.isAlive() && !gameInit.isPause()) {
+        if (Player.isAlive() && gameInit.isNotPause()) {
             String right = "RIGHT";
             String left = "LEFT";
             String up = "UP";
@@ -223,10 +206,10 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
             pressKey(e, KeyEvent.VK_UP, down, up, left, right);
         }
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            GameMenu.getPanel().setVisible(!GameMenu.getPanel().isVisible());
-            gameInit.setPause(!gameInit.isPause());
-            gameInit.getPlayer().setMainDirection(stop);
-            gameInit.getPlayer().setNextDirection(stop);
+            gameInit.getGameMenu().getPanel().setVisible(!gameInit.getGameMenu().getPanel().isVisible());
+            gameInit.setPause(gameInit.isNotPause());
+            gameInit.getPlayer().setMainDirection(gameInit.getConstant().getSTOP());
+            gameInit.getPlayer().setNextDirection(gameInit.getConstant().getSTOP());
         }
 
     }
@@ -234,9 +217,9 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
     private void pressKey(KeyEvent e, int vkCode, String oppositeToVKCodeDirection, String vkDirection, String RotationDirectionBy90Degree, String oppositeRotatedDirection) {
         if (e.getKeyCode() == vkCode) {
 
-            if (gameInit.getPlayer().getMainDirection().equals(oppositeToVKCodeDirection) || gameInit.getPlayer().getMainDirection().equals(stop)) {
+            if (gameInit.getPlayer().getMainDirection().equals(oppositeToVKCodeDirection) || gameInit.getPlayer().getMainDirection().equals(gameInit.getConstant().getSTOP())) {
                 gameInit.getPlayer().setMainDirection(vkDirection);
-                gameInit.getPlayer().setNextDirection(stop);
+                gameInit.getPlayer().setNextDirection(gameInit.getConstant().getSTOP());
 
             } else if (gameInit.getPlayer().getMainDirection().equals(RotationDirectionBy90Degree) || gameInit.getPlayer().getMainDirection().equals(oppositeRotatedDirection)) {
                 gameInit.getPlayer().setNextDirection(vkDirection);

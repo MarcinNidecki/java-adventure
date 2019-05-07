@@ -12,30 +12,34 @@ import java.awt.*;
 public class EnemyControl {
     private final Enemy enemy;
     private final Player player;
-    private Constant constant = new Constant();
-    private final WallCollision wallCollision = new WallCollision();
+    private Constant constant;
+    private GameInit gameInit;
+    private final WallCollision wallCollision;
     private Music music = new Music();
 
-    public EnemyControl(Enemy enemy, Player player) {
+    public EnemyControl(Enemy enemy, Player player, Constant constant, WallCollision wallCollision, GameInit gameInit) {
         this.enemy = enemy;
+        this.constant = constant;
         this.player = player;
+        this.gameInit = gameInit;
+        this.wallCollision = wallCollision;
     }
 
 
     public void goDown() {
-        enemy.y += constant.getSpeed();
+        enemy.y += constant.getSPEED();
     }
 
     public void goUp() {
-        enemy.y -= constant.getSpeed();
+        enemy.y -= constant.getSPEED();
     }
 
     public void goRight() {
-        enemy.x += constant.getSpeed();
+        enemy.x += constant.getSPEED();
     }
 
     public void goLeft() {
-        enemy.x -= constant.getSpeed();
+        enemy.x -= constant.getSPEED();
     }
 
 
@@ -62,7 +66,7 @@ public class EnemyControl {
         if (rectangle.intersects(player.getX(), player.getY(), 40, 40)) {
 
             // if is bonus send enemy to home
-            if (GameInit.bonus) {
+            if (constant.isBONUS()) {
                 enemy.setItsEye(true);
                 music.playEatGhostMusic();
             } else {
@@ -71,7 +75,7 @@ public class EnemyControl {
                     player.stop();
                     music.playDeathMusic();
                 }
-                GameInit.getPlayerLives().removeLive();
+                gameInit.getPlayerLives().removeLive();
                 player.setHitByEnemy(true);
             }
         }
@@ -211,7 +215,7 @@ public class EnemyControl {
             case DOWN:
 
                 // if brave and is no bonus time
-                if (enemy.isBrave() && !GameInit.bonus) {
+                if (enemy.isBrave() && !constant.isBONUS()) {
 
                     if (enemy.x > player.getX() && enemy.x % constant.getTILE_SIZE() == 0 && wallCollision.thereIsNoCollisionOnLeft(enemy.x, enemy.y)) {
                         enemy.setDirections(Enemy.Directions.LEFT);
@@ -230,7 +234,7 @@ public class EnemyControl {
 
                 } else {
                     // if is not brave and bonus is off then go closer and when is close to player run away
-                    if (!GameInit.bonus) {
+                    if (!constant.isBONUS()) {
                         escapeOnDistanceWhenUpOrDown(160);
                         break;
                         // is is bonus then everyone run away
@@ -243,7 +247,7 @@ public class EnemyControl {
             case RIGHT:
             case LEFT:
                 // if brave then get closer to player
-                if (enemy.isBrave() && !GameInit.bonus) {
+                if (enemy.isBrave() && !constant.isBONUS()) {
                     if (enemy.y > player.getY() && enemy.y % constant.getTILE_SIZE() == 0 && wallCollision.thereIsNoCollisionOnUp(enemy.x, enemy.y)) {
                         enemy.setDirections(Enemy.Directions.UP);
                         goUp();
@@ -261,7 +265,7 @@ public class EnemyControl {
 
                     // if is not brave  then when is close to player run away
                 } else {
-                    if (!GameInit.bonus) {
+                    if (!constant.isBONUS()) {
                         // is bonus if OFF but enemy is not brave
                         EscapeOnDistanceWhenLeftOrRight(160);
                         break;

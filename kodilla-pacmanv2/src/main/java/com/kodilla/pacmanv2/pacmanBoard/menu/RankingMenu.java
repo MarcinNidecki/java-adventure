@@ -9,7 +9,7 @@ import java.awt.*;
 public class RankingMenu extends JComponent {
 
     private ImageIcon  startGameIcon;
-    private static ImagePanel panel;
+    private ImagePanel panel;
     private JButton newGame;
     private JTextArea textArea = new JTextArea(60, 60);
 
@@ -56,12 +56,12 @@ public class RankingMenu extends JComponent {
         panel.setVisible(false);
     }
 
-    public static ImagePanel getPanel() {
+    public ImagePanel getPanel() {
         return panel;
     }
 
     public void setPanel(ImagePanel panel) {
-        RankingMenu.panel = panel;
+        this.panel = panel;
     }
 
     public JButton getB() {

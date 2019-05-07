@@ -1,5 +1,6 @@
 package com.kodilla.pacmanv2.pacmanBoard.levelFactory;
 
+import com.kodilla.pacmanv2.Constant;
 import com.kodilla.pacmanv2.items.Dot;
 import com.kodilla.pacmanv2.items.Empty;
 import com.kodilla.pacmanv2.items.Wall;
@@ -13,9 +14,10 @@ import java.util.stream.Collectors;
 public class LevelFactory {
 
     public static Maze maze = new Maze();
+    private Constant constant;
 
-    public LevelFactory() {
-
+    public LevelFactory(Constant constant) {
+        this.constant = constant;
 
         // try read the file
         Scanner scanner = null;
@@ -47,21 +49,21 @@ public class LevelFactory {
                 switch (c) {
 
                     case '1':
-                        Wall wall = new Wall(yy * 40, xx * 40);
+                        Wall wall = new Wall(yy * 40, xx * 40,constant);
 
                         lineOfMaze.addElement(yy, wall);
 
                         break;
                     case '0':
-                        dot = new Dot(yy * 40, xx * 40,false);
+                        dot = new Dot(yy * 40, xx * 40,false,constant);
                         lineOfMaze.addElement(yy, dot);
                         break;
                     case '2':
-                        dot = new Dot(yy * 40, xx * 40, true);
+                        dot = new Dot(yy * 40, xx * 40, true,constant);
                         lineOfMaze.addElement(yy, dot);
                         break;
                     case '3':
-                        Empty empty = new Empty(yy * 40, xx * 40);
+                        Empty empty = new Empty(yy * 40, xx * 40,constant);
                         lineOfMaze.addElement(yy, empty);
                         break;
                 }
@@ -72,19 +74,19 @@ public class LevelFactory {
         }
     }
 
-    public static void closeDoor() {
+    public void closeDoor() {
 
-        maze.getMaze().get(9).getLineOfItems().replace(18, new Wall(720, 360));
-        maze.getMaze().get(9).getLineOfItems().replace(19, new Wall(760, 360));
-        maze.getMaze().get(9).getLineOfItems().replace(20, new Wall(800, 360));
+        maze.getMaze().get(9).getLineOfItems().replace(18, new Wall(720, 360,constant));
+        maze.getMaze().get(9).getLineOfItems().replace(19, new Wall(760, 360,constant));
+        maze.getMaze().get(9).getLineOfItems().replace(20, new Wall(800, 360,constant));
 
     }
 
-    public static void openDoor() {
+    public void openDoor() {
 
-        maze.getMaze().get(9).getLineOfItems().replace(18, new Empty(720, 360));
-        maze.getMaze().get(9).getLineOfItems().replace(19, new Empty(760, 360));
-        maze.getMaze().get(9).getLineOfItems().replace(20, new Empty(800, 360));
+        maze.getMaze().get(9).getLineOfItems().replace(18, new Empty(720, 360,constant));
+        maze.getMaze().get(9).getLineOfItems().replace(19, new Empty(760, 360,constant));
+        maze.getMaze().get(9).getLineOfItems().replace(20, new Empty(800, 360,constant));
 
     }
 
