@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.kodilla.stream.array.ArrayOperationsTestSuite" tests="1" skipped="0" failures="0" errors="0"
-           timestamp="2019-04-02T21:24:06" hostname="DESKTOP-U5C47E2" time="0.012">
-    <properties/>
-    <testcase name="testGetAverage" classname="com.kodilla.stream.array.ArrayOperationsTestSuite" time="0.012"/>
-    <system-out><![CDATA[2 2 2 2 2 2 2.0]]></system-out>
-    <system-err><![CDATA[]]></system-err>
+<testsuite name="com.kodilla.stream.array.ArrayOperationsTestSuite" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-05-07T18:20:46" hostname="DESKTOP-U5C47E2" time="0.038">
+  <properties/>
+  <testcase name="testGetAverage" classname="com.kodilla.stream.array.ArrayOperationsTestSuite" time="0.038"/>
+  <system-out><![CDATA[2 2 2 2 2 2 2.0]]></system-out>
+  <system-err><![CDATA[]]></system-err>
 </testsuite>
