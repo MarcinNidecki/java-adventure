@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.kodilla.testing.forum.statistics.TestStatisticCalculation" tests="7" skipped="0" failures="0"
-           errors="0" timestamp="2019-03-20T15:22:52" hostname="DESKTOP-U5C47E2" time="0.176">
-    <properties/>
-    <testcase name="testCalculateAdvStatisticsWhenIsNoComments"
-              classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.166"/>
-    <testcase name="testCalculateAdvStatisticsWhenIsMorCommentsThenPosts"
-              classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.002"/>
-    <testcase name="testCalculateAdvStatisticsWhenIsNoPost"
-              classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.001"/>
-    <testcase name="testCalculateAdvStatisticsWhenIsNoUser"
-              classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.002"/>
-    <testcase name="testCalculateAdvStatisticsWhenIsMorePostsThenComments"
-              classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.002"/>
-    <testcase name="testCalculateAdvStatisticsWhenIs1000Posts"
-              classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.001"/>
-    <testcase name="testCalculateAdvStatisticsWhenIs100User"
-              classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.001"/>
-    <system-out><![CDATA[Test Suite: begin
+<testsuite name="com.kodilla.testing.forum.statistics.TestStatisticCalculation" tests="7" skipped="0" failures="0" errors="0" timestamp="2019-05-07T18:20:49" hostname="DESKTOP-U5C47E2" time="0.194">
+  <properties/>
+  <testcase name="testCalculateAdvStatisticsWhenIsNoComments" classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.182"/>
+  <testcase name="testCalculateAdvStatisticsWhenIsMorCommentsThenPosts" classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.002"/>
+  <testcase name="testCalculateAdvStatisticsWhenIsNoPost" classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.002"/>
+  <testcase name="testCalculateAdvStatisticsWhenIsNoUser" classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.001"/>
+  <testcase name="testCalculateAdvStatisticsWhenIsMorePostsThenComments" classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.002"/>
+  <testcase name="testCalculateAdvStatisticsWhenIs1000Posts" classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.002"/>
+  <testcase name="testCalculateAdvStatisticsWhenIs100User" classname="com.kodilla.testing.forum.statistics.TestStatisticCalculation" time="0.002"/>
+  <system-out><![CDATA[Test Suite: begin
 Preparing to execute test #1
 success
 Preparing to execute test #2
@@ -33,5 +25,5 @@ Preparing to execute test #7
 success
 Test Suite: end
 ]]></system-out>
-    <system-err><![CDATA[]]></system-err>
+  <system-err><![CDATA[]]></system-err>
 </testsuite>
