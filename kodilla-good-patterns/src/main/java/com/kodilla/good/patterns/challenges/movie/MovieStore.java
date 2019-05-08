@@ -7,7 +7,7 @@ import java.util.Map;
 
 class MovieStore {
 
-    public Map<String, List<String>> getMovies() {
+    Map<String, List<String>> getMovies() {
 
         List<String> ironManTranslations = new ArrayList<>();
         ironManTranslations.add("Żelazny Człowiek");
@@ -27,14 +27,6 @@ class MovieStore {
         booksTitlesWithTranslations.put("AV", avengersTranslations);
         booksTitlesWithTranslations.put("FL", flashTranslations);
 
-
-
         return booksTitlesWithTranslations;
-    }
-
-    public void printMovies () {
-
-
-
     }
 }
