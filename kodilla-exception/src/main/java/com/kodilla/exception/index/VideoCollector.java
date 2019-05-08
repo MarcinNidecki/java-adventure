@@ -6,7 +6,7 @@ import java.util.List;
 public class VideoCollector {
     public List<String> getCollection() {
         ArrayList<String> videos = new ArrayList<>();
-        videos.add("Extra Movie");
+        videos.add("Extra com.kodilla.good.patterns.challenges.movie");
         return videos;
     }
 }
