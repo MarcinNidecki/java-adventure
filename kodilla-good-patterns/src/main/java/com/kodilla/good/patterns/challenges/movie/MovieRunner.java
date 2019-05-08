@@ -16,5 +16,4 @@ public class MovieRunner {
         System.out.print(movieList);
 
     }
-
 }
