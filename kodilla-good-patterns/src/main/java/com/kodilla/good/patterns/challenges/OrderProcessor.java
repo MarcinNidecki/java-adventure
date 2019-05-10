@@ -3,7 +3,7 @@ package com.kodilla.good.patterns.challenges;
 import com.kodilla.good.patterns.challenges.informationService.InformationService;
 import com.kodilla.good.patterns.challenges.orderRepository.OrderRepository;
 import com.kodilla.good.patterns.challenges.orderService.OrderRequest;
-import com.kodilla.good.patterns.challenges.orderService.ProductOrderService.ProductOrderService;
+import com.kodilla.good.patterns.challenges.orderService.productOrderService.ProductOrderService;
 
  class OrderProcessor {
 

@@ -1,4 +1,4 @@
-package com.kodilla.good.patterns.challenges.orderService.ProductOrderService;
+package com.kodilla.good.patterns.challenges.orderService.productOrderService;
 
 import com.kodilla.good.patterns.challenges.orderService.User;
 

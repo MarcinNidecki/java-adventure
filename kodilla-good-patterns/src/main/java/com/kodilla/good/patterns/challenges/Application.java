@@ -2,7 +2,7 @@ package com.kodilla.good.patterns.challenges;
 
 import com.kodilla.good.patterns.challenges.informationService.MailService;
 import com.kodilla.good.patterns.challenges.orderRepository.TxtOrderRepository;
-import com.kodilla.good.patterns.challenges.orderService.ProductOrderService.FoodOrderService;
+import com.kodilla.good.patterns.challenges.orderService.productOrderService.FoodOrderService;
 import com.kodilla.good.patterns.challenges.orderService.OrderRequest;
 import com.kodilla.good.patterns.challenges.orderService.OrderRequestRetrieve;
 
