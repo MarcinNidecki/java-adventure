@@ -12,14 +12,13 @@ import java.util.Map;
 public class DailyDistributorOrder {
 
     private DistributorOrderRepository distributorOrderRepository;
-    private HashMap<Distributor,HashMap<Product,Integer>> dailyDistributorOrders = new HashMap<>();
+    private HashMap<Distributor,Map<Product,Integer>> dailyDistributorOrders = new HashMap<>();
 
     public DailyDistributorOrder(DistributorOrderRepository distributorOrderRepository) {
         this.distributorOrderRepository = distributorOrderRepository;
     }
 
-
-    void addOrder(Distributor distributor, HashMap<Product, Integer> productList) {
+    void addOrder(Distributor distributor, Map<Product, Integer> productList) {
         if (dailyDistributorOrders.containsKey(distributor)) {
             productList.forEach((k,v) -> dailyDistributorOrders.get(distributor).merge(k,v,(v1,v2)->v1+v2));
         } else  {
@@ -28,9 +27,8 @@ public class DailyDistributorOrder {
     }
 
     void processDailyOrder() {
-        for(Map.Entry<Distributor, HashMap<Product,Integer>> entry : dailyDistributorOrders.entrySet()) {
-           entry.getKey().process(entry.getValue());
-
+        for(Map.Entry<Distributor, Map<Product,Integer>> entry : dailyDistributorOrders.entrySet()) {
+           entry.getKey().process((HashMap<Product, Integer>) entry.getValue());
         }
         distributorOrderRepository.createOrder(new Food2DoorProfile(), LocalDateTime.now(),dailyDistributorOrders);
     }

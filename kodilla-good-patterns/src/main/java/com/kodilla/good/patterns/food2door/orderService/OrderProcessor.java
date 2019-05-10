@@ -6,7 +6,6 @@ import com.kodilla.good.patterns.food2door.informationService.InformationService
 import com.kodilla.good.patterns.food2door.orderRepository.clientOrderRepository.ClientOrderRepository;
 import com.kodilla.good.patterns.food2door.products.Product;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,7 +34,7 @@ public class OrderProcessor {
             Map<Product,Integer> orderList =orderRequest.getOrderList().entrySet().stream()
                     .filter(p -> p.getKey().getDistributors().equals(distributor))
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            dailyDistributorOrder.addOrder(distributor,(HashMap)orderList);
+            dailyDistributorOrder.addOrder(distributor,orderList);
             System.out.println(orderList);
         }
         informationService.inform(orderRequest.getUser());

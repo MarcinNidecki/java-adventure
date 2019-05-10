@@ -8,7 +8,5 @@ public interface Distributor {
 
     void process(HashMap<Product,Integer> productList);
     String getDistributorName();
-    boolean equals(Object o);
-    int hashCode();
-    String toString();
+
 }
