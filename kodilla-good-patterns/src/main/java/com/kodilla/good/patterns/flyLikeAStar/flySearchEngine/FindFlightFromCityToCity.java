@@ -18,8 +18,8 @@ public class FindFlightFromCityToCity implements FindMethod2Input {
 
     public List<Flight> find (String departureCityName, String arrivalsCityName) {
         List<Flight> availableFlights = new ArrayList<>();
-        if (flightSearchEngine.getCityByString(departureCityName).size() > 0 && flightSearchEngine.getCityByString(arrivalsCityName).size() > 0) {
 
+        if (flightSearchEngine.getCityByString(departureCityName).size() > 0 && flightSearchEngine.getCityByString(arrivalsCityName).size() > 0) {
             City departureCity = flightSearchEngine.getCityByString(departureCityName).get(0);
             City arrivalsCity = flightSearchEngine.getCityByString(arrivalsCityName).get(0);
             List<Flight> foundedFlights = new ArrayList<>();
@@ -37,8 +37,6 @@ public class FindFlightFromCityToCity implements FindMethod2Input {
             }
 
             HashSet<City> connectingCities = new HashSet<>();
-
-
             departureCity.getDestinationList().stream()
                     .filter(e -> e.getDestinationList().contains(arrivalsCity))
                     .forEach(connectingCities::add);
