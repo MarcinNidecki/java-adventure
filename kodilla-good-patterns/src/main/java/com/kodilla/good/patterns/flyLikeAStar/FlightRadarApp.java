@@ -14,11 +14,10 @@ public class FlightRadarApp {
         FlightSearchEngine flightSearchEngine = new FlightSearchEngine(flightBase);
 
 
-        flightSearchEngine.findFrom("Warsaw");
-        System.out.println("-------------------------------------------------------------\n");
-        flightSearchEngine.findTo("Warsaw");
-        System.out.println("-------------------------------------------------------------\n");
-        flightSearchEngine.findFromCityAtoCityB("Berlin","Katowice");
+
+        System.out.println(flightSearchEngine.findFrom("Warsaw"));
+        System.out.println(flightSearchEngine.findTo("Warsaw"));
+        System.out.println(flightSearchEngine.findFromCityAtoCityB("Berlin","Katowice"));
 
 
 

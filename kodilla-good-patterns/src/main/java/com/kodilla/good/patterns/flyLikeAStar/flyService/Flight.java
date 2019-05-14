@@ -2,6 +2,7 @@ package com.kodilla.good.patterns.flyLikeAStar.flyService;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Flight {
 
@@ -40,11 +41,30 @@ public class Flight {
 
     @Override
     public String toString() {
-        return "Flight{" +
-                "" + departure +
-                "" + arrivals +
+        return "\n" +departure +
+                 arrivals +
                 ", flight duration: " + flightDuration() +
                 ", flight number: " + flightNumber +
-                '}';
+                "";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Flight flight = (Flight) o;
+
+        if (!Objects.equals(arrivals, flight.arrivals)) return false;
+        if (!Objects.equals(departure, flight.departure)) return false;
+        return Objects.equals(flightNumber, flight.flightNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = arrivals != null ? arrivals.hashCode() : 0;
+        result = 31 * result + (departure != null ? departure.hashCode() : 0);
+        result = 31 * result + (flightNumber != null ? flightNumber.hashCode() : 0);
+        return result;
     }
 }
