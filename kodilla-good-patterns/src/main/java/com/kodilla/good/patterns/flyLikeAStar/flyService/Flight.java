@@ -5,12 +5,12 @@ import java.time.LocalDateTime;
 
 public class Flight {
 
-    private Arrivals arrivals;
-    private Departure departure;
+    private DepartureArrivals arrivals;
+    private DepartureArrivals departure;
     private String flightNumber;
 
 
-    Flight(Departure departure, Arrivals arrivals, String flightNumber) {
+    Flight(DepartureArrivals departure, DepartureArrivals arrivals, String flightNumber) {
         this.departure = departure;
         this.arrivals = arrivals;
         this.flightNumber = flightNumber;
@@ -18,8 +18,8 @@ public class Flight {
 
     private String flightDuration() {
 
-        LocalDateTime d1= departure.getDepartureTime();
-        LocalDateTime a1 = arrivals.getArrivalsTime();
+        LocalDateTime d1= departure.getTime();
+        LocalDateTime a1 = arrivals.getTime();
         Duration duration = Duration.between(d1, a1);
 
         long seconds = Math.abs(duration.getSeconds());
@@ -30,11 +30,11 @@ public class Flight {
         return hours + " hours " + minutes + " minutes " + seconds + " seconds";
     }
 
-    public Arrivals getArrivals() {
+    DepartureArrivals getArrivals() {
         return arrivals;
     }
 
-    public Departure getDeparture() {
+    DepartureArrivals getDeparture() {
         return departure;
     }
 

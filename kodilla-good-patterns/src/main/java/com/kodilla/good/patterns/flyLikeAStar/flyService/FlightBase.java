@@ -1,7 +1,5 @@
 package com.kodilla.good.patterns.flyLikeAStar.flyService;
 
-import com.kodilla.good.patterns.flyLikeAStar.cities.City;
-
 import java.util.HashSet;
 
 public class FlightBase {
@@ -12,20 +10,20 @@ public class FlightBase {
 
 
     boolean addFlight(Flight flight) {
-        if(flight.getDeparture().getCityOfDeparture().getDestinationList().contains(flight.getArrivals().getCityOfArrivals())){
+        if(flight.getDeparture().getCity().getDestinationList().contains(flight.getArrivals().getCity())){
             flightBase.add(flight);
             return true;
         } else {
-            System.out.println("There are no flight from " +flight.getDeparture().getCityOfDeparture().getCityName() + " to " + flight.getArrivals().getCityOfArrivals().getCityName()+ ".");
+            System.out.println("There are no flight from " +flight.getDeparture().getCity().getCityName() + " to " + flight.getArrivals().getCity().getCityName()+ ".");
             return false;
         }
     }
 
-    public HashSet<Flight> getFlightBase() {
+    HashSet<Flight> getFlightBase() {
         return flightBase;
     }
 
-    public HashSet<City> getCitiesList() {
+    HashSet<City> getCitiesList() {
         return citiesList;
     }
 
