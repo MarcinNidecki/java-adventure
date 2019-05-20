@@ -8,7 +8,7 @@ public class BoardTestSuite {
     @Test
     public void testToString() {
         //given
-        //creating the TasksList for todos
+        //creating the TasksList for to do
         TasksList listToDo = new TasksList("To Do Tasks");
         IntStream.iterate(1, n -> n + 1)
                 .limit(10)
