@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kodilla.patterns.prototype.library.LibraryTestSuite" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-05-28T16:05:21" hostname="DESKTOP-U5C47E2" time="0.021">
+  <properties/>
+  <testcase name="testGetBooks" classname="com.kodilla.patterns.prototype.library.LibraryTestSuite" time="0.021"/>
+  <system-out><![CDATA[List of books in library Main library.
+Book{title='Book nr2', author='Unknown', publicationDate=2000-02-23}
+Book{title='Book nr4', author='Unknown', publicationDate=2000-04-23}
+Book{title='Book nr1', author='Unknown', publicationDate=2000-01-23}
+Book{title='Book nr3', author='Unknown', publicationDate=2000-03-23}
+Book{title='Book nr6', author='Unknown', publicationDate=2000-06-23}
+Book{title='Book XX', author='Unknown', publicationDate=2000-12-23}
+Book{title='Book nr5', author='Unknown', publicationDate=2000-05-23}
+List of books in library Library shallow copy.
+Book{title='Book nr2', author='Unknown', publicationDate=2000-02-23}
+Book{title='Book nr4', author='Unknown', publicationDate=2000-04-23}
+Book{title='Book nr1', author='Unknown', publicationDate=2000-01-23}
+Book{title='Book nr3', author='Unknown', publicationDate=2000-03-23}
+Book{title='Book nr6', author='Unknown', publicationDate=2000-06-23}
+Book{title='Book XX', author='Unknown', publicationDate=2000-12-23}
+Book{title='Book nr5', author='Unknown', publicationDate=2000-05-23}
+List of books in library Library deep cloned.
+Book{title='Book nr2', author='Unknown', publicationDate=2000-02-23}
+Book{title='Book nr3', author='Unknown', publicationDate=2000-03-23}
+Book{title='Book nr5', author='Unknown', publicationDate=2000-05-23}
+Book{title='Book nr1', author='Unknown', publicationDate=2000-01-23}
+Book{title='Book nr6', author='Unknown', publicationDate=2000-06-23}
+Book{title='Book nr4', author='Unknown', publicationDate=2000-04-23}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
