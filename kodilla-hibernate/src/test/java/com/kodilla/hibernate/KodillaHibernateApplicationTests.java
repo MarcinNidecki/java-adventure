@@ -13,4 +13,5 @@ public class KodillaHibernateApplicationTests {
     public void contextLoads() {
     }
 
+
 }
