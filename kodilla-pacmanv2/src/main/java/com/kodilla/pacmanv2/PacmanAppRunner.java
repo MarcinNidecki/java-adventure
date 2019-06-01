@@ -117,6 +117,7 @@ public class PacmanAppRunner extends Canvas implements Runnable, KeyListener {
 
     @Override
     public void run() {
+        System.out.println(1<2);
         requestFocus();
         int fps = 0;
         double timer = System.currentTimeMillis();

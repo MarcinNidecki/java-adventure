@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class BackgroundImageLevel1 extends Rectangle {
 
@@ -14,9 +15,9 @@ public class BackgroundImageLevel1 extends Rectangle {
     public BackgroundImageLevel1() {
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            InputStream is = classLoader.getResourceAsStream("assets/textures/background.png");
+            InputStream is = classLoader.getResourceAsStream("assets/textures/background2.png");
             //File fileBackground = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/textures/background.png")).getFile());
-            background = ImageIO.read(is);
+            background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException e) {
             e.printStackTrace();
         }
