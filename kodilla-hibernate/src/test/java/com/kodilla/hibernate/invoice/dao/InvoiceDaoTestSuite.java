@@ -50,7 +50,7 @@ public class InvoiceDaoTestSuite {
         productDao.save(apple);
         productDao.save(bannana);
         productDao.save(orange);
-        //itemDao.save(itemNr2);
+
         invoiceDao.save(invoice);
         int invoiceId = invoice.getId();
         int appleId = apple.getId();
