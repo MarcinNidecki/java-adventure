@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class InvoiceDaoTestSuite {
-
     @Autowired
     InvoiceDao invoiceDao;
     @Autowired
@@ -24,8 +23,7 @@ public class InvoiceDaoTestSuite {
     ProductDao productDao;
 
     @Test
-   public void testInvoiceDaoSave() {
-
+    public void testInvoiceDaoSave() {
         //Given
         Product apple = new Product("Apple");
         Product bannana = new Product("Banana");
@@ -33,13 +31,12 @@ public class InvoiceDaoTestSuite {
 
         Invoice invoice = new Invoice("FV/03/2000");
 
-        Item itemNr1 = new Item(apple,new BigDecimal(200),2,new BigDecimal(400));
+        Item itemNr1 = new Item(apple, new BigDecimal(200), 2, new BigDecimal(400));
         itemNr1.setInvoice(invoice);
-        Item itemNr2 = new Item(bannana,new BigDecimal(100),2,new BigDecimal(200));
+        Item itemNr2 = new Item(bannana, new BigDecimal(100), 2, new BigDecimal(200));
         itemNr2.setInvoice(invoice);
-        Item itemNr3 = new Item(orange,new BigDecimal(50),1,new BigDecimal(50));
-        itemNr3 .setInvoice(invoice);
-
+        Item itemNr3 = new Item(orange, new BigDecimal(50), 1, new BigDecimal(50));
+        itemNr3.setInvoice(invoice);
 
 
         invoice.getItems().add(itemNr1);
@@ -63,7 +60,7 @@ public class InvoiceDaoTestSuite {
         //Clean up
         invoiceDao.deleteById(invoiceId);
         productDao.deleteById(orangeId);
-        productDao.deleteById(bannanaId );
+        productDao.deleteById(bannanaId);
         productDao.deleteById(appleId);
     }
 }
