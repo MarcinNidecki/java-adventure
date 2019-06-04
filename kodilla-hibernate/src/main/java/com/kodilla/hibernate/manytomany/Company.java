@@ -4,13 +4,19 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-
+@NamedNativeQuery(
+        name = "Company.findCompanyByNameStartingWith",
+        query = "SELECT * FROM COMPANIES" +
+                " WHERE COMPANY_NAME  LIKE CONCAT(:STARTING_WITH ,'%')",
+        resultClass = Company.class
+)
 @Entity
 @Table(name = "COMPANIES")
 public class Company {
     private int id;
     private String name;
     private List<Employee> employees = new ArrayList<>();
+
     public Company() {
     }
 
@@ -39,7 +45,7 @@ public class Company {
     private void setName(String name) {
         this.name = name;
     }
-@ManyToMany (cascade =  CascadeType.ALL, mappedBy = "companies")
+    @ManyToMany (cascade =  CascadeType.ALL, mappedBy = "companies")
     public List<Employee> getEmployees() {
         return employees;
     }
