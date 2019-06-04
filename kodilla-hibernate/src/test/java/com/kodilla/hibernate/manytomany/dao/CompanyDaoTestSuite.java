@@ -16,9 +16,6 @@ import java.util.List;
 public class CompanyDaoTestSuite {
     @Autowired
     CompanyDao companyDao;
-    @Autowired
-    EmployeeDao employeeDao;
-
     @Test
     public void testSaveManyToMany(){
         //Given
@@ -65,22 +62,6 @@ public class CompanyDaoTestSuite {
         }
     }
 
-    @Test
-    public void testFindEmployeeByName(){
-        //Given
-        Employee johnSmith = new Employee("John", "Smith");
-
-        //When
-        employeeDao.save(johnSmith);
-        int johnSmithId = johnSmith.getId();
-        List<Employee> employeeList =employeeDao.findEmployeeByName("Smith");
-
-        //Then
-        Assert.assertEquals(1,employeeList.size());
-
-        //CleanUp
-        employeeDao.deleteById(johnSmithId);
-    }
     @Test
     public void testFindCompanyByNameStartingWith(){
         //Given
