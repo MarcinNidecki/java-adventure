@@ -1,5 +1,7 @@
 package com.kodilla.hibernate.manytomany;
 
+import com.kodilla.hibernate.manytomany.facade.EmployeeDto;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -8,6 +10,13 @@ import java.util.List;
                 name = "Employee.findEmployeeByName",
                 query = "FROM Employee WHERE lastname = :LASTNAME"
 )
+@NamedNativeQuery(
+        name = "Employee.findEmployeeByLastnameContaining",
+        query = "SELECT * FROM Employees WHERE lastname LIKE CONCAT('%',:CONTAINING_STRING,'%')",
+        resultClass = Employee.class
+)
+
+
 @Entity
 @Table(name = "EMPLOYEES")
 public class Employee {
@@ -22,6 +31,13 @@ public class Employee {
     public Employee(String firstname, String lastname) {
         this.firstname = firstname;
         this.lastname = lastname;
+    }
+
+    public Employee(int id, String firstname, String lastname, List<Company> companies) {
+        this.id =id;
+        this.firstname = firstname;
+        this.lastname =lastname;
+        this.companies = companies;
     }
 
     @Id

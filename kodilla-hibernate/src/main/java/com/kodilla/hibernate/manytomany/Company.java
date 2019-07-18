@@ -10,6 +10,12 @@ import java.util.List;
                 " WHERE COMPANY_NAME  LIKE CONCAT(:STARTING_WITH ,'%')",
         resultClass = Company.class
 )
+@NamedNativeQuery(
+        name = "Company.findCompaniesByNameContaining",
+        query = "SELECT * FROM COMPANIES WHERE COMPANY_NAME LIKE CONCAT('%',:CONTAINING_STRING,'%')",
+        resultClass = Company.class
+)
+
 @Entity
 @Table(name = "COMPANIES")
 public class Company {
@@ -22,6 +28,12 @@ public class Company {
 
     public Company(String name) {
         this.name = name;
+    }
+
+    public Company(int id, String name, List<Employee> employees) {
+        this.id =id;
+        this.name = name;
+        this.employees =employees;
     }
 
     @Id
