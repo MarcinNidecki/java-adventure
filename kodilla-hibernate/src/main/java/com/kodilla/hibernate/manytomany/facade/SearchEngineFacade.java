@@ -26,44 +26,24 @@ public class SearchEngineFacade {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchEngineFacade.class);
 
-    public void findEmployeeByLastnameContaining(String string) throws SearchEngineException {
-
-        try {
-            LOGGER.info("Looking for employees containing \"" + string  +"\"");
-            List<EmployeeDto> employeeList =employeeMapper.mapToEmployeeDtoList(employeeDao.findEmployeeByLastnameContaining(string));
-
-            if(employeeList.size()<1) {
+    public List<EmployeeDto> findEmployeeByLastnameContaining(String string) throws SearchEngineException {
+        LOGGER.info("Looking for employees containing \"" + string  +"\"");
+        List<EmployeeDto> employeeList =employeeMapper.mapToEmployeeDtoList(employeeDao.findEmployeeByLastnameContaining(string));
+            if(employeeList.isEmpty()) {
                 LOGGER.error(SearchEngineException.ERR_EMPLOYEE_NOT_FOUND);
                 throw  new SearchEngineException(SearchEngineException.ERR_EMPLOYEE_NOT_FOUND);
-            } else {
-                LOGGER.info(employeeList.size() + " user(s) found.");
-                for (EmployeeDto foundEmployee: employeeList) {
-                    LOGGER.info("Founded Employee Id: " + foundEmployee.getId() + ", " + foundEmployee.getLastname() + " " +foundEmployee.getFirstname());
-                }
             }
-        } catch (SearchEngineException e) {
-            LOGGER.info("We can not  find user using string " + string + " .");
-        }
+            return employeeList;
     }
 
 
-    public void  findCompanyByNameContaining(String containingString) throws SearchEngineException {
-        try {
-            LOGGER.info("Looking for companies containing \"" + containingString  +"\"");
-            List<CompanyDto> companyDtoList =companyMapper.mapToCompanyDtoList(companyDao.findCompaniesByNameContaining(containingString));
-
-            if(companyDtoList.size()<1) {
+    public List<CompanyDto> findCompanyByNameContaining(String containingString) throws SearchEngineException {
+        LOGGER.info("Looking for companies containing \"" + containingString  +"\"");
+        List<CompanyDto> companyDtoList =companyMapper.mapToCompanyDtoList(companyDao.findCompaniesByNameContaining(containingString));
+            if(companyDtoList.isEmpty()) {
                 LOGGER.error(SearchEngineException.ERR_COMPANY_NOT_FOUND);
                 throw  new SearchEngineException(SearchEngineException.ERR_COMPANY_NOT_FOUND);
-            } else {
-                LOGGER.info(companyDtoList.size() + " companies found.");
-                for (CompanyDto foundedCompany: companyDtoList) {
-                    LOGGER.info("Founded company: " + foundedCompany.getId() + ", " + foundedCompany.getName() + " ." );
-                }
             }
-        } catch (SearchEngineException e) {
-            LOGGER.info("We can not  find any company cantaining in name  \"" + containingString + "\".");
-        }
+            return companyDtoList;
     }
-
 }
