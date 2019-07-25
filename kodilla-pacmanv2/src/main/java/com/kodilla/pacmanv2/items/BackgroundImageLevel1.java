@@ -15,7 +15,7 @@ public class BackgroundImageLevel1 extends Rectangle {
     public BackgroundImageLevel1() {
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            InputStream is = classLoader.getResourceAsStream("assets/textures/background2.png");
+            InputStream is = classLoader.getResourceAsStream("assets/textures/background.png");
             //File fileBackground = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/textures/background.png")).getFile());
             background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException e) {
