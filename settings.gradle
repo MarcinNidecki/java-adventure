@@ -16,3 +16,6 @@ include 'kodilla-patterns'
 include 'kodilla-patterns2'
 include 'kodilla-jdbc'
 include 'kodilla-hibernate'
+include 'kodilla-testing2'
+include 'kodilla-testing2'
+
